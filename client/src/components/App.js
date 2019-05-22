@@ -3,9 +3,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Homepage from "./Homepage/Homepage";
 import signin from "./Auth/signin";
 import signup from "./Auth/signup";
-import Habit from "./Habit/Habit";
+import Habits from "./Habits/Habits";
 import Profile from "./Profile/Profile";
-import HabitDescription from "./Habit/HabitDescription";
+import HabitDescription from "./Habits/HabitDescription";
 import { Layout } from "./Layout/Layout";
 
 export class App extends Component {
@@ -24,9 +24,9 @@ export class App extends Component {
 									<Route path="/signup" component={signup} />
 									<Route path="/signin" component={signin} />
 									<Route path="/habit/:id" component={HabitDescription} />
-									<Route path="/habit" component={Habit} />
+									<Route path="/habits" component={Habits} />
 									<Route path="/profile/:id" component={Profile} />
-									<Redirect component="habit" />
+									<Redirect to="habits" />
 								</Switch>
 							</Layout>
 						</div>

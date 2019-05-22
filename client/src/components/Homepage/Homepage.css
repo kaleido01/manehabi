@@ -1,0 +1,12 @@
+.homepage {
+	height: 100vh;
+	background: linear-gradient(135deg, #a15512 0%, #eb9950 69%, #f6ceab 89%);
+}
+
+.homepage h1.ui.header {
+	margin-top: 5em;
+}
+
+.homepage div.ui.button {
+	margin: 0.5em;
+}
