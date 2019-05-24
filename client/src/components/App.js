@@ -25,8 +25,8 @@ export class App extends Component {
 									<Route path="/signin" component={signin} />
 									<Route path="/habit/:id" component={HabitDescription} />
 									<Route path="/habits" component={Habits} />
-									<Route path="/profile/:id" component={Profile} />
-									<Redirect to="habits" />
+									<Route path="/profile" component={Profile} />
+									<Redirect to="/habits" />
 								</Switch>
 							</Layout>
 						</div>
