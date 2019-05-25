@@ -30,7 +30,7 @@ type Token{
 }
 
 type Query{
-  getCurrentUser(email:String!,password:String!):User
+  getCurrentUser:User
 }
 
 

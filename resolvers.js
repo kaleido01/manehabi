@@ -12,8 +12,19 @@ const createToken = (user, secret, expiresIn) => {
 
 module.exports = {
 	Query: {
-		getCurrentUser: () => {
-			return;
+		getCurrentUser: async (root, args, { currentUser }) => {
+			if (!currentUser) {
+				return null;
+			}
+			console.log(currentUser);
+			const user = await User.findOne({
+				email: currentUser.email
+			}).populate({
+				path: "habits",
+				model: "Habit"
+			});
+			console.log(user);
+			return user;
 		}
 	},
 	Mutation: {

@@ -7,6 +7,7 @@ import "./index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import "semantic-ui-css/semantic.min.css";
+import withSession from "./components/withSession";
 
 const client = new ApolloClient({
 	uri: "http://localhost:4000/graphql",
@@ -28,12 +29,19 @@ const client = new ApolloClient({
 	}
 });
 
+const Root = ({ refetch, session }) => (
+	<Router>
+		<App refetch={refetch} session={session} />
+	</Router>
+);
+
+const RootWithSession = withSession(Root);
+
 ReactDOM.render(
 	<ApolloProvider client={client}>
-		<Router>
-			<App />
-		</Router>
+		<RootWithSession />
 	</ApolloProvider>,
+
 	document.getElementById("root")
 );
 
