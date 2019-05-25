@@ -1,15 +1,39 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ApolloProvider } from "react-apollo";
+import ApolloClient from "apollo-boost";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import "semantic-ui-css/semantic.min.css";
 
+const client = new ApolloClient({
+	uri: "http://localhost:4000/graphql",
+	fetchOptions: {
+		credentials: "includes"
+	},
+	request: operation => {
+		const token = localStorage.getItem("token");
+		operation.setContext({
+			headers: {
+				authorization: token
+			}
+		});
+	},
+	onError: ({ networkError }) => {
+		if (networkError) {
+			console.log("network Error", networkError);
+		}
+	}
+});
+
 ReactDOM.render(
-	<Router>
-		<App />
-	</Router>,
+	<ApolloProvider client={client}>
+		<Router>
+			<App />
+		</Router>
+	</ApolloProvider>,
 	document.getElementById("root")
 );
 

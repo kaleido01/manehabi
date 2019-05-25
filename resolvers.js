@@ -1,6 +1,14 @@
 const Habit = require("./models/Habit");
 const User = require("./models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const secret = require("./config/keys").secret;
+
+const createToken = (user, secret, expiresIn) => {
+	const { username, email } = user;
+	const token = jwt.sign({ username, email }, secret, { expiresIn });
+	return token;
+};
 
 module.exports = {
 	Query: {
@@ -24,7 +32,10 @@ module.exports = {
 				password: hashedPw
 			});
 			await newUser.save();
-			return newUser;
+
+			const token = createToken(newUser, secret, "1hr");
+
+			return { token };
 		}
 	}
 };

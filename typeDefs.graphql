@@ -25,13 +25,19 @@ type Habit{
   star:Int
 }
 
+type Token{
+  token:String!
+}
+
 type Query{
   getAllHabits:[Habit]
 }
 
+
+
 type Mutation{
   createHabit(name:String!):Habit
-  createUser(username:String!,email:String!,password:String!):User
+  createUser(username:String!,email:String!,password:String!):Token
 }
 
 `

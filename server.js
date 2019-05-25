@@ -19,8 +19,8 @@ mongoose
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-const PORT = process.env.PORT || 4000;
+const port = process.env.PORT || 4000;
 
-server.listen().then(({ url }) => {
+server.listen({ port }).then(({ url }) => {
 	console.log(`🚀  Server ready at ${url}`);
 });

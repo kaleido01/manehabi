@@ -3,6 +3,7 @@
 /* --------------------------------------------- */
 .homepage {
 	background: linear-gradient(135deg, #a15512 0%, #eb9950 69%, #f6ceab 89%);
+	height: 100vh;
 }
 
 .homepage h1.ui.header {
