@@ -12,7 +12,7 @@ const createToken = (user, secret, expiresIn) => {
 
 module.exports = {
 	Query: {
-		getAllHabits: () => {
+		getCurrentUser: () => {
 			return;
 		}
 	},
@@ -35,6 +35,18 @@ module.exports = {
 
 			const token = createToken(newUser, secret, "1hr");
 
+			return { token };
+		},
+		login: async (root, { email, password }, ctx) => {
+			const user = await User.findOne({ email });
+			if (!user) {
+				throw new Error("user not found");
+			}
+			const isValidPassword = await bcrypt.compare(password, user.password);
+			if (!isValidPassword) {
+				throw new Error("Invalid password");
+			}
+			const token = createToken(user, secret, "1hr");
 			return { token };
 		}
 	}

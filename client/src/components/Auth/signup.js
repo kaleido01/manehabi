@@ -23,6 +23,46 @@ class Signup extends React.Component {
 		loading: false
 	};
 
+	isFormValid = () => {
+		const errors = [];
+		let error;
+		let valid = true;
+		if (this.isFormEmpty(this.state)) {
+			error = { message: "全てのフィールドを埋めてください" };
+			this.setState({ errors: errors.concat(error) });
+			valid = false;
+		}
+		if (!this.isPasswordValid(this.state)) {
+			error = { message: "パスワードが不正です" };
+			this.setState({ errors: errors.concat(error) });
+			valid = false;
+		}
+		return valid;
+	};
+
+	isFormEmpty = ({ username, email, password, passwordConfirmation }) => {
+		return (
+			!username.length ||
+			!email.length ||
+			!password.length ||
+			!passwordConfirmation.length
+		);
+	};
+
+	isPasswordValid = ({ password, passwordConfirmation }) => {
+		if (password < 6) {
+			return false;
+		} else if (password !== passwordConfirmation) {
+			return false;
+		} else {
+			return true;
+		}
+	};
+
+	displayErrors = errors => {
+		return errors.map((error, i) => <p key={i}>{error.message}</p>);
+	};
+
 	handleChange = event => {
 		const { name, value } = event.target;
 		this.setState({ [name]: value });
@@ -30,14 +70,20 @@ class Signup extends React.Component {
 
 	handleSubmit = (event, createUser) => {
 		event.preventDefault();
-		createUser().then(async ({ data }) => {
-			console.log(data);
-			localStorage.setItem("token", data.createUser.token);
-			this.props.history.push("/habits");
-		});
+		if (this.isFormValid()) {
+			createUser().then(async ({ data }) => {
+				console.log(data);
+				localStorage.setItem("token", data.createUser.token);
+				this.props.history.push("/habits");
+			});
+		}
 	};
 
-	handleInputError = () => {};
+	handleInputError = (errors, inputName) => {
+		return errors.some(error => error.message.includes(inputName))
+			? "error"
+			: "";
+	};
 
 	render() {
 		const {
@@ -53,7 +99,7 @@ class Signup extends React.Component {
 				variables={{ username, email, password }}>
 				{(createUser, { data, loading, error }) => {
 					if (error) {
-						console.log(error);
+						console.log(error, data);
 					}
 					return (
 						<Grid className="Auth" textAlign="center" verticalAlign="middle">
@@ -120,6 +166,13 @@ class Signup extends React.Component {
 										</Button>
 									</Segment>
 								</Form>
+								{errors.length > 0 && (
+									<Message error>
+										<h3>エラー</h3>
+										{console.log(errors)}
+										{this.displayErrors(errors)}
+									</Message>
+								)}
 								<Message>
 									既に会員登録済みの方は
 									<Link to="signin"> こちらからログイン</Link>

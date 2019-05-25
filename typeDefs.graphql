@@ -30,7 +30,7 @@ type Token{
 }
 
 type Query{
-  getAllHabits:[Habit]
+  getCurrentUser(email:String!,password:String!):User
 }
 
 
@@ -38,6 +38,8 @@ type Query{
 type Mutation{
   createHabit(name:String!):Habit
   createUser(username:String!,email:String!,password:String!):Token
+  login(email:String!,password:String!):Token
+
 }
 
 `
