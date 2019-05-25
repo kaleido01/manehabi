@@ -1,5 +1,6 @@
 const Habit = require("./models/Habit");
 const User = require("./models/User");
+const bcrypt = require("bcryptjs");
 
 module.exports = {
 	Query: {
@@ -16,10 +17,11 @@ module.exports = {
 			return newHabit;
 		},
 		createUser: async (root, { username, email, password }, ctx) => {
+			const hashedPw = await bcrypt.hash(password, 12);
 			const newUser = new User({
 				username,
 				email,
-				password
+				password: hashedPw
 			});
 			await newUser.save();
 			return newUser;
