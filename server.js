@@ -1,5 +1,7 @@
 const express = require("express");
-
+const { ApolloServer } = require("apollo-server");
+const typeDefs = require("./typeDefs.graphql");
+const resolvers = require("./resolvers");
 const mongoose = require("mongoose");
 
 const bodyParser = require("body-parser");
@@ -11,12 +13,14 @@ app.use(bodyParser());
 const db = require("./config/keys").mongoURI;
 
 mongoose
-	.connect(db)
+	.connect(db, { useNewUrlParser: true })
 	.then(() => console.log("MongoDB Connected"))
 	.catch(err => console.log(err));
 
+const server = new ApolloServer({ typeDefs, resolvers });
+
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT, () => {
-	console.log(`Server lithening on ${PORT}`);
+server.listen().then(({ url }) => {
+	console.log(`🚀  Server ready at ${url}`);
 });

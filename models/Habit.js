@@ -4,7 +4,7 @@ const moment = require("momnent");
 const Schema = mongoose.Schema;
 
 const HabitSchema = new Schema({
-	habitName: {
+	name: {
 		type: String,
 		required: true
 	},
@@ -28,7 +28,7 @@ const HabitSchema = new Schema({
 		type: Number,
 		default: 0
 	},
-	NumberOfFailure: {
+	numberOfFailure: {
 		type: Number,
 		default: 0
 	},

@@ -1,0 +1,33 @@
+const { gql } = require("apollo-server");
+
+
+
+module.exports=gql`
+type User{
+  _id:ID
+  username:String!
+	email: String!
+	password:String!
+	joinDate:String
+	favorites:[Habit]
+	Habits: [Habit]
+}
+
+type Habit{
+  _id:ID,
+  name:String!
+  createdAt:String,
+  startDate:String,
+  limitDate:String,
+  countDate:String,
+  numberOfFailure:Int,
+  creator:User
+  star:Int
+}
+
+type Query{
+  getAllHabits:[Habit]
+}
+
+
+`
