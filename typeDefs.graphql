@@ -19,7 +19,7 @@ type Habit{
   createdAt:String,
   startDate:String,
   limitDate:String,
-  countDate:String,
+  countDate:Int,
   numberOfFailure:Int,
   creator:User
   star:Int
@@ -29,5 +29,9 @@ type Query{
   getAllHabits:[Habit]
 }
 
+type Mutation{
+  createHabit(name:String!):Habit
+  createUser(username:String!,email:String!,password:String!):User
+}
 
 `

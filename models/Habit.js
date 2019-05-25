@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const moment = require("momnent");
+const moment = require("moment");
 
 const Schema = mongoose.Schema;
 
@@ -13,7 +13,7 @@ const HabitSchema = new Schema({
 		default: () => moment().format("YYYY-MM-DD")
 	},
 	startDate: {
-		type: Date,
+		type: String,
 		default: () => moment().format("YYYY-MM-DD")
 	},
 	limitDate: {
