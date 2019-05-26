@@ -4,11 +4,15 @@ import { Menu, Button, Responsive } from "semantic-ui-react";
 
 import Signout from "../Auth/signout";
 
-const Navbar = ({ currentUser }) => {
-	return currentUser ? <AuthNav /> : <UnAuthNav />;
+const Navbar = ({ currentUser, onSide }) => {
+	return currentUser ? (
+		<AuthNav onSide={onSide} />
+	) : (
+		<UnAuthNav onSide={onSide} />
+	);
 };
 
-const AuthNav = props => {
+const AuthNav = ({ onSide }) => {
 	return (
 		<Menu color="orange" inverted>
 			<Menu.Item>
@@ -28,13 +32,14 @@ const AuthNav = props => {
 				as={Menu.Item}
 				position="right"
 				icon="bars"
+				onClick={() => onSide(true)}
 				{...Responsive.onlyMobile}
 			/>
 		</Menu>
 	);
 };
 
-const UnAuthNav = () => {
+const UnAuthNav = ({ onSide }) => {
 	return (
 		<Menu color="orange" inverted>
 			<Menu.Item>
@@ -47,12 +52,12 @@ const UnAuthNav = () => {
 				<Menu.Item link as={NavLink} to="/habits" name="habit" />
 				<Menu.Item link as={NavLink} to="/profile" name="profile" />
 				<Menu.Item>
-					<Button color="purple" as={Link} to="/signin">
+					<Button as={Link} to="/signin" inverted>
 						Signin
 					</Button>
 				</Menu.Item>
 				<Menu.Item>
-					<Button color="purple" as={Link} to="/signup">
+					<Button as={Link} to="/signup" inverted>
 						Signup
 					</Button>
 				</Menu.Item>
@@ -61,6 +66,7 @@ const UnAuthNav = () => {
 				as={Menu.Item}
 				position="right"
 				icon="bars"
+				onClick={() => onSide(true)}
 				{...Responsive.onlyMobile}
 			/>
 		</Menu>

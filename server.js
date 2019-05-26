@@ -27,7 +27,7 @@ const server = new ApolloServer({
 	context: async ({ req }) => {
 		const token = req.headers["authorization"];
 		console.log(token);
-		if (token === "") {
+		if (token === null) {
 			next();
 		}
 		try {

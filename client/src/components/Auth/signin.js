@@ -9,7 +9,8 @@ import {
 	Button,
 	Header,
 	Message,
-	Icon
+	Icon,
+	Transition
 } from "semantic-ui-react";
 import "./Auth.css";
 
@@ -17,7 +18,8 @@ class Signin extends React.Component {
 	state = {
 		email: "",
 		password: "",
-		errors: []
+		errors: [],
+		onOpen: false
 	};
 
 	componentDidMount() {}
@@ -64,9 +66,9 @@ class Signin extends React.Component {
 		if (this.isFormValid()) {
 			createUser().then(async ({ data }) => {
 				console.log(data);
+				this.setState({ errors: [] });
 				localStorage.setItem("token", data.login.token);
 				await this.props.refetch();
-				this.props.history.push("/habits");
 			});
 		}
 	};
@@ -78,72 +80,94 @@ class Signin extends React.Component {
 	};
 
 	render() {
-		const { email, password, errors } = this.state;
+		const { email, password, errors, onOpen } = this.state;
 		return (
-			<Mutation mutation={LOGIN} variables={{ email, password }}>
-				{(login, { data, loading, error }) => {
-					if (error) {
-						console.log(error, data);
-					}
-					return (
-						<Grid className="Auth" textAlign="center" verticalAlign="middle">
-							<Grid.Column style={{ maxWidth: 367 }}>
-								<Header as="h2" icon color="purple" textAlign="center">
-									<Icon name="new pied piper" color="purple" /> Manehabi
-									ログイン
-								</Header>
-								<Form
-									size="large"
-									onSubmit={event => this.handleSubmit(event, login)}>
-									<Segment stacked>
-										<Form.Input
-											fluid
-											name="email"
-											icon="mail"
-											iconPosition="left"
-											placeholder="Eメールアドレス"
-											onChange={this.handleChange}
-											value={email}
-											className={this.handleInputError(errors, "Eメール")}
-											type="email"
-										/>
-										<Form.Input
-											fluid
-											name="password"
-											icon="lock"
-											iconPosition="left"
-											placeholder="パスワード"
-											onChange={this.handleChange}
-											value={password}
-											className={this.handleInputError(errors, "パスワード")}
-											type="password"
-										/>
-										<Button
-											disabled={loading}
-											className={loading ? "loading" : ""}
-											color="orange"
-											size="large"
-											fluid>
-											ログイン
-										</Button>
-									</Segment>
-								</Form>
-								{errors.length > 0 && (
-									<Message error>
-										<h3>エラー</h3>
-										{console.log(errors)}
-										{this.displayErrors(errors)}
-									</Message>
-								)}
-								<Message>
-									会員登録がまだの方は
-									<Link to="/signup"> こちらから会員登録</Link>
-								</Message>
-							</Grid.Column>
-						</Grid>
-					);
-				}}
-			</Mutation>
+			<Grid className="Auth" textAlign="center" verticalAlign="middle">
+				<Grid.Column style={{ maxWidth: 367 }}>
+					<Header as="h2" icon color="purple" textAlign="center">
+						<Icon name="new pied piper" color="purple" /> Manehabi ログイン
+					</Header>
+					{onOpen ? null : (
+						<Mutation
+							mutation={LOGIN}
+							variables={{ email, password }}
+							onCompleted={() => this.setState({ onOpen: true })}>
+							{(login, { data, loading, error }) => {
+								if (error) {
+									console.log(error, data);
+								}
+								return (
+									<Form
+										size="large"
+										onSubmit={event => this.handleSubmit(event, login)}>
+										<Segment stacked>
+											<Form.Input
+												fluid
+												name="email"
+												icon="mail"
+												iconPosition="left"
+												placeholder="Eメールアドレス"
+												onChange={this.handleChange}
+												value={email}
+												className={this.handleInputError(errors, "Eメール")}
+												type="email"
+											/>
+											<Form.Input
+												fluid
+												name="password"
+												icon="lock"
+												iconPosition="left"
+												placeholder="パスワード"
+												onChange={this.handleChange}
+												value={password}
+												className={this.handleInputError(errors, "パスワード")}
+												type="password"
+											/>
+											<Button
+												disabled={loading}
+												className={loading ? "loading" : ""}
+												color="orange"
+												size="large"
+												fluid>
+												ログイン
+											</Button>
+										</Segment>
+									</Form>
+								);
+							}}
+						</Mutation>
+					)}
+
+					{errors.length > 0 && (
+						<Message error>
+							<h3>エラー</h3>
+							{console.log(errors)}
+							{this.displayErrors(errors)}
+						</Message>
+					)}
+					{onOpen ? null : (
+						<Message>
+							会員登録がまだの方は
+							<Link to="/signup"> こちらから会員登録</Link>
+						</Message>
+					)}
+
+					{/* success message */}
+					<Transition
+						animation="fade"
+						visible={onOpen}
+						duration="2000"
+						onComplete={() => this.props.history.push("/habits")}>
+						<Message icon success size="massive">
+							<Message.Content>
+								<Icon name="check" />
+								<Message.Header>ログイン成功</Message.Header>
+								ようこそ.Manehabiへ
+							</Message.Content>
+						</Message>
+					</Transition>
+				</Grid.Column>
+			</Grid>
 		);
 	}
 }

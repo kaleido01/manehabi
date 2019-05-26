@@ -1,22 +1,23 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import SideDrawer from "./../SideDrawer/SideDrawer";
 import Navbar from "./../Navbar/Navbar";
 
-export class Layout extends Component {
-	render() {
-		const currentUser = this.props.session.getCurrentUser
-			? this.props.session.getCurrentUser
-			: null;
+const Layout = ({ session, children }) => {
+	const [onSide, setOnSide] = useState(false);
+	const currentUser = session ? session.getCurrentUser : null;
 
-		return (
-			<Fragment>
-				<Navbar currentUser={currentUser && currentUser} />
+	return (
+		<Fragment>
+			<Navbar currentUser={currentUser} onSide={setOnSide} />
 
-				<SideDrawer currentUser={currentUser} />
-				<div>{this.props.children}</div>
-			</Fragment>
-		);
-	}
-}
+			<SideDrawer
+				currentUser={currentUser}
+				onSide={onSide}
+				onHide={setOnSide}
+			/>
+			<div>{children}</div>
+		</Fragment>
+	);
+};
 
 export default Layout;
