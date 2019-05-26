@@ -4,11 +4,15 @@ import Navbar from "./../Navbar/Navbar";
 
 export class Layout extends Component {
 	render() {
+		const currentUser = this.props.session.getCurrentUser
+			? this.props.session.getCurrentUser
+			: null;
+
 		return (
 			<Fragment>
-				<Navbar />
+				<Navbar currentUser={currentUser && currentUser} />
 
-				<SideDrawer />
+				<SideDrawer currentUser={currentUser} />
 				<div>{this.props.children}</div>
 			</Fragment>
 		);

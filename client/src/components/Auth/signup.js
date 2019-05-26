@@ -1,7 +1,7 @@
 import React from "react";
 import { Mutation } from "react-apollo";
 import { CREATE_USER } from "../../queries";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import {
 	Grid,
 	Form,
@@ -74,6 +74,8 @@ class Signup extends React.Component {
 			createUser().then(async ({ data }) => {
 				console.log(data);
 				localStorage.setItem("token", data.createUser.token);
+				await this.props.refetch();
+
 				this.props.history.push("/habits");
 			});
 		}
@@ -132,7 +134,7 @@ class Signup extends React.Component {
 											onChange={this.handleChange}
 											value={email}
 											className={this.handleInputError(errors, "Eメール")}
-											type="text"
+											type="email"
 										/>
 										<Form.Input
 											fluid
@@ -143,7 +145,7 @@ class Signup extends React.Component {
 											onChange={this.handleChange}
 											value={password}
 											className={this.handleInputError(errors, "パスワード")}
-											type="text"
+											type="password"
 										/>
 										<Form.Input
 											fluid
@@ -154,7 +156,7 @@ class Signup extends React.Component {
 											onChange={this.handleChange}
 											value={passwordConfirmation}
 											className={this.handleInputError(errors, "パスワード")}
-											type="text"
+											type="password"
 										/>
 										<Button
 											disabled={loading}
@@ -186,4 +188,4 @@ class Signup extends React.Component {
 	}
 }
 
-export default Signup;
+export default withRouter(Signup);

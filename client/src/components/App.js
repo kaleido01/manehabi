@@ -10,6 +10,7 @@ import { Layout } from "./Layout/Layout";
 
 export class App extends Component {
 	render() {
+		const { refetch, session } = this.props;
 		return (
 			<Fragment>
 				<Switch>
@@ -19,10 +20,16 @@ export class App extends Component {
 					path="/(.+)"
 					render={() => (
 						<div>
-							<Layout>
+							<Layout session={session}>
 								<Switch>
-									<Route path="/signup" component={Signup} />
-									<Route path="/signin" component={Signin} />
+									<Route
+										path="/signup"
+										render={() => <Signup refetch={refetch} />}
+									/>
+									<Route
+										path="/signin"
+										render={() => <Signin refetch={refetch} />}
+									/>
 									<Route path="/habit/:id" component={HabitDescription} />
 									<Route path="/habits" component={Habits} />
 									<Route path="/profile" component={Profile} />

@@ -1,9 +1,11 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-import { Menu, Button } from "semantic-ui-react";
+import { Menu, Button, Responsive } from "semantic-ui-react";
 
-const Navbar = () => {
-	return <AuthNav />;
+import Signout from "../Auth/signout";
+
+const Navbar = ({ currentUser }) => {
+	return currentUser ? <AuthNav /> : <UnAuthNav />;
 };
 
 const AuthNav = props => {
@@ -12,11 +14,22 @@ const AuthNav = props => {
 			<Menu.Item>
 				<img src="#" alt="Logo" />
 			</Menu.Item>
-			<Menu.Item link as={NavLink} to="/habits" name="habit" />
-			<Menu.Item link as={NavLink} to="/profile" name="profile" />
-			<Menu.Item>
-				<Button color="purple">Logout</Button>
-			</Menu.Item>
+			<Responsive
+				as={Menu.Menu}
+				position="right"
+				minWidth={Responsive.onlyTablet.minWidth}>
+				<Menu.Item link as={NavLink} to="/habits" name="habit" />
+				<Menu.Item link as={NavLink} to="/profile" name="profile" />
+				<Menu.Item>
+					<Signout />
+				</Menu.Item>
+			</Responsive>
+			<Responsive
+				as={Menu.Item}
+				position="right"
+				icon="bars"
+				{...Responsive.onlyMobile}
+			/>
 		</Menu>
 	);
 };
@@ -27,14 +40,29 @@ const UnAuthNav = () => {
 			<Menu.Item>
 				<img src="#" alt="Logo" />
 			</Menu.Item>
-			<Menu.Item link as={NavLink} to="/habits" name="habit" />
-			<Menu.Item link as={NavLink} to="/profile" name="profile" />
-			<Menu.Item>
-				<Button color="purple">Signin</Button>
-			</Menu.Item>
-			<Menu.Item>
-				<Button color="purple">Signup</Button>
-			</Menu.Item>
+			<Responsive
+				as={Menu.Menu}
+				position="right"
+				minWidth={Responsive.onlyTablet.minWidth}>
+				<Menu.Item link as={NavLink} to="/habits" name="habit" />
+				<Menu.Item link as={NavLink} to="/profile" name="profile" />
+				<Menu.Item>
+					<Button color="purple" as={Link} to="/signin">
+						Signin
+					</Button>
+				</Menu.Item>
+				<Menu.Item>
+					<Button color="purple" as={Link} to="/signup">
+						Signup
+					</Button>
+				</Menu.Item>
+			</Responsive>
+			<Responsive
+				as={Menu.Item}
+				position="right"
+				icon="bars"
+				{...Responsive.onlyMobile}
+			/>
 		</Menu>
 	);
 };

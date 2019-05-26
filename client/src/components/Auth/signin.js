@@ -1,7 +1,7 @@
 import React from "react";
 import { Mutation } from "react-apollo";
 import { LOGIN } from "../../queries";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import {
 	Grid,
 	Form,
@@ -19,6 +19,8 @@ class Signin extends React.Component {
 		password: "",
 		errors: []
 	};
+
+	componentDidMount() {}
 
 	isFormValid = () => {
 		const errors = [];
@@ -63,6 +65,7 @@ class Signin extends React.Component {
 			createUser().then(async ({ data }) => {
 				console.log(data);
 				localStorage.setItem("token", data.login.token);
+				await this.props.refetch();
 				this.props.history.push("/habits");
 			});
 		}
@@ -102,7 +105,7 @@ class Signin extends React.Component {
 											onChange={this.handleChange}
 											value={email}
 											className={this.handleInputError(errors, "Eメール")}
-											type="text"
+											type="email"
 										/>
 										<Form.Input
 											fluid
@@ -113,7 +116,7 @@ class Signin extends React.Component {
 											onChange={this.handleChange}
 											value={password}
 											className={this.handleInputError(errors, "パスワード")}
-											type="text"
+											type="password"
 										/>
 										<Button
 											disabled={loading}
@@ -145,4 +148,4 @@ class Signin extends React.Component {
 	}
 }
 
-export default Signin;
+export default withRouter(Signin);
