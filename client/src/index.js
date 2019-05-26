@@ -15,7 +15,7 @@ const client = new ApolloClient({
 		credentials: "includes"
 	},
 	request: operation => {
-		const token = localStorage.getItem("token");
+		const token = localStorage.getItem("token") || "";
 		operation.setContext({
 			headers: {
 				authorization: token
