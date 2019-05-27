@@ -16,7 +16,6 @@ module.exports = {
 			if (!currentUser) {
 				return null;
 			}
-			console.log(currentUser);
 			const user = await User.findOne({
 				email: currentUser.email
 			}).populate({
@@ -25,6 +24,13 @@ module.exports = {
 			});
 			console.log(user);
 			return user;
+		},
+		getAllHabits: async (root, args, ctx) => {
+			const habits = await Habit.find().populate({
+				path: "creator",
+				model: "User"
+			});
+			return habits;
 		}
 	},
 	Mutation: {

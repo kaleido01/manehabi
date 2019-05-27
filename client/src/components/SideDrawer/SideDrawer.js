@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Sidebar, Menu, Icon, Segment, Button } from "semantic-ui-react";
-import Signout from "../Auth/signout";
+import Signout from "../Auth/Signout";
 import "./SideDrawer.css";
 
 const SideDrawer = ({ onSide, onHide, currentUser }) => {

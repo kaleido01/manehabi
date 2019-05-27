@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Menu, Button, Responsive } from "semantic-ui-react";
 
-import Signout from "../Auth/signout";
+import Signout from "../Auth/Signout";
 
 const Navbar = ({ currentUser, onSide }) => {
 	return currentUser ? (
