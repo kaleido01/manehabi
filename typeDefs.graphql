@@ -15,7 +15,8 @@ type User{
 
 type Habit{
   _id:ID,
-  name:String!
+  title:String!
+  description:String!
   createdAt:String,
   startDate:String,
   limitDate:String,
@@ -36,7 +37,7 @@ type Query{
 
 
 type Mutation{
-  createHabit(name:String!):Habit
+  createHabit(title:String!,description:String!):Habit
   createUser(username:String!,email:String!,password:String!):Token
   login(email:String!,password:String!):Token
 

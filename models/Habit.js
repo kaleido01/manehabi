@@ -4,7 +4,11 @@ const moment = require("moment");
 const Schema = mongoose.Schema;
 
 const HabitSchema = new Schema({
-	name: {
+	title: {
+		type: String,
+		required: true
+	},
+	description: {
 		type: String,
 		required: true
 	},
@@ -20,7 +24,7 @@ const HabitSchema = new Schema({
 		type: String,
 		default: () =>
 			moment()
-				.add("days", 1)
+				.add(1, "days")
 				.endOf("day")
 				.format()
 	},

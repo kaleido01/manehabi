@@ -1,5 +1,14 @@
 import { gql } from "apollo-boost";
 
+export const CREATE_HABIT = gql`
+	mutation createHabit($title: String!, $description: String!) {
+		createHabit(title: $title, description: $description) {
+			title
+			description
+		}
+	}
+`;
+
 export const GET_CURRENT_USER = gql`
 	query getCurrentUser {
 		getCurrentUser {

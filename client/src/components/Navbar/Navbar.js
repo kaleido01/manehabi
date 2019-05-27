@@ -23,6 +23,7 @@ const AuthNav = ({ onSide }) => {
 				position="right"
 				minWidth={Responsive.onlyTablet.minWidth}>
 				<Menu.Item link as={NavLink} to="/habits" name="habit" />
+				<Menu.Item link as={NavLink} to="/newhabit" name="newHabit" />
 				<Menu.Item link as={NavLink} to="/profile" name="profile" />
 				<Menu.Item>
 					<Signout />

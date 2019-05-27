@@ -28,11 +28,19 @@ module.exports = {
 		}
 	},
 	Mutation: {
-		createHabit: async (root, { name }, ctx) => {
+		createHabit: async (root, { title, description }, { currentUser }) => {
+			const user = await User.findOne({ email: currentUser.email });
+			console.log("currentUser", user._id);
 			const newHabit = new Habit({
-				name
+				title,
+				description,
+				creator: user._id
 			});
 			await newHabit.save();
+			console.log(newHabit._id);
+			user.habits.push(newHabit._id);
+			console.log(user.habits);
+			await user.save();
 			return newHabit;
 		},
 		createUser: async (root, { username, email, password }, ctx) => {
