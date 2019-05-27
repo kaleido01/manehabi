@@ -19,15 +19,22 @@ export const GET_CURRENT_USER = gql`
 `;
 
 export const GET_ALL_HABITS = gql`
-	query getAllHabits {
-		getAllHabits {
-			_id
-			title
-			description
-			countDate
-			startDate
-			creator {
-				username
+	query getAllHabits($offset: Int, $limit: Int) {
+		getAllHabits(offset: $offset, limit: $limit) {
+			habits {
+				_id
+				title
+				description
+				countDate
+				startDate
+				creator {
+					username
+				}
+			}
+			pageInfo {
+				startCursor
+				endCursor
+				hasNextPage
 			}
 		}
 	}

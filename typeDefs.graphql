@@ -30,9 +30,20 @@ type Token{
   token:String!
 }
 
+type pageInfo{
+  startCursor:Int
+  endCursor:Int
+  hasNextPage:Boolean
+}
+
+type HabitAndPageInfo{
+  pageInfo:pageInfo
+  habits:[Habit]
+}
+
 type Query{
   getCurrentUser:User
-  getAllHabits:[Habit]
+  getAllHabits(offset:Int,limit:Int):HabitAndPageInfo
 }
 
 

@@ -25,12 +25,22 @@ module.exports = {
 			console.log(user);
 			return user;
 		},
-		getAllHabits: async (root, args, ctx) => {
-			const habits = await Habit.find().populate({
-				path: "creator",
-				model: "User"
-			});
-			return habits;
+		getAllHabits: async (root, { offset, limit }, ctx) => {
+			const habits = await Habit.find()
+				.skip(offset)
+				.limit(limit)
+				.populate({
+					path: "creator",
+					model: "User"
+				});
+
+			const count = await Habit.countDocuments();
+			const pageInfo = {
+				startCursor: offset,
+				endCursor: limit,
+				hasNextPage: offset !== count
+			};
+			return { habits, pageInfo };
 		}
 	},
 	Mutation: {
