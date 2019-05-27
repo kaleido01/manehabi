@@ -42,6 +42,13 @@ module.exports = {
 				hasNextPage: offset !== count
 			};
 			return { habits, pageInfo };
+		},
+		getHabit: async (root, { _id }, ctx) => {
+			const habit = await Habit.findById(_id).populate({
+				path: "creator",
+				model: "User"
+			});
+			return habit;
 		}
 	},
 	Mutation: {

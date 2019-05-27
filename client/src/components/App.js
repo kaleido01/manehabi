@@ -31,7 +31,7 @@ export class App extends Component {
 										path="/signin"
 										render={() => <Signin refetch={refetch} />}
 									/>
-									<Route path="/habit/:id" component={HabitDescription} />
+									<Route path="/habit/:_id" component={HabitDescription} />
 									<Route path="/newhabit" component={CreateHabit} />
 									<Route path="/habits" component={Habits} />
 									<Route path="/profile" component={Profile} />

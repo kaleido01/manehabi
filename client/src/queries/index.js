@@ -40,6 +40,21 @@ export const GET_ALL_HABITS = gql`
 		}
 	}
 `;
+export const GET_HABIT = gql`
+	query getHabit($_id: ID!) {
+		getHabit(_id: $_id) {
+			_id
+			title
+			description
+			countDate
+			startDate
+			creator {
+				username
+				imageUrl
+			}
+		}
+	}
+`;
 
 export const CREATE_USER = gql`
 	mutation createUser($username: String!, $email: String!, $password: String!) {

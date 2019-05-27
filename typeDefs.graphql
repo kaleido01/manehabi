@@ -45,6 +45,7 @@ type HabitAndPageInfo{
 type Query{
   getCurrentUser:User
   getAllHabits(offset:Int,limit:Int):HabitAndPageInfo
+  getHabit(_id:ID!):Habit
 }
 
 
