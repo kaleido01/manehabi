@@ -3,15 +3,7 @@ import { Query } from "react-apollo";
 import { GET_ALL_HABITS } from "./../../queries";
 import HabitList from "./HabitList";
 
-import {
-	Sidebar,
-	Menu,
-	Icon,
-	Segment,
-	Button,
-	Comment,
-	Grid
-} from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import Loader from "../shered/Loader";
 
 const Habits = () => {

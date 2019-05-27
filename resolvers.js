@@ -3,6 +3,7 @@ const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = require("./config/keys").secret;
+const md5 = require("md5");
 
 const createToken = (user, secret, expiresIn) => {
 	const { username, email } = user;
@@ -64,7 +65,8 @@ module.exports = {
 			const newUser = new User({
 				username,
 				email,
-				password: hashedPw
+				password: hashedPw,
+				imageUrl: `http://gravatar.com/avatar/${md5(email)}?d=identicon`
 			});
 			await newUser.save();
 

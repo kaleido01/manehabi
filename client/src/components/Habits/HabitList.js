@@ -43,7 +43,7 @@ class HabitList extends Component {
 				{habits &&
 					habits.map(habit => (
 						<Comment key={habit._id}>
-							<Comment.Avatar src="/images/avatar/small/matt.jpg" />
+							<Comment.Avatar src={habit.creator.imageUrl} />
 							<Comment.Content>
 								<Comment.Author as="a">{habit.creator.username}</Comment.Author>
 								<Comment.Metadata>

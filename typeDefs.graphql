@@ -8,6 +8,7 @@ type User{
   username:String!
 	email: String!
 	password:String!
+  imageUrl:String
 	joinDate:String
 	favorites:[Habit]
 	Habits: [Habit]

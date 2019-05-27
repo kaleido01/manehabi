@@ -29,6 +29,7 @@ export const GET_ALL_HABITS = gql`
 				startDate
 				creator {
 					username
+					imageUrl
 				}
 			}
 			pageInfo {

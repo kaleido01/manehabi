@@ -8,6 +8,9 @@ const UserSchema = new Schema({
 		type: String,
 		required: true
 	},
+	imageUrl: {
+		type: String
+	},
 	email: {
 		type: String,
 		required: true,
