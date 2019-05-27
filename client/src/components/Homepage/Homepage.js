@@ -64,16 +64,16 @@ const Homepage = ({ history }) => {
 					<p>Manehapi is made by kaleido</p>
 					<ul className="legal">
 						<li>
-							<a>Term of Services</a>
+							<a href="https://kaleido01.com/">Term of Services</a>
 						</li>
 						<li>
-							<a>Privacy</a>
+							<a href="https://kaleido01.com/">Privacy</a>
 						</li>
 						<li>
-							<a>Cookies</a>
+							<a href="https://kaleido01.com/">Cookies</a>
 						</li>
 						<li>
-							<a>© 2019 kaleido01.com</a>
+							<a href="https://kaleido01.com/">© 2019 kaleido01.com</a>
 						</li>
 					</ul>
 				</footer>

@@ -1,14 +1,18 @@
 import React from "react";
-import InfiniteScroll from "react-infinite-scroller";
-import { HashLoader } from "react-spinners";
+import { Comment } from "semantic-ui-react";
 
-const Habit = () => {
+const Habit = ({ habit }) => {
 	return (
-		<InfiniteScroll
-			loadMore={this.onLoadMore}
-			hasMore={pageInfo.hasNextPage}
-			loader={<HashLoader />}
-		/>
+		<Comment>
+			<Comment.Avatar src={habit.creator.imageUrl} />
+			<Comment.Content>
+				<Comment.Author as="a">{habit.creator.username}</Comment.Author>
+				<Comment.Metadata>
+					<div>{habit.startDate}</div>
+				</Comment.Metadata>
+				<Comment.Text>{habit.title}</Comment.Text>
+			</Comment.Content>
+		</Comment>
 	);
 };
 

@@ -14,7 +14,6 @@ const Habits = () => {
 					{({ data, fetchMore, loading }) => {
 						const { getAllHabits } = data;
 						if (loading || !getAllHabits) return <Loader />;
-						console.log(getAllHabits);
 						return <HabitList allHabits={getAllHabits} fetchMore={fetchMore} />;
 					}}
 				</Query>

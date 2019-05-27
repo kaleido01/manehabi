@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { Comment } from "semantic-ui-react";
 import Loader from "./../shered/Loader";
+import Habit from "./Habit";
 
 class HabitList extends Component {
 	onLoadMore = () => {
@@ -18,7 +18,6 @@ class HabitList extends Component {
 				if (!fetchMoreResult) return prev;
 				const prevHabits = prev.getAllHabits.habits;
 				const currentHabits = fetchMoreResult.getAllHabits.habits;
-				console.log(prev);
 				return {
 					...prev,
 					getAllHabits: {
@@ -34,25 +33,12 @@ class HabitList extends Component {
 		const {
 			allHabits: { habits, pageInfo }
 		} = this.props;
-		console.log(habits);
 		return (
 			<InfiniteScroll
 				loadMore={this.onLoadMore}
 				hasMore={pageInfo.hasNextPage}
-				loader={<Loader />}>
-				{habits &&
-					habits.map(habit => (
-						<Comment key={habit._id}>
-							<Comment.Avatar src={habit.creator.imageUrl} />
-							<Comment.Content>
-								<Comment.Author as="a">{habit.creator.username}</Comment.Author>
-								<Comment.Metadata>
-									<div>{habit.startDate}</div>
-								</Comment.Metadata>
-								<Comment.Text>{habit.title}</Comment.Text>
-							</Comment.Content>
-						</Comment>
-					))}
+				loader={<Loader key={pageInfo} />}>
+				{habits && habits.map(habit => <Habit key={habit._id} habit={habit} />)}
 			</InfiniteScroll>
 		);
 	}
