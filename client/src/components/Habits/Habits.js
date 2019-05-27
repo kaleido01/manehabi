@@ -3,21 +3,21 @@ import { Query } from "react-apollo";
 import { GET_ALL_HABITS } from "./../../queries";
 import HabitList from "./HabitList";
 
-import { Grid } from "semantic-ui-react";
 import Loader from "../shered/Loader";
+import { Grid, GridColumn } from "semantic-ui-react";
 
 const Habits = () => {
 	return (
 		<Grid textAlign="center">
-			<Grid.Column>
+			<GridColumn width={8}>
 				<Query query={GET_ALL_HABITS} variables={{ offSet: 0, limit: 5 }}>
 					{({ data, fetchMore, loading }) => {
+						if (loading) return <Loader />;
 						const { getAllHabits } = data;
-						if (loading || !getAllHabits) return <Loader />;
 						return <HabitList allHabits={getAllHabits} fetchMore={fetchMore} />;
 					}}
 				</Query>
-			</Grid.Column>
+			</GridColumn>
 		</Grid>
 	);
 };

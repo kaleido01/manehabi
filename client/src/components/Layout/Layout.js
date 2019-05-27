@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import SideDrawer from "./../SideDrawer/SideDrawer";
 import Navbar from "./../Navbar/Navbar";
+import "./Layout.css";
 
 const Layout = ({ session, children }) => {
 	const [onSide, setOnSide] = useState(false);
@@ -15,7 +16,8 @@ const Layout = ({ session, children }) => {
 				onSide={onSide}
 				onHide={setOnSide}
 			/>
-			<div>{children}</div>
+
+			<div className="Layout">{children}</div>
 		</Fragment>
 	);
 };
