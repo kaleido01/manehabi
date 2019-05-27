@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom";
 import { ApolloProvider } from "react-apollo";
 import ApolloClient from "apollo-boost";
@@ -8,6 +8,8 @@ import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import "semantic-ui-css/semantic.min.css";
 import withSession from "./components/withSession";
+
+export const UserContext = createContext();
 
 const client = new ApolloClient({
 	uri: "http://localhost:4000/graphql",
@@ -29,9 +31,11 @@ const client = new ApolloClient({
 	}
 });
 
-const Root = ({ refetch, session }) => (
+const Root = ({ refetch, currentUser }) => (
 	<Router>
-		<App refetch={refetch} session={session} />
+		<UserContext.Provider value={currentUser}>
+			<App refetch={refetch} />
+		</UserContext.Provider>
 	</Router>
 );
 

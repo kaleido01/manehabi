@@ -5,17 +5,12 @@ import "./Layout.css";
 
 const Layout = ({ session, children }) => {
 	const [onSide, setOnSide] = useState(false);
-	const currentUser = session ? session.getCurrentUser : null;
 
 	return (
 		<Fragment>
-			<Navbar currentUser={currentUser} onSide={setOnSide} />
+			<Navbar onSide={setOnSide} />
 
-			<SideDrawer
-				currentUser={currentUser}
-				onSide={onSide}
-				onHide={setOnSide}
-			/>
+			<SideDrawer onSide={onSide} onHide={setOnSide} />
 
 			<div className="Layout">{children}</div>
 		</Fragment>

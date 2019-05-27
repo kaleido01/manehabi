@@ -12,6 +12,7 @@ export const CREATE_HABIT = gql`
 export const GET_CURRENT_USER = gql`
 	query getCurrentUser {
 		getCurrentUser {
+			_id
 			username
 			email
 		}
@@ -28,6 +29,7 @@ export const GET_ALL_HABITS = gql`
 				countDate
 				startDate
 				creator {
+					_id
 					username
 					imageUrl
 				}
@@ -49,6 +51,7 @@ export const GET_HABIT = gql`
 			countDate
 			startDate
 			creator {
+				_id
 				username
 				imageUrl
 			}

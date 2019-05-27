@@ -13,8 +13,8 @@ const Habits = () => {
 				<Query query={GET_ALL_HABITS} variables={{ offSet: 0, limit: 5 }}>
 					{({ data, fetchMore, loading }) => {
 						if (loading) return <Loader />;
-						const { getAllHabits } = data;
-						return <HabitList allHabits={getAllHabits} fetchMore={fetchMore} />;
+						const allHabits = data && data.getAllHabits;
+						return <HabitList allHabits={allHabits} fetchMore={fetchMore} />;
 					}}
 				</Query>
 			</GridColumn>

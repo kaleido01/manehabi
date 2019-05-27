@@ -11,7 +11,7 @@ import { CreateHabit } from "./Habits/CreateHabit";
 
 export class App extends Component {
 	render() {
-		const { refetch, session } = this.props;
+		const { refetch } = this.props;
 		return (
 			<Fragment>
 				<Switch>
@@ -21,7 +21,7 @@ export class App extends Component {
 					path="/(.+)"
 					render={() => (
 						<div>
-							<Layout session={session}>
+							<Layout>
 								<Switch>
 									<Route
 										path="/signup"

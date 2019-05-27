@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Menu, Button, Responsive } from "semantic-ui-react";
 
 import Signout from "../Auth/Signout";
+import { UserContext } from "./../../index";
 
-const Navbar = ({ currentUser, onSide }) => {
+const Navbar = ({ onSide }) => {
+	const currentUser = useContext(UserContext);
+
 	return currentUser ? (
 		<AuthNav onSide={onSide} />
 	) : (

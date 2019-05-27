@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Sidebar, Menu, Icon, Button } from "semantic-ui-react";
 import Signout from "../Auth/Signout";
 import "./SideDrawer.css";
+import { UserContext } from "./../../index";
 
-const SideDrawer = ({ onSide, onHide, currentUser }) => {
+const SideDrawer = ({ onSide, onHide }) => {
+	const currentUser = useContext(UserContext);
 	return (
 		<Sidebar
 			as={Menu}
