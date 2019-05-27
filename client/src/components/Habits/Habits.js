@@ -9,7 +9,7 @@ import { Grid, GridColumn } from "semantic-ui-react";
 const Habits = () => {
 	return (
 		<Grid textAlign="center">
-			<GridColumn width={8}>
+			<GridColumn style={{ minWidth: "350px" }} width={8} textAlign="center">
 				<Query query={GET_ALL_HABITS} variables={{ offSet: 0, limit: 5 }}>
 					{({ data, fetchMore, loading }) => {
 						if (loading) return <Loader />;
