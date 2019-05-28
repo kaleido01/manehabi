@@ -27,6 +27,7 @@ const HabitDescription = ({ match }) => {
 							</Comment.Content>
 						</Comment>
 					</Segment>
+					//TODO:userCommentsの実装
 				);
 			}}
 		</Query>

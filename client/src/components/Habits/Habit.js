@@ -6,8 +6,7 @@ import { UserContext } from "./../../index";
 
 const Habit = ({ habit }) => {
 	const currentUser = useContext(UserContext);
-	console.log(currentUser._id, habit.creator._id);
-	const myHabit = currentUser._id === habit.creator._id;
+	const myHabit = currentUser && currentUser._id === habit.creator._id;
 	return (
 		<Link to={`/habit/${habit._id}`}>
 			<Segment

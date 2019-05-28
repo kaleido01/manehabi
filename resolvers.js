@@ -39,7 +39,27 @@ module.exports = {
 			const pageInfo = {
 				startCursor: offset,
 				endCursor: limit,
-				hasNextPage: offset !== count
+				hasNextPage: offset + habits.length !== count
+			};
+			return { habits, pageInfo };
+		},
+		getUserHabits: async (root, { offset, limit }, { currentUser }) => {
+			const user = await User.findOne({ email: currentUser.email });
+
+			const habits = await Habit.find({ creator: user._id })
+				.skip(offset)
+				.limit(limit)
+				.populate({
+					path: "creator",
+					model: "User"
+				});
+
+			const count = await Habit.countDocuments({ creator: user._id });
+			console.log(habits, count);
+			const pageInfo = {
+				startCursor: offset,
+				endCursor: limit,
+				hasNextPage: offset + habits.length !== count
 			};
 			return { habits, pageInfo };
 		},

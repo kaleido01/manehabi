@@ -42,6 +42,29 @@ export const GET_ALL_HABITS = gql`
 		}
 	}
 `;
+export const GET_USER_HABITS = gql`
+	query getUserHabits($offset: Int, $limit: Int) {
+		getUserHabits(offset: $offset, limit: $limit) {
+			habits {
+				_id
+				title
+				description
+				countDate
+				startDate
+				creator {
+					_id
+					username
+					imageUrl
+				}
+			}
+			pageInfo {
+				startCursor
+				endCursor
+				hasNextPage
+			}
+		}
+	}
+`;
 export const GET_HABIT = gql`
 	query getHabit($_id: ID!) {
 		getHabit(_id: $_id) {

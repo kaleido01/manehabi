@@ -8,6 +8,7 @@ import Profile from "./Profile/Profile";
 import HabitDescription from "./Habits/HabitDescription";
 import Layout from "./Layout/Layout";
 import { CreateHabit } from "./Habits/CreateHabit";
+import MyHabits from "./Habits/MyHabits";
 
 export class App extends Component {
 	render() {
@@ -33,6 +34,7 @@ export class App extends Component {
 									/>
 									<Route path="/habit/:_id" component={HabitDescription} />
 									<Route path="/newhabit" component={CreateHabit} />
+									<Route path="/myhabits" component={MyHabits} />
 									<Route path="/habits" component={Habits} />
 									<Route path="/profile" component={Profile} />
 									<Redirect to="/habits" />
