@@ -35,11 +35,13 @@ module.exports = {
 					model: "User"
 				});
 
+			console.log(offset);
+
 			const count = await Habit.countDocuments();
 			const pageInfo = {
 				startCursor: offset,
 				endCursor: limit,
-				hasNextPage: offset + habits.length !== count
+				hasNextPage: offset !== count
 			};
 			return { habits, pageInfo };
 		},
@@ -55,7 +57,6 @@ module.exports = {
 				});
 
 			const count = await Habit.countDocuments({ creator: user._id });
-			console.log(habits, count);
 			const pageInfo = {
 				startCursor: offset,
 				endCursor: limit,

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Query } from "react-apollo";
-import { Grid } from "semantic-ui-react";
+import { Grid, Segment, Header, Comment } from "semantic-ui-react";
 import { GET_USER_HABITS } from "./../../queries";
 import Loader from "./../shered/Loader";
 import HabitList from "./HabitList";
+import { UserContext } from "./../../index";
 
 const MyHabits = () => {
+	const currentUser = useContext(UserContext);
 	const onLoadMore = (allHabits, fetchMore) => {
 		fetchMore({
 			variables: {
@@ -36,10 +38,17 @@ const MyHabits = () => {
 						console.log(data);
 						const allHabits = data && data.getUserHabits;
 						return (
-							<HabitList
-								allHabits={allHabits}
-								onLoadMore={() => onLoadMore(allHabits, fetchMore)}
-							/>
+							<Segment>
+								<Comment.Group>
+									<Header as="h3" dividing>
+										{currentUser.username}の習慣一覧
+									</Header>
+									<HabitList
+										allHabits={allHabits}
+										onLoadMore={() => onLoadMore(allHabits, fetchMore)}
+									/>
+								</Comment.Group>
+							</Segment>
 						);
 					}}
 				</Query>

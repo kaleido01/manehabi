@@ -4,13 +4,13 @@ import { GET_ALL_HABITS } from "./../../queries";
 import HabitList from "./HabitList";
 
 import Loader from "../shered/Loader";
-import { Grid } from "semantic-ui-react";
+import { Grid, Segment, Header, Comment } from "semantic-ui-react";
 
 const Habits = () => {
-	const onLoadMore = (habits, fetchMore) => {
+	const onLoadMore = (allHabits, fetchMore) => {
 		fetchMore({
 			variables: {
-				offset: habits.length
+				offset: allHabits.habits.length
 			},
 			updateQuery: (prev, { fetchMoreResult }) => {
 				if (!fetchMoreResult) return prev;
@@ -35,10 +35,17 @@ const Habits = () => {
 						if (loading) return <Loader />;
 						const allHabits = data && data.getAllHabits;
 						return (
-							<HabitList
-								allHabits={allHabits}
-								onLoadMore={() => onLoadMore(allHabits, fetchMore)}
-							/>
+							<Segment>
+								<Comment.Group>
+									<Header as="h3" dividing>
+										新着習慣一覧
+									</Header>
+									<HabitList
+										allHabits={allHabits}
+										onLoadMore={() => onLoadMore(allHabits, fetchMore)}
+									/>
+								</Comment.Group>
+							</Segment>
 						);
 					}}
 				</Query>

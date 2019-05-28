@@ -14,15 +14,8 @@ const HabitList = props => {
 			loadMore={props.onLoadMore}
 			hasMore={pageInfo.hasNextPage}
 			loader={<Loader key={pageInfo} />}>
-			<Segment>
-				<Comment.Group>
-					<Header as="h3" dividing>
-						新着習慣一覧
-					</Header>
-					{habits &&
-						habits.map((habit, index) => <Habit key={index} habit={habit} />)}
-				</Comment.Group>
-			</Segment>
+			{habits &&
+				habits.map((habit, index) => <Habit key={index} habit={habit} />)}
 		</InfiniteScroll>
 	);
 };
