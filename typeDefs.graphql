@@ -53,7 +53,7 @@ type Query{
 
 type Mutation{
   createHabit(title:String!,description:String!):Habit
-  deleteHabit(_id:ID!):Boolean
+  deleteHabit(_id:ID!):Habit
   createUser(username:String!,email:String!,password:String!):Token
 
   login(email:String!,password:String!):Token

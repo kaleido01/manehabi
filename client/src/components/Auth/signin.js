@@ -22,8 +22,6 @@ class Signin extends React.Component {
 		onOpen: false
 	};
 
-	componentDidMount() {}
-
 	isFormValid = () => {
 		const errors = [];
 		let error;

@@ -10,7 +10,9 @@ export const CREATE_HABIT = gql`
 `;
 export const DELETE_HABIT = gql`
 	mutation deleteHabit($_id: ID!) {
-		deleteHabit(_id: $_id)
+		deleteHabit(_id: $_id) {
+			_id
+		}
 	}
 `;
 

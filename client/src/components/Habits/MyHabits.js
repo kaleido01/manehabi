@@ -8,10 +8,10 @@ import { UserContext } from "./../../index";
 
 const MyHabits = () => {
 	const currentUser = useContext(UserContext);
-	const onLoadMore = (allHabits, fetchMore) => {
+	const onLoadMore = (habits, fetchMore) => {
 		fetchMore({
 			variables: {
-				offset: allHabits.habits.length
+				offset: habits.length
 			},
 			updateQuery: (prev, { fetchMoreResult }) => {
 				if (!fetchMoreResult) return prev;
@@ -36,7 +36,7 @@ const MyHabits = () => {
 					{({ data, fetchMore, loading }) => {
 						if (loading) return <Loader />;
 						console.log(data);
-						const allHabits = data && data.getUserHabits;
+						const { habits, pageInfo } = data.getUserHabits;
 						return (
 							<Segment>
 								<Comment.Group>
@@ -44,8 +44,9 @@ const MyHabits = () => {
 										{currentUser.username}の習慣一覧
 									</Header>
 									<HabitList
-										allHabits={allHabits}
-										onLoadMore={() => onLoadMore(allHabits, fetchMore)}
+										habits={habits}
+										pageInfo={pageInfo}
+										onLoadMore={() => onLoadMore(habits, fetchMore)}
 									/>
 								</Comment.Group>
 							</Segment>

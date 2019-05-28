@@ -99,7 +99,8 @@ module.exports = {
 			// 	);
 			// });
 			const deleteHabit = await Habit.findByIdAndDelete(_id);
-			return true;
+			console.log(deleteHabit);
+			return deleteHabit;
 		},
 		createUser: async (root, { username, email, password }, ctx) => {
 			const hashedPw = await bcrypt.hash(password, 12);

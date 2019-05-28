@@ -7,10 +7,10 @@ import Loader from "../shered/Loader";
 import { Grid, Segment, Header, Comment } from "semantic-ui-react";
 
 const Habits = () => {
-	const onLoadMore = (allHabits, fetchMore) => {
+	const onLoadMore = (habits, fetchMore) => {
 		fetchMore({
 			variables: {
-				offset: allHabits.habits.length
+				offset: habits.length
 			},
 			updateQuery: (prev, { fetchMoreResult }) => {
 				if (!fetchMoreResult) return prev;
@@ -33,7 +33,7 @@ const Habits = () => {
 				<Query query={GET_ALL_HABITS} variables={{ offset: 0, limit: 5 }}>
 					{({ data, fetchMore, loading }) => {
 						if (loading) return <Loader />;
-						const allHabits = data && data.getAllHabits;
+						const { habits, pageInfo } = data.getAllHabits;
 						return (
 							<Segment>
 								<Comment.Group>
@@ -41,8 +41,9 @@ const Habits = () => {
 										新着習慣一覧
 									</Header>
 									<HabitList
-										allHabits={allHabits}
-										onLoadMore={() => onLoadMore(allHabits, fetchMore)}
+										habits={habits}
+										pageInfo={pageInfo}
+										onLoadMore={() => onLoadMore(habits, fetchMore)}
 									/>
 								</Comment.Group>
 							</Segment>
