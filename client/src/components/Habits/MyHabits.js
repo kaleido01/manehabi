@@ -19,7 +19,7 @@ const MyHabits = () => {
 				const currentHabits = fetchMoreResult.getUserHabits.habits;
 				return {
 					...prev,
-					getAllHabits: {
+					getUserHabits: {
 						...prev.getUserHabits,
 						habits: [...prevHabits, ...currentHabits],
 						pageInfo: fetchMoreResult.getUserHabits.pageInfo

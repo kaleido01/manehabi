@@ -1,6 +1,5 @@
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { Comment, Header, Segment } from "semantic-ui-react";
 import Loader from "./../shered/Loader";
 import Habit from "./Habit";
 
