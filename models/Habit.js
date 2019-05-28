@@ -40,9 +40,10 @@ const HabitSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: "User"
 	},
-	star: {
-		type: Number,
-		default: 0
+	starUser: {
+		type: [Schema.Types.ObjectId],
+		default: [],
+		ref: "User"
 	}
 });
 

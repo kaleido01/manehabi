@@ -8,6 +8,11 @@ export const CREATE_HABIT = gql`
 		}
 	}
 `;
+export const DELETE_HABIT = gql`
+	mutation deleteHabit($_id: ID!) {
+		deleteHabit(_id: $_id)
+	}
+`;
 
 export const GET_CURRENT_USER = gql`
 	query getCurrentUser {

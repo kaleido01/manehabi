@@ -1,16 +1,15 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Comment, Segment, Button, Modal, Icon } from "semantic-ui-react";
+import { Comment, Segment, Button } from "semantic-ui-react";
 import "./Habits.css";
 import { UserContext } from "./../../index";
+import DeleteHabitModal from "./DeleteHabitModal";
 
 const Habit = ({ habit, match }) => {
 	const [open, setOpen] = useState(false);
 	const currentUser = useContext(UserContext);
 	const myHabit = currentUser && currentUser._id === habit.creator._id;
 	const isMyHabit = match.path === "/myhabits";
-
-	const deleteHabit = () => {};
 
 	const closeModal = () => {
 		setOpen(false);
@@ -50,19 +49,9 @@ const Habit = ({ habit, match }) => {
 					</Comment.Content>
 				</Comment>
 			</Segment>
-
-			<Modal basic open={open} onClose={closeModal}>
-				<Modal.Header>習慣削除の確認</Modal.Header>
-				<Modal.Content>{habit.title}を削除してよろしいですか？</Modal.Content>
-				<Modal.Actions>
-					<Button color="red" inverted onClick={deleteHabit}>
-						<Icon name="checkmark" />
-					</Button>
-					<Button color="orange" inverted onClick={closeModal}>
-						<Icon name="remove" />
-					</Button>
-				</Modal.Actions>
-			</Modal>
+			{isMyHabit ? (
+				<DeleteHabitModal open={open} habit={habit} closeModal={closeModal} />
+			) : null}
 		</Fragment>
 	);
 };

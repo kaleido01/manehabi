@@ -74,18 +74,32 @@ module.exports = {
 	Mutation: {
 		createHabit: async (root, { title, description }, { currentUser }) => {
 			const user = await User.findOne({ email: currentUser.email });
-			console.log("currentUser", user._id);
 			const newHabit = new Habit({
 				title,
 				description,
 				creator: user._id
 			});
 			await newHabit.save();
-			console.log(newHabit._id);
 			user.habits.push(newHabit._id);
-			console.log(user.habits);
 			await user.save();
 			return newHabit;
+		},
+		deleteHabit: async (root, { _id }, { currentUser }) => {
+			// const user = await User.findOne({ email: currentUser.email });
+
+			// const allHabits = await Habit.find();
+
+			// allhabits.starUser.forEach(async userId => {
+			// 	const newFavorites = await User.findOne({ _id: userId }).favorites.pull(
+			// 		_id
+			// 	);
+			// 	await User.findOneAndUpdate(
+			// 		{ _id: userId },
+			// 		{ favorites: newFavorites }
+			// 	);
+			// });
+			const deleteHabit = await Habit.findByIdAndDelete(_id);
+			return true;
 		},
 		createUser: async (root, { username, email, password }, ctx) => {
 			const hashedPw = await bcrypt.hash(password, 12);

@@ -24,7 +24,7 @@ type Habit{
   countDate:Int,
   numberOfFailure:Int,
   creator:User
-  star:Int
+  starUser:[ID]
 }
 
 type Token{
@@ -53,7 +53,9 @@ type Query{
 
 type Mutation{
   createHabit(title:String!,description:String!):Habit
+  deleteHabit(_id:ID!):Boolean
   createUser(username:String!,email:String!,password:String!):Token
+
   login(email:String!,password:String!):Token
 
 }
