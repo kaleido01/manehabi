@@ -102,6 +102,21 @@ module.exports = {
 			console.log(deleteHabit);
 			return deleteHabit;
 		},
+		starHabit: async (root, { _id }, { currentUser }) => {
+			const user = await User.findOne({ email: currentUser.email });
+			console.log(_id, user);
+			const habit = await Habit.findByIdAndUpdate(_id, {
+				$addToSet: {
+					starUser: user._id
+				}
+			});
+			await User.findByIdAndUpdate(user._id, {
+				$addToSet: {
+					favorites: _id
+				}
+			});
+			return habit;
+		},
 		createUser: async (root, { username, email, password }, ctx) => {
 			const hashedPw = await bcrypt.hash(password, 12);
 			const newUser = new User({

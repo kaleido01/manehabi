@@ -26,10 +26,12 @@ const UserSchema = new Schema({
 	},
 	favorites: {
 		type: [Schema.Types.ObjectId],
+		default: [],
 		ref: "Habit"
 	},
 	habits: {
 		type: [Schema.Types.ObjectId],
+		default: [],
 		ref: "Habit"
 	}
 });

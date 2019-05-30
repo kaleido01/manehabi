@@ -16,12 +16,21 @@ export const DELETE_HABIT = gql`
 	}
 `;
 
+export const STAR_HABIT = gql`
+	mutation starHabit($_id: ID!) {
+		starHabit(_id: $_id) {
+			_id
+			starUser
+		}
+	}
+`;
 export const GET_CURRENT_USER = gql`
 	query getCurrentUser {
 		getCurrentUser {
 			_id
 			username
 			email
+			favorites
 		}
 	}
 `;
@@ -35,6 +44,7 @@ export const GET_ALL_HABITS = gql`
 				description
 				countDate
 				startDate
+				starUser
 				creator {
 					_id
 					username

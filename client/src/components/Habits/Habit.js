@@ -24,7 +24,7 @@ const Habit = ({ habit, match }) => {
 		<Fragment>
 			<Segment.Group raised style={{ margin: "1em" }}>
 				<Segment attached="top" color={myHabit ? "orange" : "teal"}>
-					<StarLabel />
+					<StarLabel habit={habit} />
 				</Segment>
 
 				<Segment attached="bottom" textAlign="center">

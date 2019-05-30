@@ -55,6 +55,7 @@ type Mutation{
   createHabit(title:String!,description:String!):Habit
   deleteHabit(_id:ID!):Habit
   createUser(username:String!,email:String!,password:String!):Token
+  starHabit(_id:ID!):Habit
 
   login(email:String!,password:String!):Token
 
