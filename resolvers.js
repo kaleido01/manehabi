@@ -84,19 +84,21 @@ module.exports = {
 			return newHabit;
 		},
 		deleteHabit: async (root, { _id }, { currentUser }) => {
-			// const user = await User.findOne({ email: currentUser.email });
+			const user = await User.findOne({ email: currentUser.email });
 
-			// const allHabits = await Habit.find();
+			const habit = await Habit.findById(_id);
 
-			// allhabits.starUser.forEach(async userId => {
-			// 	const newFavorites = await User.findOne({ _id: userId }).favorites.pull(
-			// 		_id
-			// 	);
-			// 	await User.findOneAndUpdate(
-			// 		{ _id: userId },
-			// 		{ favorites: newFavorites }
-			// 	);
-			// });
+			habit.starUser.forEach(async userId => {
+				console.log(userId);
+				await User.findOneAndUpdate(
+					{ _id: userId },
+					{
+						$pull: {
+							favorites: _id
+						}
+					}
+				);
+			});
 			const deleteHabit = await Habit.findByIdAndDelete(_id);
 			console.log(deleteHabit);
 			return deleteHabit;

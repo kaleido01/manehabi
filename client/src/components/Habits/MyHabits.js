@@ -33,9 +33,10 @@ const MyHabits = () => {
 		<Grid textAlign="center">
 			<Grid.Column style={{ minWidth: "350px" }} width={8} textAlign="center">
 				<Query query={GET_USER_HABITS} variables={{ offset: 0, limit: 5 }}>
-					{({ data, fetchMore, loading }) => {
+					{({ data, fetchMore, loading, error }) => {
 						if (loading) return <Loader />;
-						console.log(data);
+						if (error) return <div>{error}</div>;
+
 						const { habits, pageInfo } = data.getUserHabits;
 						return (
 							<Segment>

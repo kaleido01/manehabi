@@ -5,13 +5,11 @@ import { Label, Icon } from "semantic-ui-react";
 import "./Habits.css";
 import { Mutation } from "react-apollo";
 import { STAR_HABIT, UNSTAR_HABIT } from "./../../queries/index";
-import { isNull } from "util";
 
 const StarLabel = ({ habit }) => {
 	const [stared, setStar] = useState(false);
 	const [starLength, setStarLength] = useState(habit.starUser.length);
 	const currentUser = useContext(UserContext);
-	console.log(habit.starUser);
 	useEffect(() => {
 		if (currentUser) {
 			currentUser.favorites.forEach(({ _id }) => {
@@ -23,13 +21,11 @@ const StarLabel = ({ habit }) => {
 	const handleClick = (starHabit, unStarHabit) => {
 		if (stared) {
 			unStarHabit().then(({ data }) => {
-				console.log(data.unStarHabit.starUser);
 				setStar(!stared);
 				setStarLength(data.unStarHabit.starUser.length);
 			});
 		} else {
 			starHabit().then(({ data }) => {
-				console.log(data.starHabit.starUser);
 				setStar(!stared);
 				setStarLength(data.starHabit.starUser.length);
 			});

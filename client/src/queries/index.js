@@ -84,6 +84,9 @@ export const GET_USER_HABITS = gql`
 				description
 				countDate
 				startDate
+				starUser {
+					_id
+				}
 				creator {
 					_id
 					username
