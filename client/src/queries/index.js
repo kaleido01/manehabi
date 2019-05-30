@@ -26,6 +26,16 @@ export const STAR_HABIT = gql`
 		}
 	}
 `;
+export const UNSTAR_HABIT = gql`
+	mutation unStarHabit($_id: ID!) {
+		unStarHabit(_id: $_id) {
+			_id
+			starUser {
+				_id
+			}
+		}
+	}
+`;
 export const GET_CURRENT_USER = gql`
 	query getCurrentUser {
 		getCurrentUser {

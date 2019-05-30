@@ -23,7 +23,6 @@ module.exports = {
 				.populate({ path: "habits", model: "Habit" })
 				.populate({ path: "favorites", model: "Habit" })
 				.exec();
-			console.log(user);
 			return user;
 		},
 		getAllHabits: async (root, { offset, limit }, ctx) => {
@@ -103,12 +102,11 @@ module.exports = {
 			return deleteHabit;
 		},
 		starHabit: async (root, { _id }, { currentUser }) => {
-			console.log(currentUser);
 			if (!currentUser) {
 				return new Error("Not Authenticated");
 			}
 			const user = await User.findOne({ email: currentUser.email });
-			const habit = await Habit.findByIdAndUpdate(_id, {
+			await Habit.findByIdAndUpdate(_id, {
 				$addToSet: {
 					starUser: user._id
 				}
@@ -118,7 +116,24 @@ module.exports = {
 					favorites: _id
 				}
 			});
-			return habit;
+			return await Habit.findById(_id);
+		},
+		unStarHabit: async (root, { _id }, { currentUser }) => {
+			if (!currentUser) {
+				return new Error("Not Authenticated");
+			}
+			const user = await User.findOne({ email: currentUser.email });
+			await Habit.findByIdAndUpdate(_id, {
+				$pull: {
+					starUser: user._id
+				}
+			});
+			await User.findByIdAndUpdate(user._id, {
+				$pull: {
+					favorites: _id
+				}
+			});
+			return await Habit.findById(_id);
 		},
 		createUser: async (root, { username, email, password }, ctx) => {
 			const hashedPw = await bcrypt.hash(password, 12);
