@@ -13,8 +13,8 @@ const StarLabel = ({ habit }) => {
 	const currentUser = useContext(UserContext);
 	useEffect(() => {
 		if (currentUser) {
-			currentUser.favorites.forEach(favoriteId => {
-				if (habit._id === favoriteId) setStar(true);
+			currentUser.favorites.forEach(({ _id }) => {
+				if (habit._id === _id) setStar(true);
 			});
 		}
 	}, []);
@@ -27,8 +27,18 @@ const StarLabel = ({ habit }) => {
 		});
 	};
 
+	const updateStar = (cache, { data }) => {
+		console.log(cache);
+		// const {getAllHabits}=cache.readQuery({
+
+		// })
+	};
+
 	return (
-		<Mutation mutation={STAR_HABIT} variables={{ _id: habit._id }}>
+		<Mutation
+			mutation={STAR_HABIT}
+			variables={{ _id: habit._id }}
+			update={updateStar}>
 			{(starHabit, { data, loading, error }) => {
 				if (loading) return <Loader />;
 				return (
@@ -38,7 +48,7 @@ const StarLabel = ({ habit }) => {
 						color="purple"
 						ribbon="right">
 						<Icon
-							name={stared ? " star " : "star outline"}
+							name={stared ? "star" : "star outline"}
 							color={stared ? "yellow" : "black"}
 						/>{" "}
 						{starLength}

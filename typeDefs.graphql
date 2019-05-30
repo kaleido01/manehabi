@@ -24,7 +24,7 @@ type Habit{
   countDate:Int,
   numberOfFailure:Int,
   creator:User
-  starUser:[ID]
+  starUser:[User]
 }
 
 type Token{

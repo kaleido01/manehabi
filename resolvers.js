@@ -19,10 +19,10 @@ module.exports = {
 			}
 			const user = await User.findOne({
 				email: currentUser.email
-			}).populate({
-				path: "habits",
-				model: "Habit"
-			});
+			})
+				.populate({ path: "habits", model: "Habit" })
+				.populate({ path: "favorites", model: "Habit" })
+				.exec();
 			console.log(user);
 			return user;
 		},
@@ -103,8 +103,11 @@ module.exports = {
 			return deleteHabit;
 		},
 		starHabit: async (root, { _id }, { currentUser }) => {
+			console.log(currentUser);
+			if (!currentUser) {
+				return new Error("Not Authenticated");
+			}
 			const user = await User.findOne({ email: currentUser.email });
-			console.log(_id, user);
 			const habit = await Habit.findByIdAndUpdate(_id, {
 				$addToSet: {
 					starUser: user._id

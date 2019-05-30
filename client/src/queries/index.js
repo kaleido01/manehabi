@@ -20,7 +20,9 @@ export const STAR_HABIT = gql`
 	mutation starHabit($_id: ID!) {
 		starHabit(_id: $_id) {
 			_id
-			starUser
+			starUser {
+				_id
+			}
 		}
 	}
 `;
@@ -30,7 +32,9 @@ export const GET_CURRENT_USER = gql`
 			_id
 			username
 			email
-			favorites
+			favorites {
+				_id
+			}
 		}
 	}
 `;
@@ -44,7 +48,9 @@ export const GET_ALL_HABITS = gql`
 				description
 				countDate
 				startDate
-				starUser
+				starUser {
+					_id
+				}
 				creator {
 					_id
 					username
