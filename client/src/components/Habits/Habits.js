@@ -3,8 +3,8 @@ import { Query } from "react-apollo";
 import { GET_ALL_HABITS } from "./../../queries";
 import HabitList from "./HabitList";
 
-import Loader from "../shered/Loader";
-import { Grid, Segment, Header, Comment } from "semantic-ui-react";
+import { InitialLoader } from "../shered/Loader";
+import { Grid, Header, Comment, Segment } from "semantic-ui-react";
 
 const Habits = () => {
 	const onLoadMore = (habits, fetchMore) => {
@@ -28,16 +28,16 @@ const Habits = () => {
 		});
 	};
 	return (
-		<Grid textAlign="center">
-			<Grid.Column style={{ minWidth: "350px" }} width={8} textAlign="center">
+		<Grid textAlign="center" centered>
+			<Grid.Column style={{ minWidth: "350px" }} width={12}>
 				<Query query={GET_ALL_HABITS} variables={{ offset: 0, limit: 5 }}>
 					{({ data, fetchMore, loading }) => {
-						if (loading) return <Loader />;
+						if (loading) return <InitialLoader />;
 						const { habits, pageInfo } = data.getAllHabits;
 						return (
 							<Segment>
 								<Comment.Group>
-									<Header as="h3" dividing>
+									<Header as="h3" dividing textAlign="center">
 										新着習慣一覧
 									</Header>
 									<HabitList
