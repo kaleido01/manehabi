@@ -5,7 +5,7 @@ import { Label, Icon } from "semantic-ui-react";
 import "./Habits.css";
 import { Mutation } from "react-apollo";
 import { STAR_HABIT, UNSTAR_HABIT } from "./../../queries/index";
-import Loader from "../shered/Loader";
+import { isNull } from "util";
 
 const StarLabel = ({ habit }) => {
 	const [stared, setStar] = useState(false);
@@ -39,23 +39,35 @@ const StarLabel = ({ habit }) => {
 	return (
 		<Mutation mutation={UNSTAR_HABIT} variables={{ _id: habit._id }}>
 			{(unStarHabit, { data, loading, error }) => {
-				if (loading) return null;
+				let message = null;
+				if (loading) {
+					message = " 取り消し中...";
+				}
 				return (
 					<Mutation mutation={STAR_HABIT} variables={{ _id: habit._id }}>
 						{(starHabit, { data, loading, error }) => {
-							if (loading) return null;
+							if (loading) {
+								message = "追加中";
+							}
 							return (
 								<Label
 									as="a"
 									onClick={() => handleClick(starHabit, unStarHabit)}
 									color="purple"
 									ribbon="right">
-									<Icon
-										name={stared ? "star" : "star outline"}
-										color={stared ? "yellow" : "black"}
-									/>{" "}
-									{starLength}
-									{stared ? "お気に入りの解除" : "お気に入りに追加"}
+									<Label.Detail>
+										<Icon
+											name={stared ? "star" : "star outline"}
+											color={stared ? "yellow" : null}
+											loading={message && true}
+										/>{" "}
+										{starLength}
+										{message
+											? message
+											: stared
+											? " お気に入りの解除"
+											: " お気に入りに追加"}
+									</Label.Detail>
 								</Label>
 							);
 						}}

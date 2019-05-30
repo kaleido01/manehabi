@@ -31,8 +31,9 @@ const Habits = () => {
 		<Grid textAlign="center" centered>
 			<Grid.Column style={{ minWidth: "350px" }} width={12}>
 				<Query query={GET_ALL_HABITS} variables={{ offset: 0, limit: 5 }}>
-					{({ data, fetchMore, loading }) => {
+					{({ data, fetchMore, loading, error }) => {
 						if (loading) return <InitialLoader />;
+						if (error) return console.log(error);
 						const { habits, pageInfo } = data.getAllHabits;
 						return (
 							<Segment>
