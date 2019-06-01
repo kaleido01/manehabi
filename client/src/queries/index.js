@@ -109,6 +109,9 @@ export const GET_HABIT = gql`
 			description
 			countDate
 			startDate
+			starUser {
+				_id
+			}
 			creator {
 				_id
 				username

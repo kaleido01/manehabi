@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Comment, Segment, Button, Label } from "semantic-ui-react";
+import { Comment, Segment, Button } from "semantic-ui-react";
 import "./Habits.css";
 import { UserContext } from "./../../index";
 import DeleteHabitModal from "./DeleteHabitModal";
