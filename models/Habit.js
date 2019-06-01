@@ -13,20 +13,20 @@ const HabitSchema = new Schema({
 		required: true
 	},
 	createdAt: {
-		type: String,
-		default: () => moment().format("YYYY-MM-DD")
+		type: Date,
+		default: Date.now
 	},
 	startDate: {
-		type: String,
-		default: () => moment().format("YYYY-MM-DD")
+		type: Date,
+		default: Date.now
 	},
 	limitDate: {
-		type: String,
+		type: Date,
 		default: () =>
 			moment()
 				.add(1, "days")
 				.endOf("day")
-				.format()
+				.toDate()
 	},
 	countDate: {
 		type: Number,
@@ -35,6 +35,10 @@ const HabitSchema = new Schema({
 	numberOfFailure: {
 		type: Number,
 		default: 0
+	},
+	recode: {
+		type: [Schema.Types.ObjectId],
+		ref: "HabitRecode"
 	},
 	creator: {
 		type: Schema.Types.ObjectId,

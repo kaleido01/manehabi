@@ -6,13 +6,16 @@ const options = {
 	title: {
 		text: "Stacked column chart"
 	},
+	subtitle: {
+		text: "aaaa"
+	},
 	xAxis: {
-		categories: ["Apples", "Oranges", "Pears", "Grapes", "Bananas"]
+		categories: ["7日前", "6日前", "5日前", "4日前", "3日前", "2日前", "1日前"]
 	},
 	yAxis: {
 		min: 0,
 		title: {
-			text: "Total fruit consumption"
+			text: "積み上げ分数"
 		},
 		stackLabels: {
 			enabled: true
@@ -39,16 +42,12 @@ const options = {
 	},
 	series: [
 		{
-			name: "John",
-			data: [5, 3, 4, 7, 2]
+			name: "今日",
+			data: [5, 3, 4, 7, 11, 1, 2]
 		},
 		{
-			name: "Jane",
-			data: [2, 2, 3, 2, 1]
-		},
-		{
-			name: "Joe",
-			data: [3, 4, 4, 2, 5]
+			name: "合計",
+			data: [2, 10, 15, 18, 20, 22, 25]
 		}
 	]
 };

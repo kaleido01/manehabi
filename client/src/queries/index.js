@@ -58,6 +58,7 @@ export const GET_ALL_HABITS = gql`
 				description
 				countDate
 				startDate
+				limitDate
 				starUser {
 					_id
 				}
@@ -84,6 +85,7 @@ export const GET_USER_HABITS = gql`
 				description
 				countDate
 				startDate
+				limitDate
 				starUser {
 					_id
 				}
@@ -109,6 +111,8 @@ export const GET_HABIT = gql`
 			description
 			countDate
 			startDate
+			limitDate
+			createdAt
 			starUser {
 				_id
 			}
@@ -125,6 +129,15 @@ export const CREATE_USER = gql`
 	mutation createUser($username: String!, $email: String!, $password: String!) {
 		createUser(username: $username, email: $email, password: $password) {
 			token
+		}
+	}
+`;
+
+export const UPDATE_RECODE = gql`
+	mutation updateRecode($_id: ID!, $today: Int!) {
+		updateRecode(_id: $_id, today: $today) {
+			today
+			total
 		}
 	}
 `;
