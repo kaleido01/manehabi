@@ -69,8 +69,12 @@ module.exports = {
 				model: "User"
 			});
 			return habit;
+		},
+		getHabitRecord: async (root, { _id, type }, ctx) => {
+			const habit = await Habit.findById();
 		}
 	},
+
 	Mutation: {
 		createHabit: async (root, { title, description }, { currentUser }) => {
 			const user = await User.findOne({ email: currentUser.email });
@@ -119,10 +123,8 @@ module.exports = {
 
 				.exec();
 
-			console.log(habit.record);
-
 			if (String(user._id) !== String(habit.creator._id)) {
-				return new Error("作成者が異なるので削除できません");
+				return new Error("作成者が異なるので更新できません");
 			}
 			let beforeTotal = 0;
 
@@ -138,7 +140,8 @@ module.exports = {
 				date: Date.now(),
 				total: beforeTotal + today,
 				today,
-				before: beforeId
+				before: beforeId,
+				habitId: _id
 			});
 
 			await record.save();

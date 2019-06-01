@@ -19,6 +19,11 @@ const HabitRecordSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		default: null,
 		ref: "HabitRecord"
+	},
+	habitId: {
+		type: Schema.Types.ObjectId,
+		ref: "Habit",
+		required: true
 	}
 });
 

@@ -21,18 +21,19 @@ type Habit{
   createdAt:String,
   startDate:String,
   limitDate:String,
-  recode:[HabitRecode]
+  record:[HabitRecord]
   countDate:Int,
   numberOfFailure:Int,
   creator:User
   starUser:[User]
 }
 
-type HabitRecode{
+type HabitRecord{
   _id:ID,
   date:String,
   total:Int,
   today:Int,
+  habitId:ID
 }
 
 type Token{
@@ -55,7 +56,7 @@ type Query{
   getAllHabits(offset:Int,limit:Int):HabitAndPageInfo
   getUserHabits(offset:Int,limit:Int):HabitAndPageInfo
   getHabit(_id:ID!):Habit
-  getHabitData(_id:ID!,type:String!):[HabitRecode]
+  getHabitRecord(_id:ID!,type:String!):[HabitRecord]
 }
 
 
@@ -66,7 +67,7 @@ type Mutation{
   createUser(username:String!,email:String!,password:String!):Token
   starHabit(_id:ID!):Habit
   unStarHabit(_id:ID!):Habit
-  updateHabit(_id:ID!,today:Int!):HabitRecode
+  updateHabit(_id:ID!,today:Int!):HabitRecord
   login(email:String!,password:String!):Token
 
 }
