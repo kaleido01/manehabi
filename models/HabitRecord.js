@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const HabitRecodeSchema = new Schema({
+const HabitRecordSchema = new Schema({
 	date: {
 		type: Date,
 		default: Date.now
@@ -14,7 +14,12 @@ const HabitRecodeSchema = new Schema({
 	today: {
 		type: Number,
 		required: true
+	},
+	before: {
+		type: Schema.Types.ObjectId,
+		default: null,
+		ref: "HabitRecord"
 	}
 });
 
-module.exports = mongoose.model("HabitRecode", HabitRecodeSchema);
+module.exports = mongoose.model("HabitRecord", HabitRecordSchema);

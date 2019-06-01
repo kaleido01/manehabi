@@ -5,6 +5,7 @@ import "./Habits.css";
 import { UserContext } from "./../../index";
 import DeleteHabitModal from "./DeleteHabitModal";
 import StarLabel from "./StarLabel";
+import UpdateHabitModal from "./updateHabitModal";
 
 const Habit = ({ habit, match }) => {
 	const [open, setOpen] = useState(false);
@@ -41,7 +42,9 @@ const Habit = ({ habit, match }) => {
 							</Link>
 							{isMyHabit ? (
 								<Fragment>
-									<Button color="olive">更新</Button>
+									<Button color="olive" onClick={openModal}>
+										更新
+									</Button>
 									<Button color="red" onClick={openModal}>
 										削除
 									</Button>
@@ -52,7 +55,10 @@ const Habit = ({ habit, match }) => {
 				</Segment>
 			</Segment.Group>
 			{isMyHabit ? (
-				<DeleteHabitModal open={open} habit={habit} closeModal={closeModal} />
+				<Fragment>
+					<DeleteHabitModal open={open} habit={habit} closeModal={closeModal} />
+					<UpdateHabitModal open={open} habit={habit} closeModal={closeModal} />
+				</Fragment>
 			) : null}
 		</Fragment>
 	);

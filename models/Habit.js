@@ -36,9 +36,10 @@ const HabitSchema = new Schema({
 		type: Number,
 		default: 0
 	},
-	recode: {
+	record: {
 		type: [Schema.Types.ObjectId],
-		ref: "HabitRecode"
+		ref: "HabitRecord",
+		default: []
 	},
 	creator: {
 		type: Schema.Types.ObjectId,

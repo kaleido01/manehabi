@@ -16,6 +16,15 @@ export const DELETE_HABIT = gql`
 	}
 `;
 
+export const UPDATE_HABIT = gql`
+	mutation updateHabit($_id: ID!, $today: Int!) {
+		updateHabit(_id: $_id, today: $today) {
+			today
+			total
+		}
+	}
+`;
+
 export const STAR_HABIT = gql`
 	mutation starHabit($_id: ID!) {
 		starHabit(_id: $_id) {
@@ -129,15 +138,6 @@ export const CREATE_USER = gql`
 	mutation createUser($username: String!, $email: String!, $password: String!) {
 		createUser(username: $username, email: $email, password: $password) {
 			token
-		}
-	}
-`;
-
-export const UPDATE_RECODE = gql`
-	mutation updateRecode($_id: ID!, $today: Int!) {
-		updateRecode(_id: $_id, today: $today) {
-			today
-			total
 		}
 	}
 `;

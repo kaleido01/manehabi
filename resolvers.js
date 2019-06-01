@@ -1,5 +1,6 @@
 const Habit = require("./models/Habit");
 const User = require("./models/User");
+const HabitRecord = require("./models/HabitRecord");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = require("./config/keys").secret;
@@ -102,6 +103,54 @@ module.exports = {
 			const deleteHabit = await Habit.findByIdAndDelete(_id);
 			console.log(deleteHabit);
 			return deleteHabit;
+		},
+		updateHabit: async (root, { _id, today }, { currentUser }) => {
+			const user = await User.findOne({ email: currentUser.email });
+			const habit = await Habit.findById(_id)
+				.populate({
+					path: "record",
+					model: "HabitRecord",
+					options: { sort: { date: -1 } }
+				})
+				.populate({
+					path: "creator",
+					model: "User"
+				})
+
+				.exec();
+
+			console.log(habit.record);
+
+			if (String(user._id) !== String(habit.creator._id)) {
+				return new Error("作成者が異なるので削除できません");
+			}
+			let beforeTotal = 0;
+
+			let beforeId = null;
+
+			if (habit.record.length !== 0) {
+				let { _id, total } = habit.record[0];
+				beforeId = _id;
+				beforeTotal = total;
+			}
+
+			const record = new HabitRecord({
+				date: Date.now(),
+				total: beforeTotal + today,
+				today,
+				before: beforeId
+			});
+
+			await record.save();
+
+			if (!habit.record) {
+				habit.record = [record._id];
+			} else {
+				habit.record.push(record._id);
+			}
+			await habit.save();
+
+			return record;
 		},
 		starHabit: async (root, { _id }, { currentUser }) => {
 			if (!currentUser) {
