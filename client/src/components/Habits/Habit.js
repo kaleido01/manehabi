@@ -28,8 +28,8 @@ const Habit = ({ habit, match }) => {
 					<StarLabel habit={habit} />
 				</Segment>
 
-				<Segment attached="bottom" textAlign="center">
-					<Comment className="Habit">
+				<Segment className="Habit" attached="bottom" textAlign="center">
+					<Comment>
 						<Comment.Avatar src={habit.creator.imageUrl} />
 						<Comment.Content>
 							<Comment.Author>{habit.creator.username}</Comment.Author>

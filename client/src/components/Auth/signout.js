@@ -9,12 +9,15 @@ const handleLogout = (client, history) => {
 	history.push("/signin");
 };
 
-const Signout = ({ history }) => {
+const Signout = ({ history, color, inverted }) => {
 	return (
 		<ApolloConsumer>
 			{client => {
 				return (
-					<Button color="purple" onClick={() => handleLogout(client, history)}>
+					<Button
+						color={color ? color : "purple"}
+						inverted={inverted}
+						onClick={() => handleLogout(client, history)}>
 						Logout
 					</Button>
 				);
