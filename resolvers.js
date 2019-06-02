@@ -80,7 +80,9 @@ module.exports = {
 				habitId: _id,
 				date: { $gte: startDate }
 				// options: { sort: { date: -1 } }
-			}).limit(limit);
+			})
+				.limit(limit)
+				.sort({ date: 1 });
 
 			return habitRecords;
 		}
@@ -147,22 +149,43 @@ module.exports = {
 				beforeTotal = total;
 			}
 
-			const record = new HabitRecord({
-				date: Date.now(),
-				total: beforeTotal + today,
-				today,
-				before: beforeId,
-				habitId: _id
-			});
+			for (let index = 0; index < 100; index++) {
+				const record = new HabitRecord({
+					date: moment()
+						.add(-index, "days")
+						.toDate(),
+					total: beforeTotal + today + index,
+					today: today + index,
+					before: beforeId,
+					habitId: _id
+				});
 
-			await record.save();
+				await record.save();
 
-			if (!habit.record) {
-				habit.record = [record._id];
-			} else {
-				habit.record.push(record._id);
+				if (!habit.record) {
+					habit.record = [record._id];
+				} else {
+					habit.record.push(record._id);
+				}
+				await habit.save();
 			}
-			await habit.save();
+
+			// const record = new HabitRecord({
+			// 	date: Date.now(),
+			// 	total: beforeTotal + today,
+			// 	today,
+			// 	before: beforeId,
+			// 	habitId: _id
+			// });
+
+			// await record.save();
+
+			// if (!habit.record) {
+			// 	habit.record = [record._id];
+			// } else {
+			// 	habit.record.push(record._id);
+			// }
+			// await habit.save();
 
 			return record;
 		},

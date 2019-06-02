@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { withRouter } from "react-router-dom";
@@ -14,19 +14,19 @@ Highcharts.setOptions(HighchartsTheme);
 
 const Options = [
 	{
-		key: "days",
-		text: "days",
-		value: "days"
+		key: 1,
+		text: "過去7日間",
+		value: 7
 	},
 	{
-		key: "weeks",
-		text: "weeks",
-		value: "weeks"
+		key: 2,
+		text: "過去28日間",
+		value: 28
 	},
 	{
-		key: "months",
-		text: "months",
-		value: "months"
+		key: 3,
+		text: "過去3か月間",
+		value: 90
 	}
 ];
 
@@ -34,7 +34,7 @@ const fromDateObjectToMoment = value => {
 	return moment(value).format("MM月DD日");
 };
 
-const createGraphData = habitRecords => {
+const createGraphData = (habitRecords, maxDays) => {
 	const data = {};
 
 	data.categories = habitRecords.map(record => {
@@ -53,14 +53,10 @@ const createGraphData = habitRecords => {
 
 const HabitDescription = ({ match }) => {
 	const { _id } = match.params;
+	const [days, setDays] = useState(7);
 
-	const handleRecords = getHabitRecords => {
-		getHabitRecords()
-			.then(result => {
-				console.log(result);
-			})
-			.catch(err => {});
-	};
+	console.log(days);
+
 	return (
 		<Query query={GET_HABIT} variables={{ _id }}>
 			{({ data, loading, error }) => {
@@ -100,16 +96,16 @@ const HabitDescription = ({ match }) => {
 							</Comment>
 						</Segment>
 						<Dropdown
-							placeholder="Select Friend"
-							fluid
 							selection
+							onChange={(event, { value }) => setDays(value)}
 							options={Options}
+							value={days}
 						/>
-						<Query query={GET_HABIT_RECORDS} variables={{ _id, limit: 7 }}>
+						<Query query={GET_HABIT_RECORDS} variables={{ _id, limit: days }}>
 							{({ data, loading }) => {
 								if (loading) return <div>loading</div>;
 								const { getHabitRecords } = data;
-								const optionData = createGraphData(getHabitRecords);
+								const optionData = createGraphData(getHabitRecords, days);
 								console.log(optionData);
 								return (
 									<HighchartsReact
