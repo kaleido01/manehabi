@@ -72,7 +72,6 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 										type="number"
 										min={0}
 									/>
-
 									<Button
 										disabled={loading}
 										className={loading ? "loading" : ""}

@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = require("./config/keys").secret;
 const md5 = require("md5");
+const moment = require("moment");
 
 const createToken = (user, secret, expiresIn) => {
 	const { username, email } = user;
@@ -70,8 +71,18 @@ module.exports = {
 			});
 			return habit;
 		},
-		getHabitRecord: async (root, { _id, type }, ctx) => {
-			const habit = await Habit.findById();
+		getHabitRecords: async (root, { _id, limit }, ctx) => {
+			const startDate = moment()
+				.add(-limit + 1, "days")
+				.startOf("days")
+				.toDate();
+			const habitRecords = await HabitRecord.find({
+				habitId: _id,
+				date: { $gte: startDate }
+				// options: { sort: { date: -1 } }
+			}).limit(limit);
+
+			return habitRecords;
 		}
 	},
 

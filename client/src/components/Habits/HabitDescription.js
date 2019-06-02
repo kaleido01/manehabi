@@ -3,8 +3,8 @@ import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { withRouter } from "react-router-dom";
 import { Query } from "react-apollo";
-import { GET_HABIT } from "../../queries";
-import { Segment, Comment, Dropdown } from "semantic-ui-react";
+import { GET_HABIT, GET_HABIT_RECORDS } from "../../queries";
+import { Segment, Comment, Dropdown, Button } from "semantic-ui-react";
 import Loader from "./../shered/Loader";
 import HighchartsTheme from "./Highcharts/HighchartsTheme";
 import options from "./Highcharts/options";
@@ -31,31 +31,36 @@ const Options = [
 ];
 
 const fromDateObjectToMoment = value => {
-	return moment(value).format("YYYY-MM-DD");
+	return moment(value).format("MM月DD日");
 };
 
-// const createData =(data)=> {
-// const {title,}
-// 	title: "pikumin",
-// 	subtitle: "pikumin",
-// 	series: [
-// 		{
-// 			name: "John",
-// 			data: [5, 3, 4, 7, 2]
-// 		},
-// 		{
-// 			name: "Jane",
-// 			data: [2, 2, 3, 2, 1]
-// 		},
-// 		{
-// 			name: "Joe",
-// 			data: [3, 4, 4, 2, 5]
-// 		}
-// 	]
-// };
+const createGraphData = habitRecords => {
+	const data = {};
+
+	data.categories = habitRecords.map(record => {
+		return fromDateObjectToMoment(+record.date);
+	});
+
+	data.firstData = habitRecords.map(record => {
+		return record.today;
+	});
+	data.secondData = habitRecords.map(record => {
+		return record.total - record.today;
+	});
+
+	return data;
+};
 
 const HabitDescription = ({ match }) => {
 	const { _id } = match.params;
+
+	const handleRecords = getHabitRecords => {
+		getHabitRecords()
+			.then(result => {
+				console.log(result);
+			})
+			.catch(err => {});
+	};
 	return (
 		<Query query={GET_HABIT} variables={{ _id }}>
 			{({ data, loading, error }) => {
@@ -100,7 +105,20 @@ const HabitDescription = ({ match }) => {
 							selection
 							options={Options}
 						/>
-						<HighchartsReact highcharts={Highcharts} options={options} />
+						<Query query={GET_HABIT_RECORDS} variables={{ _id, limit: 7 }}>
+							{({ data, loading }) => {
+								if (loading) return <div>loading</div>;
+								const { getHabitRecords } = data;
+								const optionData = createGraphData(getHabitRecords);
+								console.log(optionData);
+								return (
+									<HighchartsReact
+										highcharts={Highcharts}
+										options={options(optionData)}
+									/>
+								);
+							}}
+						</Query>
 					</React.Fragment>
 					//TODO:userCommentsの実装
 				);
