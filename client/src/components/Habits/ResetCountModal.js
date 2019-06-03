@@ -1,14 +1,13 @@
 import React from "react";
 import { Modal, Button, Icon } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
-import { RESET_COUNT, GET_USER_HABITS } from "../../queries";
+import { RESET_COUNT } from "../../queries";
 import Loader from "./../shered/Loader";
 
 const ResetCountModal = ({ closeModal, habit, open }) => {
 	const handleResetCount = (resetCount, closeModal) => {
 		resetCount()
 			.then(data => {
-				console.log(data);
 				closeModal();
 			})
 			.catch(err => {

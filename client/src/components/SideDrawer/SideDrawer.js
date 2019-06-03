@@ -1,6 +1,6 @@
 import React, { useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Sidebar, Menu, Icon, Button, Segment } from "semantic-ui-react";
+import { Sidebar, Menu, Icon, Button } from "semantic-ui-react";
 import Signout from "../Auth/Signout";
 import "./SideDrawer.css";
 import { UserContext } from "./../../index";

@@ -21,7 +21,6 @@ const StarLabel = ({ habit, history }) => {
 
 	const handleClick = (starHabit, unStarHabit) => {
 		if (!currentUser) {
-			console.log(history.push);
 			history.push("/signin");
 		}
 		if (stared) {

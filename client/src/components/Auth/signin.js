@@ -63,7 +63,6 @@ class Signin extends React.Component {
 		event.preventDefault();
 		if (this.isFormValid()) {
 			createUser().then(async ({ data }) => {
-				console.log(data);
 				this.setState({ errors: [] });
 				localStorage.setItem("token", data.login.token);
 				await this.props.refetch();

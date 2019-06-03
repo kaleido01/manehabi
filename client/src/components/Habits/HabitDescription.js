@@ -46,9 +46,9 @@ const Options = [
 	}
 ];
 
-const fromDateObjectToMoment = value => {
-	return moment(value).format("MM月DD日");
-};
+// const fromDateObjectToMoment = value => {
+// 	return moment(value).format("MM月DD日");
+// };
 
 const createGraphData = (habitRecords, maxDays, unit = "分") => {
 	const data = {};
@@ -59,7 +59,6 @@ const createGraphData = (habitRecords, maxDays, unit = "分") => {
 	data.yTitle = unit;
 
 	let count = 0;
-	console.log(habitRecords);
 	for (let j = 0; j < maxDays; j++) {
 		const recordDay = moment(+habitRecords[count].date).format("YYYY-MM-DD");
 		const today = habitRecords[count].today;
@@ -68,8 +67,6 @@ const createGraphData = (habitRecords, maxDays, unit = "分") => {
 			.add(-maxDays + j + 1, "days")
 			.format("YYYY-MM-DD");
 		categories.push(day);
-		console.log(recordDay, day);
-		console.log(String(recordDay) === String(day));
 		if (String(recordDay) === String(day)) {
 			firstData.push(today);
 			secondData.push(total - today);
@@ -101,8 +98,6 @@ const createGraphData = (habitRecords, maxDays, unit = "分") => {
 const HabitDescription = ({ match }) => {
 	const { _id } = match.params;
 	const [days, setDays] = useState(7);
-
-	console.log(days);
 
 	return (
 		<Query query={GET_HABIT} variables={{ _id }}>
@@ -218,7 +213,6 @@ const HabitDescription = ({ match }) => {
 												days
 											);
 											optionData.title = getHabit.title;
-											console.log(optionData);
 											return (
 												<HighchartsReact
 													highcharts={Highcharts}
@@ -250,7 +244,6 @@ const HabitDescription = ({ match }) => {
 										);
 										optionData.title = getHabit.title;
 
-										console.log(optionData);
 										return (
 											<HighchartsReact
 												highcharts={Highcharts}

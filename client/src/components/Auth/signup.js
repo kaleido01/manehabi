@@ -72,7 +72,6 @@ class Signup extends React.Component {
 		event.preventDefault();
 		if (this.isFormValid()) {
 			createUser().then(async ({ data }) => {
-				console.log(data);
 				localStorage.setItem("token", data.createUser.token);
 				await this.props.refetch();
 

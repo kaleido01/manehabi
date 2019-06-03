@@ -8,7 +8,6 @@ const DeleteHabitModal = ({ closeModal, habit, open }) => {
 	const handleDeleteHabit = (deleteHabit, closeModal) => {
 		deleteHabit()
 			.then(data => {
-				console.log(data);
 				closeModal();
 			})
 			.catch(err => {
@@ -22,12 +21,9 @@ const DeleteHabitModal = ({ closeModal, habit, open }) => {
 			query: GET_USER_HABITS,
 			variables: { offset: 0, limit: 5 }
 		});
-		console.log(data);
-		console.log(deleteHabit);
 		const newHabits = data.getUserHabits.habits.filter(
 			habit => habit._id !== deleteHabit._id
 		);
-		console.log(newHabits);
 		cache.writeQuery({
 			query: GET_USER_HABITS,
 			variables: { offset: 0, limit: 5 },

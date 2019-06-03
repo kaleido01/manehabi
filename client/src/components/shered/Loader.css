@@ -5,6 +5,7 @@
 	border: 3px solid #493cff;
 	overflow: hidden;
 	animation: spin 3s ease infinite;
+	margin: 20em auto;
 }
 
 .initialLoader::before {

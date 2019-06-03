@@ -11,7 +11,6 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 	const handleUpdateHabit = (updateHabit, closeModal) => {
 		updateHabit()
 			.then(data => {
-				console.log(data);
 				closeModal();
 			})
 			.catch(err => {

@@ -27,8 +27,8 @@ const Habit = ({ habit, match }) => {
 				.endOf("days")
 				.toDate();
 
-			// return +updateDate >= startDate && updateDate <= endDate;
-			return false;
+			return +updateDate >= startDate && updateDate <= endDate;
+			// return false;
 		}
 	};
 
@@ -45,7 +45,7 @@ const Habit = ({ habit, match }) => {
 						<Comment.Content>
 							<Comment.Author>{habit.creator.username}</Comment.Author>
 							<Comment.Metadata>
-								<div>{habit.startDate}</div>
+								<div>{moment(+habit.startDate).format("YYYY-MM-DD")}</div>
 							</Comment.Metadata>
 							<Comment.Text>{habit.title}</Comment.Text>
 							<Link to={`/habit/${habit._id}`}>

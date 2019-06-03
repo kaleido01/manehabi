@@ -35,7 +35,6 @@ export class CreateHabit extends Component {
 		event.preventDefault();
 		if (this.isFormValid()) {
 			createHabit().then(async ({ data }) => {
-				console.log(data);
 				this.setState({ errors: [] });
 			});
 		}

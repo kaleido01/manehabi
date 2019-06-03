@@ -1,5 +1,4 @@
 import React from "react";
-import { Dimmer } from "semantic-ui-react";
 import { css } from "@emotion/core";
 import { HashLoader, PacmanLoader } from "react-spinners";
 import "./Loader.css";

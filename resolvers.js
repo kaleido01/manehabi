@@ -34,7 +34,8 @@ module.exports = {
 				.populate({
 					path: "creator",
 					model: "User"
-				});
+				})
+				.sort({ createdAt: -1 });
 
 			const count = await Habit.countDocuments();
 			const pageInfo = {
