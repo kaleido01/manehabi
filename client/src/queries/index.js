@@ -105,6 +105,9 @@ export const GET_USER_HABITS = gql`
 				countDate
 				startDate
 				limitDate
+				unit
+				isTimeRecord
+				updateDate
 				starUser {
 					_id
 				}
@@ -133,6 +136,9 @@ export const GET_HABIT = gql`
 			limitDate
 			createdAt
 			numberOfFailure
+			unit
+			isTimeRecord
+			updateDate
 			starUser {
 				_id
 			}

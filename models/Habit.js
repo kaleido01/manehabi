@@ -20,6 +20,10 @@ const HabitSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	updateDate: {
+		type: Date,
+		default: null
+	},
 	limitDate: {
 		type: Date,
 		default: () =>

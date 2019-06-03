@@ -6,6 +6,7 @@ import Loader from "./../shered/Loader";
 
 const UpdateHabitModal = ({ closeModal, habit, open }) => {
 	const [time, setTime] = useState("");
+	const [item, setItem] = useState("");
 
 	const handleUpdateHabit = (updateHabit, closeModal) => {
 		updateHabit()
@@ -56,22 +57,36 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 					<Modal basic open={open} onClose={closeModal}>
 						<Modal.Header>{habit.title}の更新</Modal.Header>
 						<Modal.Content>
-							{habit.title}の積み上げ時間を記入しましょう！
+							{habit.title}の積み上げを更新しましょう！
 							<Form
 								size="large"
 								onSubmit={event => handleUpdateHabit(updateHabit, closeModal)}>
 								<Segment stacked>
+									{habit.isTimeRecord ? (
+										<Form.Input
+											fluid
+											name="time"
+											icon="time"
+											iconPosition="left"
+											placeholder="今日の積み上げ時間"
+											onChange={event => setTime(event.target.value)}
+											value={time}
+											type="number"
+											min={0}
+										/>
+									) : null}
 									<Form.Input
 										fluid
-										name="time"
-										icon="time"
+										name="item"
+										icon="tag"
 										iconPosition="left"
-										placeholder="今日の積み上げ時間"
-										onChange={event => setTime(event.target.value)}
-										value={time}
+										placeholder={`今日の積み上げ${habit.unit}数`}
+										onChange={event => setItem(event.target.value)}
+										value={item}
 										type="number"
 										min={0}
 									/>
+
 									<Button
 										disabled={loading}
 										className={loading ? "loading" : ""}
