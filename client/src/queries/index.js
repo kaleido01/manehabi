@@ -122,6 +122,7 @@ export const GET_HABIT = gql`
 			startDate
 			limitDate
 			createdAt
+			numberOfFailure
 			starUser {
 				_id
 			}
@@ -129,6 +130,7 @@ export const GET_HABIT = gql`
 				_id
 				username
 				imageUrl
+				joinDate
 			}
 		}
 	}
