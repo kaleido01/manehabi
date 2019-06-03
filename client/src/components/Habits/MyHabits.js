@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import { Query } from "react-apollo";
 import { Grid, Segment, Header, Comment } from "semantic-ui-react";
 import { GET_USER_HABITS } from "./../../queries";
@@ -6,8 +7,14 @@ import Loader from "./../shered/Loader";
 import HabitList from "./HabitList";
 import { UserContext } from "./../../index";
 
-const MyHabits = () => {
+const MyHabits = ({ history }) => {
 	const currentUser = useContext(UserContext);
+
+	useEffect(() => {
+		if (!currentUser) {
+			history.push("login");
+		}
+	}, []);
 	const onLoadMore = (habits, fetchMore) => {
 		fetchMore({
 			variables: {
@@ -59,4 +66,4 @@ const MyHabits = () => {
 	);
 };
 
-export default MyHabits;
+export default withRouter(MyHabits);

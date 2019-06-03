@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { withRouter } from "react-router-dom";
 import { UserContext } from "../../";
 
 import { Label, Icon } from "semantic-ui-react";
@@ -6,7 +7,7 @@ import "./Habits.css";
 import { Mutation } from "react-apollo";
 import { STAR_HABIT, UNSTAR_HABIT } from "./../../queries/index";
 
-const StarLabel = ({ habit }) => {
+const StarLabel = ({ habit, history }) => {
 	const [stared, setStar] = useState(false);
 	const [starLength, setStarLength] = useState(habit.starUser.length);
 	const currentUser = useContext(UserContext);
@@ -19,6 +20,10 @@ const StarLabel = ({ habit }) => {
 	}, []);
 
 	const handleClick = (starHabit, unStarHabit) => {
+		if (!currentUser) {
+			console.log(history.push);
+			history.push("/signin");
+		}
 		if (stared) {
 			unStarHabit().then(({ data }) => {
 				setStar(!stared);
@@ -74,4 +79,4 @@ const StarLabel = ({ habit }) => {
 	);
 };
 
-export default StarLabel;
+export default withRouter(StarLabel);
