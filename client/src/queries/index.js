@@ -27,8 +27,8 @@ export const DELETE_HABIT = gql`
 `;
 
 export const UPDATE_HABIT = gql`
-	mutation updateHabit($_id: ID!, $today: Int!) {
-		updateHabit(_id: $_id, today: $today) {
+	mutation updateHabit($_id: ID!, $today: Int!, $todayTime: Int) {
+		updateHabit(_id: $_id, today: $today, todayTime: $todayTime) {
 			today
 			total
 		}

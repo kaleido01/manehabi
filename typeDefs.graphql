@@ -28,6 +28,7 @@ type Habit{
   creator:User
   unit:String
 	isTimeRecord:Boolean
+  timeRecord:[HabitRecord]
   starUser:[User]
 }
 
@@ -70,7 +71,7 @@ type Mutation{
   createUser(username:String!,email:String!,password:String!):Token
   starHabit(_id:ID!):Habit
   unStarHabit(_id:ID!):Habit
-  updateHabit(_id:ID!,today:Int!):HabitRecord
+  updateHabit(_id:ID!,today:Int!,todayTime:Int):[HabitRecord]
   login(email:String!,password:String!):Token
 
 }

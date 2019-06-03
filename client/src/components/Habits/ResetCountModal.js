@@ -4,7 +4,7 @@ import { Mutation } from "react-apollo";
 import { DELETE_HABIT, GET_USER_HABITS } from "../../queries";
 import Loader from "./../shered/Loader";
 
-const DeleteHabitModal = ({ closeModal, habit, open }) => {
+const ResetCountModal = ({ closeModal, habit, open }) => {
 	const handleDeleteHabit = (deleteHabit, closeModal) => {
 		deleteHabit()
 			.then(data => {
@@ -73,4 +73,4 @@ const DeleteHabitModal = ({ closeModal, habit, open }) => {
 	);
 };
 
-export default DeleteHabitModal;
+export default ResetCountModal;

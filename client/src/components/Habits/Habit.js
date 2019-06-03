@@ -3,16 +3,16 @@ import { Link, withRouter } from "react-router-dom";
 import { Comment, Segment, Button } from "semantic-ui-react";
 import "./Habits.css";
 import { UserContext } from "./../../index";
-import DeleteHabitModal from "./DeleteHabitModal";
 import StarLabel from "./StarLabel";
-import UpdateHabitModal from "./updateHabitModal";
+import DeleteHabitModal from "./DeleteHabitModal";
+import UpdateHabitModal from "./UpdateHabitModal";
+import ResetCountModal from "./ResetCountModal";
 import moment from "moment";
-import { AnimationFrameScheduler } from "rxjs/internal/scheduler/AnimationFrameScheduler";
-import { convertNodeHttpToRequest } from "apollo-server-core";
 
 const Habit = ({ habit, match }) => {
 	const [updateOpen, setUpdateOpen] = useState(false);
 	const [deleteOpen, setDeleteOpen] = useState(false);
+	const [resetOpen, setResetOpen] = useState(false);
 	const currentUser = useContext(UserContext);
 	const myHabit = currentUser && currentUser._id === habit.creator._id;
 	const isMyHabit = match.path === "/myhabits";
@@ -27,7 +27,8 @@ const Habit = ({ habit, match }) => {
 				.endOf("days")
 				.toDate();
 
-			return +updateDate >= startDate && updateDate <= endDate;
+			// return +updateDate >= startDate && updateDate <= endDate;
+			return false;
 		}
 	};
 
@@ -58,10 +59,11 @@ const Habit = ({ habit, match }) => {
 										disabled={checkDisable(habit)}>
 										{checkDisable(habit) ? "更新済み" : "更新"}
 									</Button>
-									<Button
-										color="red"
-										onClick={() => setDeleteOpen(convertNodeHttpToRequest)}>
+									<Button color="red" onClick={() => setDeleteOpen(true)}>
 										削除
+									</Button>
+									<Button color="teal" onClick={() => setResetOpen(true)}>
+										継続リセット
 									</Button>
 								</Fragment>
 							) : null}
@@ -79,7 +81,12 @@ const Habit = ({ habit, match }) => {
 					<UpdateHabitModal
 						open={updateOpen}
 						habit={habit}
-						closeModal={() => setUpdateOpen(AnimationFrameScheduler)}
+						closeModal={() => setUpdateOpen(false)}
+					/>
+					<ResetCountModal
+						open={resetOpen}
+						habit={habit}
+						closeModal={() => setResetOpen(false)}
 					/>
 				</Fragment>
 			) : null}

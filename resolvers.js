@@ -127,11 +127,16 @@ module.exports = {
 			console.log(deleteHabit);
 			return deleteHabit;
 		},
-		updateHabit: async (root, { _id, today }, { currentUser }) => {
+		updateHabit: async (root, { _id, today, todayTime }, { currentUser }) => {
 			const user = await User.findOne({ email: currentUser.email });
 			const habit = await Habit.findById(_id)
 				.populate({
 					path: "record",
+					model: "HabitRecord",
+					options: { sort: { date: -1 } }
+				})
+				.populate({
+					path: "timeRecord",
 					model: "HabitRecord",
 					options: { sort: { date: -1 } }
 				})
@@ -145,14 +150,65 @@ module.exports = {
 			if (String(user._id) !== String(habit.creator._id)) {
 				return new Error("作成者が異なるので更新できません");
 			}
+
+			//ここからitemの更新
 			let beforeTotal = 0;
-
 			let beforeId = null;
-
 			if (habit.record.length !== 0) {
 				let { _id, total } = habit.record[0];
 				beforeId = _id;
 				beforeTotal = total;
+			}
+			const record = new HabitRecord({
+				date: Date.now(),
+				total: beforeTotal + today,
+				today,
+				before: beforeId,
+				habitId: _id
+			});
+
+			await record.save();
+
+			if (!habit.record) {
+				habit.record = [record._id];
+			} else {
+				habit.record.push(record._id);
+			}
+			habit.updateDate = Date.now();
+			await habit.save();
+
+			console.log(habit.isTimeRecord);
+
+			let timeRecord = [];
+
+			if (habit.isTimeRecord) {
+				beforeTotal = 0;
+				beforeId = null;
+
+				console.log("timerecored");
+
+				if (habit.timeRecord.length !== 0) {
+					let { _id, total } = habit.timeRecord[0];
+					beforeId = _id;
+					beforeTotal = total;
+				}
+
+				timeRecord = new HabitRecord({
+					date: Date.now(),
+					total: beforeTotal + todayTime,
+					today: todayTime,
+					before: beforeId,
+					habitId: _id
+				});
+				await timeRecord.save();
+
+				if (!habit.timeRecord) {
+					habit.timeRecord = [timeRecord._id];
+				} else {
+					habit.timeRecord.push(timeRecord._id);
+				}
+				habit.updateDate = Date.now();
+				await habit.save();
 			}
 
 			// for (let index = 0; index < 100; index++) {
@@ -176,25 +232,7 @@ module.exports = {
 			// 	await habit.save();
 			// }
 
-			const record = new HabitRecord({
-				date: Date.now(),
-				total: beforeTotal + today,
-				today,
-				before: beforeId,
-				habitId: _id
-			});
-
-			await record.save();
-
-			if (!habit.record) {
-				habit.record = [record._id];
-			} else {
-				habit.record.push(record._id);
-			}
-			habit.updateDate = Date.now();
-			await habit.save();
-
-			return record;
+			return [record, timeRecord];
 		},
 		starHabit: async (root, { _id }, { currentUser }) => {
 			if (!currentUser) {

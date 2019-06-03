@@ -1,15 +1,24 @@
 import React from "react";
+import { Dimmer } from "semantic-ui-react";
 import { css } from "@emotion/core";
-import { HashLoader } from "react-spinners";
+import { HashLoader, PacmanLoader } from "react-spinners";
 import "./Loader.css";
 
 const override = css`
 	display: block;
 	margin: 0 auto;
+	z-index: 10000000;
 `;
 
 const Loader = () => {
 	return <HashLoader color={"#123abc"} size={50} css={override} />;
+};
+export const Pacman = () => {
+	return (
+		<div className="Pacman">
+			<PacmanLoader color={"#123abc"} size={50} css={override} />;
+		</div>
+	);
 };
 
 export const InitialLoader = () => {
