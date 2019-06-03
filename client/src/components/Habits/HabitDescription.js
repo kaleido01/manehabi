@@ -52,19 +52,48 @@ const fromDateObjectToMoment = value => {
 
 const createGraphData = (habitRecords, maxDays, unit = "分") => {
 	const data = {};
+	const categories = [];
+	const firstData = [];
+	const secondData = [];
 
 	data.yTitle = unit;
 
-	data.categories = habitRecords.map(record => {
-		return fromDateObjectToMoment(+record.date);
-	});
+	let count = 0;
+	console.log(habitRecords);
+	for (let j = 0; j < maxDays; j++) {
+		const recordDay = moment(+habitRecords[count].date).format("YYYY-MM-DD");
+		const today = habitRecords[count].today;
+		const total = habitRecords[count].total;
+		const day = moment()
+			.add(-maxDays + j + 1, "days")
+			.format("YYYY-MM-DD");
+		categories.push(day);
+		console.log(recordDay, day);
+		console.log(String(recordDay) === String(day));
+		if (String(recordDay) === String(day)) {
+			firstData.push(today);
+			secondData.push(total - today);
+			count++;
+		} else {
+			firstData.push(0);
+			secondData.push(total - today);
+		}
+	}
 
-	data.firstData = habitRecords.map(record => {
-		return record.today;
-	});
-	data.secondData = habitRecords.map(record => {
-		return record.total - record.today;
-	});
+	data.categories = categories;
+	data.firstData = firstData;
+	data.secondData = secondData;
+
+	// data.categories = habitRecords.map(record => {
+	// 	return fromDateObjectToMoment(+record.date);
+	// });
+
+	// data.firstData = habitRecords.map(record => {
+	// 	return record.today;
+	// });
+	// data.secondData = habitRecords.map(record => {
+	// 	return record.total - record.today;
+	// });
 
 	return data;
 };
