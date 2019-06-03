@@ -131,7 +131,7 @@ const HabitDescription = ({ match }) => {
 										<Divider />
 										<Icon name="play" />
 										習慣を新しく始めた日 :{" "}
-										{moment(+getHabit.createdAt).format("YYYY-MM-DD")}
+										{moment(+getHabit.startDate).format("YYYY-MM-DD")}
 										<Divider />
 										<Icon name="redo" />
 										挫折した回数 : {getHabit.numberOfFailure}

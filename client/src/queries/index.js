@@ -34,6 +34,13 @@ export const UPDATE_HABIT = gql`
 		}
 	}
 `;
+export const RESET_COUNT = gql`
+	mutation resetCount($_id: ID!) {
+		resetCount(_id: $_id) {
+			_id
+		}
+	}
+`;
 
 export const STAR_HABIT = gql`
 	mutation starHabit($_id: ID!) {

@@ -61,9 +61,11 @@ const DeleteHabitModal = ({ closeModal, habit, open }) => {
 								inverted
 								onClick={() => handleDeleteHabit(deleteHabit, closeModal)}>
 								<Icon name="checkmark" />
+								削除
 							</Button>
 							<Button color="orange" inverted onClick={closeModal}>
 								<Icon name="remove" />
+								キャンセル
 							</Button>
 						</Modal.Actions>
 					</Modal>

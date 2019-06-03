@@ -175,17 +175,15 @@ module.exports = {
 				habit.record.push(record._id);
 			}
 			habit.updateDate = Date.now();
-			await habit.save();
+			habit.countDate += 1;
 
-			console.log(habit.isTimeRecord);
+			await habit.save();
 
 			let timeRecord = [];
 
 			if (habit.isTimeRecord) {
 				beforeTotal = 0;
 				beforeId = null;
-
-				console.log("timerecored");
 
 				if (habit.timeRecord.length !== 0) {
 					let { _id, total } = habit.timeRecord[0];
@@ -267,6 +265,29 @@ module.exports = {
 				}
 			});
 			return await Habit.findById(_id);
+		},
+		resetCount: async (root, { _id }, { currentUser }) => {
+			if (!currentUser) {
+				return new Error("Not Authenticated");
+			}
+			const user = await User.findOne({ email: currentUser.email });
+
+			const habit = await Habit.findById(_id).populate({
+				path: "creator",
+				model: "User"
+			});
+
+			if (String(user._id) !== String(habit.creator._id)) {
+				return new Error("作成者が異なるのでリセットできません");
+			}
+
+			habit.countDate = 0;
+			habit.startDate = Date.now();
+			habit.numberOfFailure += 1;
+
+			await habit.save();
+
+			return habit;
 		},
 		createUser: async (root, { username, email, password }, ctx) => {
 			const hashedPw = await bcrypt.hash(password, 12);
