@@ -29,51 +29,45 @@ const Homepage = ({ history }) => {
 						<i className="right arrow icon" />
 					</div>
 				</div>
-				<div className="ui grid stackable" style={{ marginTop: "1.5em" }}>
-					<div className="four wide column">
+				<div
+					className="ui grid centered stackable center"
+					style={{ marginTop: "1.5em" }}>
+					<div className="three wide column">
 						<h2 className="ui center aligned icon header inverted">
 							<i className=" users icon" />
-							Friends
+							仲間とともに
 						</h2>
-						<p>
-							自分一人では習慣が続かない人も周りから応援されていればきっと続く
+						<p className="inverted">
+							自分一人では習慣が続かない人も周りから応援されていればきっと続けられる！
 						</p>
 					</div>
-					<div className="four wide column">
+					<div className="three wide column">
 						<h2 className="ui center aligned icon header inverted">
-							<i className=" users icon" />
+							<i className=" tag icon" />
 							毎日の習慣の積み重ねを可視化
 						</h2>
-						<p>
+						<p className="inverted">
 							習慣は積み重ね方式ならばどのくらい自分がこれまでに努力してきたかが一瞬でわかるのでモチベ維持もしやすい！
 						</p>
 					</div>
-					<div className="four wide column">
+					<div className="three wide column">
 						<h2 className="ui center aligned icon header inverted">
-							<i className=" users icon" />
+							<i className=" search icon" />
 							色んな人の習慣を検索できる
 						</h2>
-						<p>
+						<p className="inverted">
 							人気の習慣に加えて、様々な人の習慣を確認できるので新たな習慣の初めに役立つかも
 						</p>
 					</div>
-					<div className="four wide column">11111</div>
 				</div>
 				<div className="ui divider" />
 				<footer className="author">
 					<p>Manehapi is made by kaleido</p>
 					<ul className="legal">
 						<li>
-							<a href="https://kaleido01.com/">Term of Services</a>
-						</li>
-						<li>
-							<a href="https://kaleido01.com/">Privacy</a>
-						</li>
-						<li>
-							<a href="https://kaleido01.com/">Cookies</a>
-						</li>
-						<li>
-							<a href="https://kaleido01.com/">© 2019 kaleido01.com</a>
+							<a href="https://kaleido01.com/">
+								Copyright © kaleido01 2019～2019 All Rights Reserved
+							</a>
 						</li>
 					</ul>
 				</footer>
