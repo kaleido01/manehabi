@@ -1,0 +1,81 @@
+const { gql } = require("apollo-server");
+
+
+
+module.exports=gql`
+type User{
+  _id:ID
+  username:String!
+	email: String!
+	password:String!
+  imageUrl:String
+	joinDate:String
+	favorites:[Habit]
+	Habits: [Habit]
+}
+
+type Habit{
+  _id:ID,
+  title:String!
+  description:String!
+  createdAt:String,
+  startDate:String,
+  limitDate:String,
+  updateDate:String,
+  record:[HabitRecord]
+  countDate:Int,
+  numberOfFailure:Int,
+  creator:User
+  unit:String
+	isTimeRecord:Boolean
+  timeRecord:[HabitRecord]
+  starUser:[User]
+}
+
+type HabitRecord{
+  _id:ID,
+  date:String,
+  total:Int,
+  today:Int,
+  habitId:ID
+}
+
+type Token{
+  token:String!
+}
+
+type pageInfo{
+  startCursor:Int
+  endCursor:Int
+  hasNextPage:Boolean
+}
+
+type HabitAndPageInfo{
+  pageInfo:pageInfo
+  habits:[Habit]
+}
+
+type Query{
+  getCurrentUser:User
+  getAllHabits(offset:Int,limit:Int):HabitAndPageInfo
+  getUserHabits(offset:Int,limit:Int):HabitAndPageInfo
+  getHabit(_id:ID!):Habit
+  getHabitRecords(_id:ID!,limit:Int!):[HabitRecord]
+  getHabitTimeRecords(_id:ID!,limit:Int!):[HabitRecord]
+}
+
+
+
+type Mutation{
+  createHabit(title:String!,description:String!,unit:String!,isTime:Boolean!):Habit
+  deleteHabit(_id:ID!):Habit
+  resetCount(_id:ID!):Habit
+  createUser(username:String!,email:String!,password:String!):Token
+  starHabit(_id:ID!):Habit
+  unStarHabit(_id:ID!):Habit
+  updateHabit(_id:ID!,today:Int!,todayTime:Int):[HabitRecord]
+  login(email:String!,password:String!):Token
+
+}
+
+`
