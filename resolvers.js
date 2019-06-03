@@ -76,15 +76,50 @@ module.exports = {
 				.add(-limit + 1, "days")
 				.startOf("days")
 				.toDate();
-			const habitRecords = await HabitRecord.find({
-				habitId: _id,
-				date: { $gte: startDate }
-				// options: { sort: { date: -1 } }
-			})
-				.limit(limit)
-				.sort({ date: 1 });
+			// const habitRecords = await HabitRecord.find({
+			// 	habitId: _id,
+			// 	date: { $gte: startDate }
+			// 	// options: { sort: { date: -1 } }
+			// })
+			// 	.limit(limit)
+			// 	.sort({ date: 1 });
 
-			return habitRecords;
+			const habitRecords = await Habit.findById({ _id })
+				.populate({
+					path: "record",
+					model: "HabitRecord",
+					match: { date: { $gte: startDate } },
+					options: { sort: { date: -1 }, limit }
+				})
+				.sort({ date: 1 });
+			// .sort({ record: { date: 1 } });
+
+			return habitRecords.record.reverse();
+		},
+		getHabitTimeRecords: async (root, { _id, limit }, ctx) => {
+			const startDate = moment()
+				.add(-limit + 1, "days")
+				.startOf("days")
+				.toDate();
+			// const habitRecords = await HabitRecord.find({
+			// 	habitId: _id,
+			// 	date: { $gte: startDate }
+			// 	// options: { sort: { date: -1 } }
+			// })
+			// 	.limit(limit)
+			// 	.sort({ date: 1 });
+
+			const habitRecords = await Habit.findById({ _id })
+				.populate({
+					path: "timeRecord",
+					model: "HabitRecord",
+					match: { date: { $gte: startDate } },
+					options: { sort: { date: -1 }, limit }
+				})
+				.sort({ date: 1 });
+			// .sort({ record: { date: 1 } });
+
+			return habitRecords.timeRecord.reverse();
 		}
 	},
 

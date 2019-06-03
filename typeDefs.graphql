@@ -61,6 +61,7 @@ type Query{
   getUserHabits(offset:Int,limit:Int):HabitAndPageInfo
   getHabit(_id:ID!):Habit
   getHabitRecords(_id:ID!,limit:Int!):[HabitRecord]
+  getHabitTimeRecords(_id:ID!,limit:Int!):[HabitRecord]
 }
 
 

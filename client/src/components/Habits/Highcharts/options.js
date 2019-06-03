@@ -5,18 +5,18 @@ const options = data => {
 		},
 
 		title: {
-			text: "Stacked column chart"
+			text: `${data.title} (${data.yTitle})`
 		},
-		subtitle: {
-			text: "aaaa"
-		},
+		// subtitle: {
+		// 	text: "aaaa"
+		// },
 		xAxis: {
 			categories: data.categories
 		},
 		yAxis: {
 			min: 0,
 			title: {
-				text: "積み上げ分数"
+				text: `積み上げ${data.yTitle}数`
 			},
 			stackLabels: {
 				enabled: true

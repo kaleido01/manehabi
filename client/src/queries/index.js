@@ -170,6 +170,17 @@ export const GET_HABIT_RECORDS = gql`
 		}
 	}
 `;
+export const GET_HABIT_TIMERECORDS = gql`
+	query getHabitTimeRecords($_id: ID!, $limit: Int!) {
+		getHabitTimeRecords(_id: $_id, limit: $limit) {
+			_id
+			date
+			total
+			habitId
+			today
+		}
+	}
+`;
 
 export const CREATE_USER = gql`
 	mutation createUser($username: String!, $email: String!, $password: String!) {

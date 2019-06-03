@@ -3,10 +3,13 @@ import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { withRouter } from "react-router-dom";
 import { Query } from "react-apollo";
-import { GET_HABIT, GET_HABIT_RECORDS } from "../../queries";
+import {
+	GET_HABIT,
+	GET_HABIT_RECORDS,
+	GET_HABIT_TIMERECORDS
+} from "../../queries";
 import {
 	Segment,
-	Comment,
 	Dropdown,
 	Button,
 	Grid,
@@ -47,8 +50,10 @@ const fromDateObjectToMoment = value => {
 	return moment(value).format("MM月DD日");
 };
 
-const createGraphData = (habitRecords, maxDays) => {
+const createGraphData = (habitRecords, maxDays, unit = "分") => {
 	const data = {};
+
+	data.yTitle = unit;
 
 	data.categories = habitRecords.map(record => {
 		return fromDateObjectToMoment(+record.date);
@@ -164,12 +169,44 @@ const HabitDescription = ({ match }) => {
 						</Grid.Row>
 
 						<Grid.Row>
+							{getHabit.isTimeRecord ? (
+								<Grid.Column computer={8} mobile={16}>
+									<Dropdown
+										selection
+										onChange={(event, { value }) => setDays(value)}
+										options={Options}
+										value={days}
+										style={{ margin: "1em 0" }}
+									/>
+									<Query
+										query={GET_HABIT_TIMERECORDS}
+										variables={{ _id, limit: days }}>
+										{({ data, loading }) => {
+											if (loading) return <div>loading</div>;
+											const { getHabitTimeRecords } = data;
+											const optionData = createGraphData(
+												getHabitTimeRecords,
+												days
+											);
+											optionData.title = getHabit.title;
+											console.log(optionData);
+											return (
+												<HighchartsReact
+													highcharts={Highcharts}
+													options={options(optionData)}
+												/>
+											);
+										}}
+									</Query>
+								</Grid.Column>
+							) : null}
 							<Grid.Column computer={8} mobile={16}>
 								<Dropdown
 									selection
 									onChange={(event, { value }) => setDays(value)}
 									options={Options}
 									value={days}
+									style={{ margin: "1em 0" }}
 								/>
 								<Query
 									query={GET_HABIT_RECORDS}
@@ -177,32 +214,13 @@ const HabitDescription = ({ match }) => {
 									{({ data, loading }) => {
 										if (loading) return <div>loading</div>;
 										const { getHabitRecords } = data;
-										const optionData = createGraphData(getHabitRecords, days);
-										console.log(optionData);
-										return (
-											<HighchartsReact
-												highcharts={Highcharts}
-												options={options(optionData)}
-											/>
+										const optionData = createGraphData(
+											getHabitRecords,
+											days,
+											getHabit.unit
 										);
-									}}
-								</Query>
-							</Grid.Column>
-							<Grid.Column computer={8} mobile={16}>
-								<Dropdown
-									selection
-									onChange={(event, { value }) => setDays(value)}
-									options={Options}
-									value={days}
-									style={{ marginBottom: "1em" }}
-								/>
-								<Query
-									query={GET_HABIT_RECORDS}
-									variables={{ _id, limit: days }}>
-									{({ data, loading }) => {
-										if (loading) return <div>loading</div>;
-										const { getHabitRecords } = data;
-										const optionData = createGraphData(getHabitRecords, days);
+										optionData.title = getHabit.title;
+
 										console.log(optionData);
 										return (
 											<HighchartsReact
