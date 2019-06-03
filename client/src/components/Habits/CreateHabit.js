@@ -7,7 +7,8 @@ import {
 	Segment,
 	Button,
 	Message,
-	Transition
+	Transition,
+	Checkbox
 } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import { CREATE_HABIT } from "../../queries";
@@ -17,7 +18,9 @@ export class CreateHabit extends Component {
 		onOpen: false,
 		title: "",
 		description: "",
-		errors: []
+		unit: "",
+		errors: [],
+		isTime: false
 	};
 
 	handleChange = event => {
@@ -44,17 +47,17 @@ export class CreateHabit extends Component {
 			: "";
 	};
 	render() {
-		const { onOpen, title, description, errors } = this.state;
+		const { onOpen, title, description, errors, unit, isTime } = this.state;
 		return (
 			<Grid className="Auth" textAlign="center" verticalAlign="middle">
 				<Grid.Column style={{ maxWidth: 367 }}>
 					<Header as="h2" icon color="purple" textAlign="center">
-						<Icon name="new pied piper" color="purple" /> 新しい習慣を作成しよう
+						<Icon name="tag" color="purple" /> 新しい習慣を作成しよう
 					</Header>
 					{onOpen ? null : (
 						<Mutation
 							mutation={CREATE_HABIT}
-							variables={{ title, description }}
+							variables={{ title, description, unit, isTime }}
 							onCompleted={() => this.setState({ onOpen: true })}>
 							{(createHabit, { data, loading, error }) => {
 								if (error) {
@@ -83,6 +86,26 @@ export class CreateHabit extends Component {
 												value={description}
 												className={this.handleInputError(errors, "パスワード")}
 												type="text"
+											/>
+											<Form.Input
+												name="unit"
+												icon="tags"
+												iconPosition="left"
+												placeholder="習慣の単位 (例: 文字)"
+												onChange={this.handleChange}
+												value={unit}
+												type="text"
+											/>
+											<Form.Field
+												control={Checkbox}
+												name="needTime"
+												label="時間の積み上げも追加"
+												onChange={() =>
+													this.setState(prevState => {
+														return { isTime: !prevState.isTime };
+													})
+												}
+												className={this.handleInputError(errors, "パスワード")}
 											/>
 											<Button
 												disabled={loading}

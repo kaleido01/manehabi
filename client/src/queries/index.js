@@ -1,8 +1,18 @@
 import { gql } from "apollo-boost";
 
 export const CREATE_HABIT = gql`
-	mutation createHabit($title: String!, $description: String!) {
-		createHabit(title: $title, description: $description) {
+	mutation createHabit(
+		$title: String!
+		$description: String!
+		$unit: String!
+		$isTime: Boolean!
+	) {
+		createHabit(
+			title: $title
+			description: $description
+			unit: $unit
+			isTime: $isTime
+		) {
 			title
 			description
 		}

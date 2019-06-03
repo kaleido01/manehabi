@@ -89,12 +89,18 @@ module.exports = {
 	},
 
 	Mutation: {
-		createHabit: async (root, { title, description }, { currentUser }) => {
+		createHabit: async (
+			root,
+			{ title, description, unit, isTime },
+			{ currentUser }
+		) => {
 			const user = await User.findOne({ email: currentUser.email });
 			const newHabit = new Habit({
 				title,
 				description,
-				creator: user._id
+				creator: user._id,
+				isTimeRecord: isTime,
+				unit
 			});
 			await newHabit.save();
 			user.habits.push(newHabit._id);
