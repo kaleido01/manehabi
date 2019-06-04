@@ -49,7 +49,7 @@ const UnAuthNav = ({ onSide }) => {
 	return (
 		<Menu color="orange" inverted>
 			<Menu.Item>
-				<img src="#" alt="Logo" />
+				<Image src={logo} size="mini" />
 			</Menu.Item>
 			<Responsive
 				as={Menu.Menu}
