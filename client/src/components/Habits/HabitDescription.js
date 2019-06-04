@@ -18,7 +18,8 @@ import {
 	Image,
 	Icon,
 	Item,
-	Divider
+	Divider,
+	Responsive
 } from "semantic-ui-react";
 import Loader from "./../shered/Loader";
 import HighchartsTheme from "./Highcharts/HighchartsTheme";
@@ -137,7 +138,7 @@ const HabitDescription = ({ match }) => {
 									</Card.Content>
 								</Card>
 							</Grid.Column>
-							<Grid.Column computer={12} mobile={16}>
+							<Grid.Column computer={12}>
 								<Segment.Group>
 									<Segment attached="top">
 										<Item.Group>
@@ -150,6 +151,7 @@ const HabitDescription = ({ match }) => {
 												</Item.Content>
 												<Label
 													style={{ marginTop: "1.5em" }}
+													className="Description"
 													ribbon="right"
 													color="orange"
 													content={`${getHabit.countDate} 日間継続中`}
