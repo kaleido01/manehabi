@@ -5,19 +5,9 @@ const resolvers = require("./resolvers");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-
-//クロスドメインからのアクセスを許可するためのパケ
-// const corsOptions = {
-// 	origin: "https://manehabi.herokuapp.com",
-// 	credentials: true
-// };
-
-// app.use(cors(corsOptions));
-app.use(cors("*"));
 
 app.use(bodyParser());
 
@@ -53,6 +43,7 @@ if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));
 
 	app.get("*", (req, res) => {
+		console.log("hi there");
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
 }
