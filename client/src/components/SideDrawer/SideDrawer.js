@@ -5,7 +5,7 @@ import Signout from "../Auth/Signout";
 import "./SideDrawer.css";
 import { UserContext } from "./../../index";
 
-const SideDrawer = ({ onSide, onHide }) => {
+const SideDrawer = ({ onSide, onHide, ref }) => {
 	const currentUser = useContext(UserContext);
 	return (
 		<Sidebar
@@ -13,6 +13,7 @@ const SideDrawer = ({ onSide, onHide }) => {
 			animation="overlay"
 			visible={onSide}
 			icon="labeled"
+			target={ref}
 			onHide={() => onHide(false)}
 			vertical
 			direction="top"
