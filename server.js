@@ -29,22 +29,21 @@ mongoose
 	.then(() => console.log("MongoDB Connected"))
 	.catch(err => console.log(err));
 
-app.use(async (req, res, next) => {});
-
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
 	context: async ({ req }) => {
-		const token = req.headers["authorization"];
-		if (token === null) {
-			next();
-		}
+		let token = null;
+		let currentUser = null;
 		try {
-			const currentUser = await jwt.verify(token, secret);
-			return { currentUser };
+			token = req.headers["authorization"];
+			if (token) {
+				currentUser = await jwt.verify(token, secret);
+			}
 		} catch (err) {
-			console.log(err);
+			console.error(`Unable to authenticate user with token`);
 		}
+		return { currentUser };
 	}
 });
 
