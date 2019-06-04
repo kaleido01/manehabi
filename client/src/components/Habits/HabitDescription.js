@@ -52,6 +52,9 @@ const Options = [
 
 const createGraphData = (habitRecords, maxDays, unit = "分") => {
 	const data = {};
+	if (habitRecords.length === 0) {
+		return data;
+	}
 	const categories = [];
 	const firstData = [];
 	const secondData = [];
@@ -59,6 +62,7 @@ const createGraphData = (habitRecords, maxDays, unit = "分") => {
 	data.yTitle = unit;
 
 	let count = 0;
+
 	for (let j = 0; j < maxDays; j++) {
 		const recordDay = moment(+habitRecords[count].date).format("YYYY-MM-DD");
 		const today = habitRecords[count].today;
@@ -212,7 +216,10 @@ const HabitDescription = ({ match }) => {
 												getHabitTimeRecords,
 												days
 											);
-											optionData.title = getHabit.title;
+											if (optionData) {
+												optionData.title = getHabit.title;
+											}
+
 											return (
 												<HighchartsReact
 													highcharts={Highcharts}
@@ -242,8 +249,9 @@ const HabitDescription = ({ match }) => {
 											days,
 											getHabit.unit
 										);
-										optionData.title = getHabit.title;
-
+										if (optionData) {
+											optionData.title = getHabit.title;
+										}
 										return (
 											<HighchartsReact
 												highcharts={Highcharts}
