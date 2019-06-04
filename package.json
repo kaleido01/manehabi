@@ -5,11 +5,10 @@
 		"server": "nodemon server.js",
 		"client": "npm start --prefix client",
 		"dev": "concurrently \"npm run server\" \"npm run client \"",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+		"heroku-postbuild": "cd client && yarn && yarn build"
 	},
 	"engines": {
 		"node": "v10.15.3",
-		"npm": "v6.4.1",
 		"yarn": "v1.15.2"
 	},
 	"version": "1.0.0",

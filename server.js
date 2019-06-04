@@ -51,6 +51,14 @@ if (process.env.NODE_ENV === "production") {
 
 const port = process.env.PORT || 4000;
 
+// server.applyMiddleware({ app });
+// const httpServer = http.createServer(app);
+
+// httpServer.listen({ port }, () => {
+//   console.log(`🚀 Server ready at ${port}${server.graphqlPath}`);
+//   console.log(`🚀 Subscriptions ready at ${port}${server.subscriptionsPath}`);
+// });
+
 server.listen({ port }).then(({ url }) => {
 	console.log(`🚀  Server ready at ${url}`);
 });
