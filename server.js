@@ -5,18 +5,19 @@ const resolvers = require("./resolvers");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-
+const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
 
 //クロスドメインからのアクセスを許可するためのパケ
-const corsOptions = {
-	origin: "https://manehabi.herokuapp.com",
-	credentials: true
-};
+// const corsOptions = {
+// 	origin: "https://manehabi.herokuapp.com",
+// 	credentials: true
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors("*"));
 
 app.use(bodyParser());
 
