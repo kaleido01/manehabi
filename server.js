@@ -1,15 +1,21 @@
 const express = require("express");
-const { ApolloServer } = require("apollo-server");
-const typeDefs = require("./typeDefs.graphql");
-const resolvers = require("./resolvers");
+
 const mongoose = require("mongoose");
+const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const bodyParser = require("body-parser");
 
-const app = express();
+const User = require("./models/User");
+const Habit = require("./models/Habit");
+const HabitRecord = require("./models/HabitRecord");
 
-app.use(bodyParser());
+const { typeDefs } = require("./typeDefs.graphql");
+const { resolvers } = require("./resolvers");
+
+const { ApolloServer } = require("apollo-server-express");
+
+const app = express();
 
 const db = require("./config/keys").mongoURI;
 const secret = require("./config/keys").secret;
@@ -19,6 +25,27 @@ mongoose
 	.then(() => console.log("MongoDB Connected"))
 	.catch(err => console.log(err));
 
+app.use(cors("*"));
+
+app.use(async (req, res, next) => {
+	let token = null;
+	let currentUser = null;
+
+	try {
+		token = req.headers["authorization"];
+		if (token) {
+			currentUser = await jwt.verify(token, secret);
+			req.currentUser = currentUser;
+		}
+	} catch (err) {
+		console.error(`Unable to authenticate user with token`);
+	}
+	next();
+});
+
+// app.use("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
+
+// GraphQL: Schema
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
@@ -36,7 +63,15 @@ const server = new ApolloServer({
 		}
 		return { currentUser };
 	}
+	// playground: {
+	//   endpoint: `http://localhost:4000/graphql`,
+	//   settings: {
+	//     'editor.theme': 'light'
+	//   }
+	// }
 });
+
+server.applyMiddleware({ app });
 
 // Server static assets if in production
 if (process.env.NODE_ENV === "production") {
@@ -49,16 +84,8 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
-// server.applyMiddleware({ app });
-// const httpServer = http.createServer(app);
-
-// httpServer.listen({ port }, () => {
-//   console.log(`🚀 Server ready at ${port}${server.graphqlPath}`);
-//   console.log(`🚀 Subscriptions ready at ${port}${server.subscriptionsPath}`);
-// });
-
-server.listen({ port }).then(({ url }) => {
-	console.log(`🚀  Server ready at ${url}`);
+app.listen(PORT, () => {
+	console.log(`Server listhening on PORT ${PORT}`);
 });

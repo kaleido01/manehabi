@@ -13,7 +13,7 @@ const createToken = (user, secret, expiresIn) => {
 	return token;
 };
 
-module.exports = {
+exports.resolvers = {
 	Query: {
 		getCurrentUser: async (root, args, { currentUser }) => {
 			if (!currentUser) {
