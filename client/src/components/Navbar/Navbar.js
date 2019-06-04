@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { Menu, Button, Responsive } from "semantic-ui-react";
+import { Menu, Button, Responsive, Image } from "semantic-ui-react";
+import logo from "../../image/logo.png";
 
 import Signout from "../Auth/Signout";
 import { UserContext } from "./../../index";
@@ -19,7 +20,7 @@ const AuthNav = ({ onSide }) => {
 	return (
 		<Menu color="orange" inverted>
 			<Menu.Item>
-				<img src="#" alt="Logo" />
+				<Image src={logo} size="mini" />
 			</Menu.Item>
 			<Responsive
 				as={Menu.Menu}
