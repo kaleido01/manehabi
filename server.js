@@ -37,6 +37,8 @@ const server = new ApolloServer({
 	}
 });
 
+console.log("before build");
+
 // Server static assets if in production
 if (process.env.NODE_ENV === "production") {
 	// Set static folder
