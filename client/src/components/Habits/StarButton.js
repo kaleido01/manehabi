@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../";
+import { withRouter } from "react-router-dom";
 
 import { Button, Icon } from "semantic-ui-react";
 import "./Habits.css";
 import { Mutation } from "react-apollo";
 import { STAR_HABIT, UNSTAR_HABIT } from "./../../queries/index";
 
-const StarButton = ({ habit }) => {
+const StarButton = ({ habit, history }) => {
 	const [stared, setStar] = useState(false);
 	const [starLength, setStarLength] = useState(habit.starUser.length);
 	const currentUser = useContext(UserContext);
@@ -19,6 +20,9 @@ const StarButton = ({ habit }) => {
 	}, []);
 
 	const handleClick = (starHabit, unStarHabit) => {
+		if (!currentUser) {
+			history.push("/signin");
+		}
 		if (stared) {
 			unStarHabit().then(({ data }) => {
 				setStar(!stared);
@@ -72,4 +76,4 @@ const StarButton = ({ habit }) => {
 	);
 };
 
-export default StarButton;
+export default withRouter(StarButton);

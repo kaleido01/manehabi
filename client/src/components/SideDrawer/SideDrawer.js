@@ -1,5 +1,5 @@
 import React, { useContext, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Sidebar, Menu, Icon, Button, Segment } from "semantic-ui-react";
 import Signout from "../Auth/Signout";
 import "./SideDrawer.css";
@@ -18,33 +18,41 @@ const SideDrawer = ({ onSide, onHide, ref }) => {
 			vertical
 			direction="top"
 			inverted>
-			<Menu.Item as={Link} to="/habits">
+			<Menu.Item as={NavLink} to="/habits" onClick={() => onHide(false)}>
 				<Icon name="home" />
 				Habits
 			</Menu.Item>
 			{currentUser ? (
 				<Fragment>
-					<Menu.Item as={Link} to="/myhabits">
+					<Menu.Item as={NavLink} to="/myhabits" onClick={() => onHide(false)}>
 						<Icon name="tasks" />
 						MyHabits
 					</Menu.Item>
-					<Menu.Item as={Link} to="/profile">
+					<Menu.Item as={NavLink} to="/profile" onClick={() => onHide(false)}>
 						<Icon name="user" />
 						Profile
 					</Menu.Item>
 					<Menu.Item>
-						<Signout color="black" inverted={true} />
+						<Signout color="black" inverted={true} hide={onHide} />
 					</Menu.Item>
 				</Fragment>
 			) : (
 				<Menu.Item>
 					<Menu.Item>
-						<Button as={Link} to="/signin" inverted>
+						<Button
+							as={NavLink}
+							to="/signin"
+							inverted
+							onClick={() => onHide(false)}>
 							Signin
 						</Button>
 					</Menu.Item>
 					<Menu.Item>
-						<Button as={Link} to="/signup" inverted>
+						<Button
+							as={NavLink}
+							to="/signup"
+							inverted
+							onClick={() => onHide(false)}>
 							Signup
 						</Button>
 					</Menu.Item>
