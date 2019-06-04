@@ -10,6 +10,14 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+//クロスドメインからのアクセスを許可するためのパケ
+const corsOptions = {
+	origin: "https://manehabi.herokuapp.com",
+	credentials: true
+};
+
+app.use(cors(corsOptions));
+
 app.use(bodyParser());
 
 const db = require("./config/keys").mongoURI;
