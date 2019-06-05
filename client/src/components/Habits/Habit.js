@@ -26,7 +26,7 @@ const Habit = ({ habit, match }) => {
 			const endDate = moment(Date.now())
 				.endOf("days")
 				.toDate();
-
+			return false;
 			return +updateDate >= startDate && updateDate <= endDate;
 			// return false;
 		}

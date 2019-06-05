@@ -188,7 +188,6 @@ exports.resolvers = {
 					path: "creator",
 					model: "User"
 				})
-
 				.exec();
 
 			if (String(user._id) !== String(habit.creator._id)) {
