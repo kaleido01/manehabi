@@ -18,8 +18,7 @@ import {
 	Image,
 	Icon,
 	Item,
-	Divider,
-	Responsive
+	Divider
 } from "semantic-ui-react";
 import Loader from "./../shered/Loader";
 import HighchartsTheme from "./Highcharts/HighchartsTheme";
@@ -125,7 +124,10 @@ const HabitDescription = ({ match }) => {
 											作成者 : {getHabit.creator.username}
 										</Card.Header>
 										<Card.Meta>参加日 : {getHabit.creator.joinDate}</Card.Meta>
-										<Card.Description>TODO:一言 </Card.Description>
+										<Card.Description>
+											一言コメント実装予定です...
+											{/* TODO:一言  */}
+										</Card.Description>
 									</Card.Content>
 									<Card.Content extra>
 										<Button

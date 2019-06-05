@@ -14,7 +14,7 @@ const MyHabits = ({ history }) => {
 		if (!currentUser) {
 			history.push("login");
 		}
-	}, []);
+	}, [currentUser, history]);
 	const onLoadMore = (habits, fetchMore) => {
 		fetchMore({
 			variables: {

@@ -70,6 +70,12 @@ export const GET_CURRENT_USER = gql`
 			email
 			favorites {
 				_id
+				title
+				createdAt
+				# creator {
+				# 	username
+				# 	imageUrl
+				# }
 			}
 		}
 	}

@@ -24,7 +24,15 @@ exports.resolvers = {
 			})
 				.populate({ path: "habits", model: "Habit" })
 				.populate({ path: "favorites", model: "Habit" })
+				// .populate({
+				// 	path: "favorites",
+				// 	populate: {
+				// 		path: "creator",
+				// 		model: "User"
+				// 	}
+				// })
 				.exec();
+			console.log(user);
 			return user;
 		},
 		getAllHabits: async (root, { offset, limit }, ctx) => {

@@ -15,7 +15,6 @@ const Signout = ({ history, color, inverted, hide }) => {
 			{client => {
 				return (
 					<Button
-						onClick={() => hide(false)}
 						color={color ? color : "purple"}
 						inverted={inverted}
 						onClick={() => handleLogout(client, history)}>

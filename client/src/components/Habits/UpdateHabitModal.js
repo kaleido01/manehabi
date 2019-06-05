@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Icon, Input } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import { UPDATE_HABIT, GET_ALL_HABITS, GET_USER_HABITS } from "../../queries";
-import { Pacman } from "./../shered/Loader";
+import Loader from "./../shered/Loader";
 
 const UpdateHabitModal = ({ closeModal, habit, open }) => {
 	const [time, setTime] = useState(0);
@@ -10,9 +10,7 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 
 	const handleUpdateHabit = (updateHabit, closeModal) => {
 		updateHabit()
-			.then(data => {
-				closeModal();
-			})
+			.then(data => {})
 			.catch(err => {
 				console.log(err);
 				closeModal();
@@ -48,6 +46,7 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 		<Mutation
 			mutation={UPDATE_HABIT}
 			variables={{ _id: habit._id, today: +item, todayTime: +time }}
+			onCompleted={closeModal}
 			refetchQueries={[
 				{ query: GET_ALL_HABITS, variables: { offset: 0, limit: 5 } },
 				{ query: GET_USER_HABITS, variables: { offset: 0, limit: 5 } }
@@ -55,7 +54,7 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 			// update={handleUpdateCache}
 		>
 			{(updateHabit, { data, loading, error }) => {
-				if (loading) return <Pacman />;
+				if (loading) return <Loader />;
 				return (
 					<Modal basic open={open} onClose={closeModal}>
 						<Modal.Header>{habit.title}の更新</Modal.Header>
