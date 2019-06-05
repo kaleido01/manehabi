@@ -25,6 +25,7 @@ import HighchartsTheme from "./Highcharts/HighchartsTheme";
 import options from "./Highcharts/options";
 import moment from "moment";
 import StarButton from "./StarButton";
+import { decorateWithLogger } from "graphql-tools";
 
 Highcharts.setOptions(HighchartsTheme);
 
@@ -64,9 +65,20 @@ const createGraphData = (habitRecords, maxDays, unit = "分") => {
 	let count = 0;
 
 	for (let j = 0; j < maxDays; j++) {
-		const recordDay = moment(+habitRecords[count].date).format("YYYY-MM-DD");
-		const today = habitRecords[count].today;
-		const total = habitRecords[count].total;
+		let recordDay;
+		let today;
+		let total;
+		if (count === habitRecords.length) {
+			const lastIndex = habitRecords.length - 1;
+			recordDay = moment(+habitRecords[lastIndex].date).format("YYYY-MM-DD");
+			today = habitRecords[lastIndex].today;
+			total = habitRecords[lastIndex].total + today;
+		} else {
+			recordDay = moment(+habitRecords[count].date).format("YYYY-MM-DD");
+			today = habitRecords[count].today;
+			total = habitRecords[count].total;
+		}
+
 		const day = moment()
 			.add(-maxDays + j + 1, "days")
 			.format("YYYY-MM-DD");
@@ -80,6 +92,40 @@ const createGraphData = (habitRecords, maxDays, unit = "分") => {
 			secondData.push(total - today);
 		}
 	}
+
+	// habitRecords.forEach(record => {
+	// 	const recordDay = moment(+habitRecords[count].date).format("YYYY-MM-DD");
+	// 	const { today, total } = record;
+	// 	let day = moment()
+	// 		.add(-maxDays + count + 1, "days")
+	// 		.format("YYYY-MM-DD");
+
+	// 	while (String(recordDay) !== String(day)) {
+	// 		console.log(count);
+	// 		categories.push(day);
+	// 		firstData.push(0);
+	// 		secondData.push(total - today);
+	// 		count++;
+	// 		day = moment()
+	// 			.add(-maxDays + count + 1, "days")
+	// 			.format("YYYY-MM-DD");
+	// 	}
+
+	// 	categories.push(day);
+	// 	firstData.push(total);
+	// 	secondData.push(total - today);
+	// });
+
+	// while (count !== maxDays - 1) {
+	// 	const { total } = habitRecords[habitRecords.length - 1];
+	// 	const day = moment()
+	// 		.add(-maxDays + count + 1, "days")
+	// 		.format("YYYY-MM-DD");
+	// 	categories.push(day);
+	// 	firstData.push(0);
+	// 	secondData.push(total);
+	// 	count++;
+	// }
 
 	data.categories = categories;
 	data.firstData = firstData;
