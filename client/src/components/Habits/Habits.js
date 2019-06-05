@@ -29,7 +29,7 @@ const Habits = () => {
 	};
 	return (
 		<Grid textAlign="center" centered>
-			<Grid.Column style={{ minWidth: "350px" }} width={12}>
+			<Grid.Column style={{ minWidth: "350px" }} width={8}>
 				<Query query={GET_ALL_HABITS} variables={{ offset: 0, limit: 5 }}>
 					{({ data, fetchMore, loading, error }) => {
 						if (loading) return <InitialLoader />;

@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Comment, Segment, Button } from "semantic-ui-react";
+import { Comment, Segment, Button, Grid } from "semantic-ui-react";
 import "./Habits.css";
 import { UserContext } from "./../../index";
 import StarLabel from "./StarLabel";
@@ -45,28 +45,40 @@ const Habit = ({ habit, match }) => {
 						<Comment.Content>
 							<Comment.Author>{habit.creator.username}</Comment.Author>
 							<Comment.Metadata>
-								<div>{moment(+habit.startDate).format("YYYY-MM-DD")}</div>
+								<div>
+									作成日時: {moment(+habit.createdAt).format("YYYY-MM-DD")}
+								</div>
 							</Comment.Metadata>
 							<Comment.Text>{habit.title}</Comment.Text>
-							<Link to={`/habit/${habit._id}`}>
-								<Button color="green">詳細</Button>
-							</Link>
-							{isMyHabit ? (
-								<Fragment>
-									<Button
-										color="olive"
-										onClick={() => setUpdateOpen(true)}
-										disabled={checkDisable(habit)}>
-										{checkDisable(habit) ? "更新済み" : "更新"}
-									</Button>
-									<Button color="red" onClick={() => setDeleteOpen(true)}>
-										削除
-									</Button>
-									<Button color="teal" onClick={() => setResetOpen(true)}>
-										継続リセット
-									</Button>
-								</Fragment>
-							) : null}
+							<Grid as={Comment} textAlign="center" columns={4}>
+								<Button
+									style={{ margin: "0.5em" }}
+									as={Link}
+									color="green"
+									to={`/habit/${habit._id}`}>
+									詳細
+								</Button>
+								{isMyHabit ? (
+									<Fragment>
+										<Button
+											style={{ margin: "0.5em" }}
+											color="olive"
+											onClick={() => setUpdateOpen(true)}
+											disabled={checkDisable(habit)}>
+											{checkDisable(habit) ? "更新済み" : "更新"}
+										</Button>
+										<Button color="red" onClick={() => setDeleteOpen(true)}>
+											削除
+										</Button>
+										<Button
+											color="teal"
+											style={{ margin: "0.5em" }}
+											onClick={() => setResetOpen(true)}>
+											継続リセット
+										</Button>
+									</Fragment>
+								) : null}
+							</Grid>
 						</Comment.Content>
 					</Comment>
 				</Segment>

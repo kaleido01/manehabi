@@ -85,6 +85,7 @@ export const GET_ALL_HABITS = gql`
 				countDate
 				startDate
 				limitDate
+				createdAt
 				starUser {
 					_id
 				}
