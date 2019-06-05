@@ -11,7 +11,7 @@ import {
 	Checkbox
 } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
-import { CREATE_HABIT } from "../../queries";
+import { CREATE_HABIT, GET_ALL_HABITS, GET_USER_HABITS } from "../../queries";
 
 export class CreateHabit extends Component {
 	state = {
@@ -57,6 +57,10 @@ export class CreateHabit extends Component {
 						<Mutation
 							mutation={CREATE_HABIT}
 							variables={{ title, description, unit, isTime }}
+							refetchQueries={[
+								{ query: GET_ALL_HABITS, variables: { offset: 0, limit: 5 } },
+								{ query: GET_USER_HABITS, variables: { offset: 0, limit: 5 } }
+							]}
 							onCompleted={() => this.setState({ onOpen: true })}>
 							{(createHabit, { data, loading, error }) => {
 								if (error) {
@@ -70,7 +74,7 @@ export class CreateHabit extends Component {
 											<Form.Input
 												fluid
 												name="title"
-												icon="mail"
+												icon="thumbtack"
 												iconPosition="left"
 												placeholder="習慣のタイトル"
 												onChange={this.handleChange}

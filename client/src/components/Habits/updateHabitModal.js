@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Icon, Input } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
-import { UPDATE_HABIT } from "../../queries";
+import { UPDATE_HABIT, GET_ALL_HABITS, GET_USER_HABITS } from "../../queries";
 import { Pacman } from "./../shered/Loader";
 
 const UpdateHabitModal = ({ closeModal, habit, open }) => {
@@ -48,6 +48,10 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 		<Mutation
 			mutation={UPDATE_HABIT}
 			variables={{ _id: habit._id, today: +item, todayTime: +time }}
+			refetchQueries={[
+				{ query: GET_ALL_HABITS, variables: { offset: 0, limit: 5 } },
+				{ query: GET_USER_HABITS, variables: { offset: 0, limit: 5 } }
+			]}
 			// update={handleUpdateCache}
 		>
 			{(updateHabit, { data, loading, error }) => {

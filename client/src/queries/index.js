@@ -113,6 +113,7 @@ export const GET_USER_HABITS = gql`
 				countDate
 				startDate
 				limitDate
+				createdAt
 				unit
 				isTimeRecord
 				updateDate

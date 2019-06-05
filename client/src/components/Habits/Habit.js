@@ -49,7 +49,7 @@ const Habit = ({ habit, match }) => {
 									作成日時: {moment(+habit.createdAt).format("YYYY-MM-DD")}
 								</div>
 							</Comment.Metadata>
-							<Comment.Text>{habit.title}</Comment.Text>
+							<Comment.Text>タイトル: {habit.title}</Comment.Text>
 							<Grid as={Comment} textAlign="center" columns={4}>
 								<Button
 									style={{ margin: "0.5em" }}
@@ -67,7 +67,10 @@ const Habit = ({ habit, match }) => {
 											disabled={checkDisable(habit)}>
 											{checkDisable(habit) ? "更新済み" : "更新"}
 										</Button>
-										<Button color="red" onClick={() => setDeleteOpen(true)}>
+										<Button
+											color="red"
+											style={{ margin: "0.5em" }}
+											onClick={() => setDeleteOpen(true)}>
 											削除
 										</Button>
 										<Button

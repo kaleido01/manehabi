@@ -1,11 +1,11 @@
 import React, { useContext, Fragment } from "react";
 import { NavLink } from "react-router-dom";
-import { Sidebar, Menu, Icon, Button, Segment } from "semantic-ui-react";
+import { Sidebar, Menu, Icon, Button } from "semantic-ui-react";
 import Signout from "../Auth/Signout";
 import "./SideDrawer.css";
 import { UserContext } from "./../../index";
 
-const SideDrawer = ({ onSide, onHide, ref }) => {
+const SideDrawer = ({ onSide, onHide }) => {
 	const currentUser = useContext(UserContext);
 	return (
 		<Sidebar
@@ -13,7 +13,6 @@ const SideDrawer = ({ onSide, onHide, ref }) => {
 			animation="overlay"
 			visible={onSide}
 			icon="labeled"
-			target={ref}
 			onHide={() => onHide(false)}
 			vertical
 			direction="top"
@@ -27,6 +26,10 @@ const SideDrawer = ({ onSide, onHide, ref }) => {
 					<Menu.Item as={NavLink} to="/myhabits" onClick={() => onHide(false)}>
 						<Icon name="tasks" />
 						MyHabits
+					</Menu.Item>
+					<Menu.Item as={NavLink} to="/newhabit" onClick={() => onHide(false)}>
+						<Icon name="pencil alternate" />
+						NewHabit
 					</Menu.Item>
 					<Menu.Item as={NavLink} to="/profile" onClick={() => onHide(false)}>
 						<Icon name="user" />
