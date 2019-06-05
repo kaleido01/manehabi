@@ -127,7 +127,7 @@ exports.resolvers = {
 				})
 				.sort({ date: 1 });
 			// .sort({ record: { date: 1 } });
-
+			console.log(habitRecords);
 			return habitRecords.timeRecord.reverse();
 		}
 	},
