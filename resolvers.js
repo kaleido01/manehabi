@@ -32,7 +32,6 @@ exports.resolvers = {
 					model: "Habit"
 				})
 				.exec();
-			console.log(user);
 			return user;
 		},
 		getAllHabits: async (root, { offset, limit }, ctx) => {

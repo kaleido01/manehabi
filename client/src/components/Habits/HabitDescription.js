@@ -25,7 +25,6 @@ import HighchartsTheme from "./Highcharts/HighchartsTheme";
 import options from "./Highcharts/options";
 import moment from "moment";
 import StarButton from "./StarButton";
-import { decorateWithLogger } from "graphql-tools";
 
 Highcharts.setOptions(HighchartsTheme);
 
