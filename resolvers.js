@@ -23,14 +23,14 @@ exports.resolvers = {
 				email: currentUser.email
 			})
 				.populate({ path: "habits", model: "Habit" })
-				.populate({ path: "favorites", model: "Habit" })
-				// .populate({
-				// 	path: "favorites",
-				// 	populate: {
-				// 		path: "creator",
-				// 		model: "User"
-				// 	}
-				// })
+				.populate({
+					path: "favorites",
+					populate: {
+						path: "creator",
+						model: "User"
+					},
+					model: "Habit"
+				})
 				.exec();
 			console.log(user);
 			return user;

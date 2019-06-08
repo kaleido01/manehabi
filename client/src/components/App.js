@@ -36,7 +36,7 @@ export class App extends Component {
 									<Route path="/habit/:_id" component={HabitDescription} />
 									<Route path="/newhabit" component={CreateHabit} />
 									<Route path="/myhabits" component={MyHabits} />
-									{/* <Route path="/favorites" component={FavoriteHabits} /> */}
+									<Route path="/favorites" component={FavoriteHabits} />
 									<Route path="/habits" component={Habits} />
 									<Route path="/profile" component={Profile} />
 									<Redirect to="/habits" />

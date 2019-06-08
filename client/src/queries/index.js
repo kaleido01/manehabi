@@ -72,10 +72,10 @@ export const GET_CURRENT_USER = gql`
 				_id
 				title
 				createdAt
-				# creator {
-				# 	username
-				# 	imageUrl
-				# }
+				creator {
+					username
+					imageUrl
+				}
 			}
 		}
 	}
