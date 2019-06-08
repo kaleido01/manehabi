@@ -12,8 +12,8 @@ import withSession from "./components/withSession";
 export const UserContext = createContext();
 
 const client = new ApolloClient({
-	uri: "https://manehabi.herokuapp.com/graphql",
-	// uri: "http://localhost:4000/graphql",
+	// uri: "https://manehabi.herokuapp.com/graphql",
+	uri: "http://localhost:4000/graphql",
 	fetchOptions: {
 		credentials: "includes"
 	},

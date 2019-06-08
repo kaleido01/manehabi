@@ -23,16 +23,16 @@ exports.resolvers = {
 				email: currentUser.email
 			})
 				.populate({ path: "habits", model: "Habit" })
-				.populate({ path: "favorites", model: "Habit" })
-				// .populate({
-				// 	path: "favorites",
-				// 	populate: {
-				// 		path: "creator",
-				// 		model: "User"
-				// 	}
-				// })
+				.populate({
+					path: "favorites",
+					populate: {
+						path: "creator",
+						model: "User"
+					},
+					model: "Habit"
+				})
 				.exec();
-			console.log(user);
+			console.log(user.favorites[0].creator.username);
 			return user;
 		},
 		getAllHabits: async (root, { offset, limit }, ctx) => {
@@ -352,9 +352,11 @@ exports.resolvers = {
 				throw new Error("user not found");
 			}
 			const isValidPassword = await bcrypt.compare(password, user.password);
+
 			if (!isValidPassword) {
 				throw new Error("Invalid password");
 			}
+
 			const token = createToken(user, secret, "1hr");
 			return { token };
 		}
