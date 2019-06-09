@@ -12,6 +12,7 @@ import {
 	Icon
 } from "semantic-ui-react";
 import "./Auth.css";
+import { API_URL } from "../../config";
 
 class Signup extends React.Component {
 	state = {
@@ -78,6 +79,10 @@ class Signup extends React.Component {
 				this.props.history.push("/habits");
 			});
 		}
+	};
+
+	handleTwitter = event => {
+		window.open(`${API_URL}/auth/twitter`);
 	};
 
 	handleInputError = (errors, inputName) => {
@@ -164,6 +169,17 @@ class Signup extends React.Component {
 											size="large"
 											fluid>
 											会員登録
+										</Button>
+
+										<Button
+											disabled={loading}
+											className={loading ? "loading" : ""}
+											color="twitter"
+											size="large"
+											style={{ margin: "1em 0 0 0" }}
+											fluid
+											onClick={this.handleTwitter}>
+											<Icon name="twitter" /> Twitterで会員登録する
 										</Button>
 									</Segment>
 								</Form>

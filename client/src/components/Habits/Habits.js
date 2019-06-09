@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Query } from "react-apollo";
+import { withRouter } from "react-router-dom";
 import { GET_ALL_HABITS } from "./../../queries";
 import HabitList from "./HabitList";
 
 import { InitialLoader } from "../shered/Loader";
 import { Grid, Header, Comment, Segment } from "semantic-ui-react";
+import queryString from "query-string";
 
-const Habits = () => {
+const Habits = ({ location, refetch }) => {
+	useEffect(() => {
+		const { token } = queryString.parse(location.search);
+		if (token) {
+			localStorage.setItem("token", token);
+			refetch();
+		}
+	}, []);
+
 	const onLoadMore = (habits, fetchMore) => {
 		fetchMore({
 			variables: {
@@ -56,4 +66,4 @@ const Habits = () => {
 	);
 };
 
-export default Habits;
+export default withRouter(Habits);

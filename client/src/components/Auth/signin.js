@@ -13,6 +13,7 @@ import {
 	Transition
 } from "semantic-ui-react";
 import "./Auth.css";
+import { API_URL } from "../../config";
 
 class Signin extends React.Component {
 	state = {
@@ -68,6 +69,10 @@ class Signin extends React.Component {
 				await this.props.refetch();
 			});
 		}
+	};
+
+	handleTwitter = event => {
+		window.open(`${API_URL}/auth/twitter`);
 	};
 
 	handleInputError = (errors, inputName) => {
@@ -127,6 +132,17 @@ class Signin extends React.Component {
 												size="large"
 												fluid>
 												ログイン
+											</Button>
+
+											<Button
+												disabled={loading}
+												className={loading ? "loading" : ""}
+												color="twitter"
+												size="large"
+												style={{ margin: "1em 0 0 0" }}
+												fluid
+												onClick={this.handleTwitter}>
+												<Icon name="twitter" /> Twitterでログインする
 											</Button>
 										</Segment>
 									</Form>

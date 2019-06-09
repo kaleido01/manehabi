@@ -17,8 +17,13 @@ const UserSchema = new Schema({
 		unique: true
 	},
 	password: {
-		type: String,
-		required: true
+		type: String
+	},
+	provider: {
+		authType: String,
+		authId: String,
+		token: String,
+		tokenSecret: String
 	},
 	joinDate: {
 		type: String,
