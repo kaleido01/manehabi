@@ -68,14 +68,17 @@ export const GET_CURRENT_USER = gql`
 			_id
 			username
 			email
+			imageUrl
+			joinDate
 			favorites {
 				_id
 				title
 				createdAt
-				# creator {
-				# 	username
-				# 	imageUrl
-				# }
+				creator {
+					_id
+					username
+					imageUrl
+				}
 			}
 		}
 	}

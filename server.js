@@ -24,6 +24,10 @@ const createToken = (user, secret, expiresIn) => {
 const db = require("./config/keys").mongoURI;
 const secret = require("./config/keys").secret;
 const baseClientURL = require("./config/keys").baseClientURL;
+const baseURL =
+	process.env.NODE_ENV === "production"
+		? "https://manehabi.herokuapp.com/"
+		: "http://localhost:3000";
 
 mongoose
 	.connect(db, { useNewUrlParser: true })
@@ -31,11 +35,10 @@ mongoose
 	.catch(err => console.log(err));
 
 const corsOption = {
-	origin: baseClientURL,
+	origin: ["http://127:0:0:1:3000", baseURL],
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	credentials: true
 };
-
 app.use(cors(corsOption));
 
 app.use(passport.initialize());
@@ -56,13 +59,13 @@ app.get("/auth/twitter", passport.authenticate("twitter"));
 app.get(
 	"/auth/twitter/callback",
 	passport.authenticate("twitter", {
-		failureRedirect: `${baseClientURL}/signin`
+		failureRedirect: `${baseURL}/signin`
 	}),
 	(req, res) => {
 		console.log(req.user);
 
 		const token = createToken(req.user, secret, "1hr");
-		res.redirect(`${baseClientURL}/habits?token=${token}`);
+		res.redirect(`${baseURL}/habits?token=${token}`);
 	}
 );
 

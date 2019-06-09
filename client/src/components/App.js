@@ -41,6 +41,7 @@ export class App extends Component {
 										path="/habits"
 										render={() => <Habits refetch={refetch} />}
 									/>
+									<Route path="/favorites" component={FavoriteHabits} />
 									<Route path="/profile" component={Profile} />
 									<Redirect to="/habits" />
 								</Switch>
