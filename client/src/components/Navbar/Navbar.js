@@ -57,7 +57,6 @@ const UnAuthNav = ({ onSide }) => {
 				position="right"
 				minWidth={Responsive.onlyTablet.minWidth}>
 				<Menu.Item link as={NavLink} to="/habits" name="habit" />
-				<Menu.Item link as={NavLink} to="/profile" name="profile" />
 				<Menu.Item>
 					<Button as={Link} to="/signin" inverted>
 						Signin
