@@ -66,6 +66,11 @@ const HabitSchema = new Schema({
 		type: [Schema.Types.ObjectId],
 		default: [],
 		ref: "User"
+	},
+	comments: {
+		type: [Schema.Types.ObjectId],
+		default: [],
+		ref: "Comment"
 	}
 });
 
