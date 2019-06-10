@@ -81,10 +81,6 @@ class Signup extends React.Component {
 		}
 	};
 
-	handleTwitter = event => {
-		window.open(`${API_URL}/auth/twitter`);
-	};
-
 	handleInputError = (errors, inputName) => {
 		return errors.some(error => error.message.includes(inputName))
 			? "error"
@@ -178,7 +174,8 @@ class Signup extends React.Component {
 											size="large"
 											style={{ margin: "1em 0 0 0" }}
 											fluid
-											onClick={this.handleTwitter}>
+											as="a"
+											href={`${API_URL}/auth/twitter`}>
 											<Icon name="twitter" /> Twitterで会員登録する
 										</Button>
 									</Segment>
