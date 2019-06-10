@@ -1,21 +1,23 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Grid, Segment, Header, Comment, Button } from "semantic-ui-react";
+import {
+	Grid,
+	Segment,
+	Header,
+	Comment,
+	Button,
+	Message
+} from "semantic-ui-react";
 import { UserContext } from "../../index";
 import moment from "moment";
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "./../shered/Loader";
 
-const FavoriteHabits = ({ history }) => {
+const FavoriteHabits = () => {
 	const currentUser = useContext(UserContext);
+	console.log(currentUser);
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const [count, setCount] = useState(0);
-
-	useEffect(() => {
-		if (!currentUser) {
-			history.push("/login");
-		}
-	}, [currentUser]);
 
 	const onLoadMore = () => {
 		if (count <= currentUser.favorites.length) {
@@ -26,12 +28,9 @@ const FavoriteHabits = ({ history }) => {
 		}
 	};
 
-	console.log(currentUser);
-
-	const favoriteList =
-		currentUser &&
-		// currentUser.favorites
-		[...currentUser.favorites].slice(0, count).map(favorite => {
+	const favoriteList = [...currentUser.favorites]
+		.slice(0, count)
+		.map(favorite => {
 			return (
 				<Segment key={favorite._id} raised>
 					<Comment>
@@ -63,15 +62,20 @@ const FavoriteHabits = ({ history }) => {
 				<Segment textAlign="center">
 					<Comment.Group>
 						<Header as="h3" dividing>
-							{currentUser && currentUser.username}のお気に入り習慣一覧
+							{currentUser.username}さんのお気に入り習慣一覧
 						</Header>
 
 						<InfiniteScroll
 							loadMore={onLoadMore}
 							hasMore={hasNextPage}
-							loader={<Loader />}>
+							loader={<Loader key={favoriteList.length} />}>
 							{favoriteList}
 						</InfiniteScroll>
+						{!favoriteList && (
+							<Message info floating>
+								まだお気に入りの習慣がありません。お気に入りの習慣を登録してみましょう。
+							</Message>
+						)}
 					</Comment.Group>
 				</Segment>
 			</Grid.Column>

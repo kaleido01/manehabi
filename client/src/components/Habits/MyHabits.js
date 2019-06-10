@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { Query } from "react-apollo";
-import { Grid, Segment, Header, Comment } from "semantic-ui-react";
+import { Grid, Segment, Header, Comment, Message } from "semantic-ui-react";
 import { GET_USER_HABITS } from "./../../queries";
 import Loader from "./../shered/Loader";
 import HabitList from "./HabitList";
@@ -49,13 +49,19 @@ const MyHabits = ({ history }) => {
 							<Segment>
 								<Comment.Group>
 									<Header as="h3" dividing>
-										{currentUser.username}の習慣一覧
+										{currentUser.username}さんの習慣一覧
 									</Header>
-									<HabitList
-										habits={habits}
-										pageInfo={pageInfo}
-										onLoadMore={() => onLoadMore(habits, fetchMore)}
-									/>
+									{habits.length !== 0 ? (
+										<HabitList
+											habits={habits}
+											pageInfo={pageInfo}
+											onLoadMore={() => onLoadMore(habits, fetchMore)}
+										/>
+									) : (
+										<Message info floating>
+											まだ習慣がありません。最初の習慣を作りましょう
+										</Message>
+									)}
 								</Comment.Group>
 							</Segment>
 						);
