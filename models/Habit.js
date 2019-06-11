@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 
 const Schema = mongoose.Schema;
+const Comment = require("./Comment");
+const HabitRecord = require("./HabitRecord");
+const User = require("./User");
 
 const HabitSchema = new Schema({
 	title: {
@@ -72,6 +75,14 @@ const HabitSchema = new Schema({
 		default: [],
 		ref: "Comment"
 	}
+});
+
+HabitSchema.post("remove", (doc, next) => {
+	Comment.remove({ _id: { $in: doc.comments } });
+	HabitRecord.remove({ _id: { $in: doc.record } });
+	HabitRecord.remove({ _id: { $in: doc.timeRecord } });
+	User.remove({ "favorites._id": { $in: doc.starUser } });
+	next();
 });
 
 module.exports = mongoose.model("Habit", HabitSchema);

@@ -14,6 +14,10 @@ const CommentSchema = new Schema({
 	creator: {
 		type: Schema.Types.ObjectId,
 		ref: "User"
+	},
+	habitId: {
+		type: Schema.Types.ObjectId,
+		ref: "Habit"
 	}
 });
 

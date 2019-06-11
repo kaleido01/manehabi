@@ -29,6 +29,7 @@ type Habit{
 	isTimeRecord:Boolean
   timeRecord:[HabitRecord]
   starUser:[User]
+  comments:[Comment]
 }
 
 type HabitRecord{
@@ -37,6 +38,14 @@ type HabitRecord{
   total:Int,
   today:Int,
   habitId:ID
+}
+
+type Comment{
+  _id:ID,
+  createdAt:String,
+  HabitId:ID,
+  creator:User
+  body:String
 }
 
 type Token{
@@ -74,6 +83,7 @@ type Mutation{
   unStarHabit(_id:ID!):Habit
   updateHabit(_id:ID!,today:Int!,todayTime:Int):[HabitRecord]
   login(email:String!,password:String!):Token
+  createComment(body:String!,habitId:ID!,creatorId:ID!):comment
 
 }
 

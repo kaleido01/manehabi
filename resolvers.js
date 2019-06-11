@@ -153,22 +153,18 @@ exports.resolvers = {
 		deleteHabit: async (root, { _id }, { currentUser }) => {
 			const user = await User.findOne({ email: currentUser.email });
 
-			const habit = await Habit.findById(_id);
-
-			habit.starUser.forEach(async userId => {
-				console.log(userId);
-				await User.findOneAndUpdate(
-					{ _id: userId },
-					{
-						$pull: {
-							favorites: _id
-						}
-					}
-				);
+			const habit = await Habit.findById(_id).populate({
+				path: "creator",
+				model: "User"
 			});
-			const deleteHabit = await Habit.findByIdAndDelete(_id);
-			console.log(deleteHabit);
-			return deleteHabit;
+
+			if (String(user._id) !== String(habit.creator._id)) {
+				return new Error("作成者が異なるので更新できません");
+			}
+
+			await habit.remove();
+
+			return habit;
 		},
 		updateHabit: async (root, { _id, today, todayTime }, { currentUser }) => {
 			const user = await User.findOne({ email: currentUser.email });
