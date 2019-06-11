@@ -11,7 +11,6 @@ const withSession = Component => props => (
 			if (loading) return <Loader />;
 
 			const currentUser = data && data.getCurrentUser;
-			console.log(currentUser);
 			return (
 				<Component {...props} refetch={refetch} currentUser={currentUser} />
 			);
