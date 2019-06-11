@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import {
 	Grid,
 	Header,
@@ -20,7 +21,8 @@ export class CreateHabit extends Component {
 		description: "",
 		unit: "",
 		errors: [],
-		isTime: false
+		isTime: false,
+		onError: false
 	};
 
 	handleChange = event => {
@@ -34,9 +36,18 @@ export class CreateHabit extends Component {
 	handleSubmit = (event, createHabit) => {
 		event.preventDefault();
 		if (this.isFormValid()) {
-			createHabit().then(async ({ data }) => {
-				this.setState({ errors: [] });
-			});
+			createHabit()
+				.then(async ({ data }) => {
+					this.setState({ errors: [] });
+				})
+				.catch(err => {
+					this.setState({ onError: true });
+					setTimeout(() => {
+						this.setState({ onError: false });
+
+						this.props.history.push("/signin");
+					}, 2000);
+				});
 		}
 	};
 
@@ -63,9 +74,6 @@ export class CreateHabit extends Component {
 							]}
 							onCompleted={() => this.setState({ onOpen: true })}>
 							{(createHabit, { data, loading, error }) => {
-								if (error) {
-									console.log(error, data);
-								}
 								return (
 									<Form
 										size="large"
@@ -132,6 +140,10 @@ export class CreateHabit extends Component {
 							{this.displayErrors(errors)}
 						</Message>
 					)}
+					{/* Error Message */}
+					{this.state.onError && (
+						<Message>セッションがきれました。ログインしてください</Message>
+					)}
 
 					{/* success message */}
 					<Transition
@@ -153,4 +165,4 @@ export class CreateHabit extends Component {
 	}
 }
 
-export default CreateHabit;
+export default withRouter(CreateHabit);
