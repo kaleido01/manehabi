@@ -345,6 +345,21 @@ exports.resolvers = {
 
 			return { token };
 		},
+		updateProfile: async (
+			root,
+			{ username, email, oneWord },
+			{ currentUser }
+		) => {
+			const user = await User.findOne({ email: currentUser.email });
+
+			user.username = username;
+			user.email = email;
+			user.oneWord = oneWord;
+
+			user.save();
+
+			return user;
+		},
 		login: async (root, { email, password }, ctx) => {
 			const user = await User.findOne({ email });
 			if (!user) {

@@ -70,6 +70,7 @@ export const GET_CURRENT_USER = gql`
 			email
 			imageUrl
 			joinDate
+			oneWord
 			favorites {
 				_id
 				title
@@ -197,6 +198,16 @@ export const CREATE_USER = gql`
 	mutation createUser($username: String!, $email: String!, $password: String!) {
 		createUser(username: $username, email: $email, password: $password) {
 			token
+		}
+	}
+`;
+export const UPDATE_PROFILE = gql`
+	mutation updateProfile($username: String, $email: String, $oneWord: String) {
+		updateProfile(username: $username, email: $email, oneWord: $oneWord) {
+			_id
+			username
+			email
+			oneWord
 		}
 	}
 `;

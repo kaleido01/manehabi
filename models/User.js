@@ -25,6 +25,10 @@ const UserSchema = new Schema({
 		token: String,
 		tokenSecret: String
 	},
+	oneWord: {
+		type: String,
+		default: ""
+	},
 	joinDate: {
 		type: String,
 		default: () => moment().format("YYYY-MM-DD")

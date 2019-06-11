@@ -15,7 +15,6 @@ import Loader from "./../shered/Loader";
 
 const FavoriteHabits = () => {
 	const currentUser = useContext(UserContext);
-	console.log(currentUser);
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const [count, setCount] = useState(0);
 
