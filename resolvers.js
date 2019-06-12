@@ -1,6 +1,7 @@
 const Habit = require("./models/Habit");
 const User = require("./models/User");
 const HabitRecord = require("./models/HabitRecord");
+const Comment = require("./models/Comment");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = require("./config/keys").secret;
@@ -355,6 +356,22 @@ exports.resolvers = {
 			user.save();
 
 			return user;
+		},
+		createComment: async (root, { body, habitId }, { currentUser }) => {
+			const user = await User.findOne({ email: currentUser.email });
+			const comment = new Comment({
+				body,
+				creator: user._id,
+				habitId
+			});
+			const habit = await Habit.findById(habitId);
+			await comment.save();
+
+			console.log(habit.comments);
+			habit.comments.push(comment._id);
+			await habit.save();
+
+			return comment;
 		},
 		login: async (root, { email, password }, ctx) => {
 			const user = await User.findOne({ email });

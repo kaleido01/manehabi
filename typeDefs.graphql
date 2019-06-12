@@ -85,7 +85,7 @@ type Mutation{
   updateHabit(_id:ID!,today:Int!,todayTime:Int):[HabitRecord]
   updateProfile(username:String,email:String,oneWord:String):User
   login(email:String!,password:String!):Token
-  createComment(body:String!,habitId:ID!,creatorId:ID!):comment
+  createComment(body:String!,habitId:ID!):Comment
 
 }
 

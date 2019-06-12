@@ -78,10 +78,15 @@ const HabitSchema = new Schema({
 });
 
 HabitSchema.post("remove", (doc, next) => {
-	Comment.remove({ _id: { $in: doc.comments } });
-	HabitRecord.remove({ _id: { $in: doc.record } });
-	HabitRecord.remove({ _id: { $in: doc.timeRecord } });
-	User.remove({ "favorites._id": { $in: doc.starUser } });
+	console.log(doc);
+	User.updateMany(
+		{ favorites: { _id: doc._id } },
+		{ $pull: { favorites: doc._id } }
+	).exec();
+	// 上二つの処理が未完了
+	Comment.remove({ _id: { $in: doc.comments } }).exec();
+	HabitRecord.remove({ _id: { $in: doc.record } }).exec();
+	HabitRecord.remove({ _id: { $in: doc.timeRecord } }).exec();
 	next();
 });
 

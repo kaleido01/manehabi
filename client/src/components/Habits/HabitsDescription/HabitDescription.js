@@ -12,6 +12,7 @@ import Loader from "../../shered/Loader";
 import HabitCreator from "./HabitCreator";
 import Description from "./Description";
 import HabitGraph from "./HabitGraph";
+import CommentContainer from "./Comment/CommentContainer";
 
 const HabitDescription = ({ match }) => {
 	const { _id } = match.params;
@@ -74,8 +75,13 @@ const HabitDescription = ({ match }) => {
 								</Query>
 							</Grid.Column>
 						</Grid.Row>
+						<Grid.Column width={8}>
+							<CommentContainer
+								habitId={getHabit._id}
+								creatorId={getHabit.creator._id}
+							/>
+						</Grid.Column>
 					</Grid>
-					//TODO:userCommentsの実装
 				);
 			}}
 		</Query>

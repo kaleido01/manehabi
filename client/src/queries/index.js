@@ -212,6 +212,14 @@ export const UPDATE_PROFILE = gql`
 	}
 `;
 
+export const CREATE_COMMENT = gql`
+	mutation createComment($body: String!, $habitId: ID!) {
+		createComment(body: $body, habitId: $habitId) {
+			body
+		}
+	}
+`;
+
 export const LOGIN = gql`
 	mutation login($email: String!, $password: String!) {
 		login(email: $email, password: $password) {
