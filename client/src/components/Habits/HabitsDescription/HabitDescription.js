@@ -14,6 +14,7 @@ import Description from "./Description";
 import HabitGraph from "./HabitGraph";
 import CommentContainer from "./Comment/CommentContainer";
 import MessageList from "./Comment/MessageList";
+import SearchComment from "./Comment/SearchComment";
 
 const HabitDescription = ({ match }) => {
 	const { _id } = match.params;
@@ -27,10 +28,10 @@ const HabitDescription = ({ match }) => {
 				return (
 					<Grid textAlign="center" centered stackable container>
 						<Grid.Row>
-							<Grid.Column computer={4} mobile={6}>
+							<Grid.Column computer={6} mobile={8} tablet={8}>
 								<HabitCreator habit={getHabit} />
 							</Grid.Column>
-							<Grid.Column computer={12}>
+							<Grid.Column computer={10} tablet={8} mobile={8}>
 								<Description habit={getHabit} />
 							</Grid.Column>
 						</Grid.Row>
@@ -81,6 +82,7 @@ const HabitDescription = ({ match }) => {
 								habit={getHabit}
 								creatorId={getHabit.creator._id}
 							/>
+							<SearchComment />
 							<MessageList habit={getHabit} />
 						</Grid.Column>
 					</Grid>
