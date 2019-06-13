@@ -130,14 +130,47 @@ exports.resolvers = {
 			console.log(habitRecords);
 			return habitRecords.timeRecord.reverse();
 		},
-		getMessages: async (root, { _id, offset, limit }, ctx) => {
-			const messages = await Comment.find({ habitId: _id })
+		getMessages: async (
+			root,
+			{ _id, offset, limit, descending, user },
+			{ currentUser }
+		) => {
+			let _currentUser;
+			if (currentUser) {
+				_currentUser = await User.findOne({ email: currentUser.email });
+			}
+
+			let condition;
+
+			console.log(user);
+
+			if (user === "all") {
+				condition = {
+					habitId: _id
+				};
+			} else if (user === "user") {
+				condition = {
+					habitId: _id,
+					creator: { _id: _currentUser._id }
+				};
+			} else if (user === "other") {
+				condition = {
+					habitId: _id,
+					creator: { $ne: { _id: _currentUser._id } }
+				};
+			}
+
+			console.log("condition", condition);
+
+			const messages = await Comment.find(condition)
 				.skip(offset)
 				.limit(limit)
 				.populate({ path: "creator", model: "User" })
-				.sort({ createdAt: "-1" });
+				.sort({ createdAt: +descending });
 
-			const count = await Comment.countDocuments({ habitId: _id });
+			console.log("messages", messages);
+
+			const count = await Comment.countDocuments(condition);
 
 			const pageInfo = {
 				startCursor: offset,

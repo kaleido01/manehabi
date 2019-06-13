@@ -195,8 +195,20 @@ export const GET_HABIT_TIMERECORDS = gql`
 `;
 
 export const GET_MESSAGES = gql`
-	query getMessages($_id: ID!, $offset: Int, $limit: Int) {
-		getMessages(_id: $_id, offset: $offset, limit: $limit) {
+	query getMessages(
+		$_id: ID!
+		$offset: Int
+		$limit: Int
+		$descending: String
+		$user: String
+	) {
+		getMessages(
+			_id: $_id
+			offset: $offset
+			limit: $limit
+			descending: $descending
+			user: $user
+		) {
 			messages {
 				_id
 				body

@@ -6,7 +6,7 @@ import { Segment } from "semantic-ui-react";
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../../shered/Loader";
 
-const MessageList = ({ habit }) => {
+const MessageList = ({ habit, commentOptions }) => {
 	const onLoadMore = (messages, fetchMore) => {
 		console.log(messages);
 		fetchMore({
@@ -36,17 +36,27 @@ const MessageList = ({ habit }) => {
 		);
 	};
 
+	const variables = {
+		_id: habit._id,
+		offset: 0,
+		limit: 5,
+		...commentOptions
+	};
+
+	console.log(variables);
+
 	return (
 		<Query
 			query={GET_MESSAGES}
-			variables={{ _id: habit._id, offset: 0, limit: 5 }}>
+			variables={{
+				_id: habit._id,
+				offset: 0,
+				limit: 5,
+				...commentOptions
+			}}>
 			{({ data, loading, fetchMore }) => {
 				if (loading) return <div>loading</div>;
-				console.log(data);
 				const { messages, pageInfo } = data.getMessages;
-				console.log(messages, pageInfo);
-				console.log(pageInfo.hasNextPage);
-				console.log(messages.length);
 				return (
 					<Segment>
 						<InfiniteScroll

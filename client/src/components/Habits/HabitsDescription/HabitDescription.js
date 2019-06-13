@@ -19,6 +19,13 @@ import SearchComment from "./Comment/SearchComment";
 const HabitDescription = ({ match }) => {
 	const { _id } = match.params;
 	const [days, setDays] = useState(7);
+	const [descending, setDescending] = useState("-1");
+	const [user, setUser] = useState("all");
+
+	const commentOptions = {
+		descending,
+		user
+	};
 
 	return (
 		<Query query={GET_HABIT} variables={{ _id }}>
@@ -82,8 +89,13 @@ const HabitDescription = ({ match }) => {
 								habit={getHabit}
 								creatorId={getHabit.creator._id}
 							/>
-							<SearchComment />
-							<MessageList habit={getHabit} />
+							<SearchComment
+								setDescending={setDescending}
+								descending={descending}
+								user={user}
+								setUser={setUser}
+							/>
+							<MessageList habit={getHabit} commentOptions={commentOptions} />
 						</Grid.Column>
 					</Grid>
 				);
