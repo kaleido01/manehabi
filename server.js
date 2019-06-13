@@ -101,13 +101,13 @@ const server = new ApolloServer({
 			console.error(`Unable to authenticate user with token`);
 		}
 		return { currentUser };
+	},
+	playground: {
+		endpoint: `http://localhost:4000/graphql`,
+		settings: {
+			"editor.theme": "light"
+		}
 	}
-	// playground: {
-	//   endpoint: `http://localhost:4000/graphql`,
-	//   settings: {
-	//     'editor.theme': 'light'
-	//   }
-	// }
 });
 
 server.applyMiddleware({ app });

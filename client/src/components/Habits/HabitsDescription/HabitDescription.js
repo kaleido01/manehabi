@@ -13,6 +13,7 @@ import HabitCreator from "./HabitCreator";
 import Description from "./Description";
 import HabitGraph from "./HabitGraph";
 import CommentContainer from "./Comment/CommentContainer";
+import MessageList from "./Comment/MessageList";
 
 const HabitDescription = ({ match }) => {
 	const { _id } = match.params;
@@ -77,9 +78,10 @@ const HabitDescription = ({ match }) => {
 						</Grid.Row>
 						<Grid.Column width={8}>
 							<CommentContainer
-								habitId={getHabit._id}
+								habit={getHabit}
 								creatorId={getHabit.creator._id}
 							/>
+							<MessageList habit={getHabit} />
 						</Grid.Column>
 					</Grid>
 				);

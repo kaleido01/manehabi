@@ -64,6 +64,11 @@ type HabitAndPageInfo{
   habits:[Habit]
 }
 
+type MessageAndPageInfo{
+  pageInfo:pageInfo
+  messages:[Comment]
+}
+
 type Query{
   getCurrentUser:User
   getAllHabits(offset:Int,limit:Int):HabitAndPageInfo
@@ -71,6 +76,7 @@ type Query{
   getHabit(_id:ID!):Habit
   getHabitRecords(_id:ID!,limit:Int!):[HabitRecord]
   getHabitTimeRecords(_id:ID!,limit:Int!):[HabitRecord]
+  getMessages(_id:ID!,offset:Int,limit:Int):MessageAndPageInfo
 }
 
 

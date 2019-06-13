@@ -40,7 +40,9 @@ const Description = ({ habit }) => {
 				<Divider />
 				<Icon name="check" />
 				習慣を最後に更新した日 :{" "}
-				{moment(+habit.updateDate).format("YYYY-MM-DD")}
+				{habit.updateDate
+					? moment(+habit.updateDate).format("YYYY-MM-DD")
+					: "未更新"}
 				<Divider />
 				<Icon name="redo" />
 				挫折した回数 : {habit.numberOfFailure}

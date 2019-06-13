@@ -194,6 +194,28 @@ export const GET_HABIT_TIMERECORDS = gql`
 	}
 `;
 
+export const GET_MESSAGES = gql`
+	query getMessages($_id: ID!, $offset: Int, $limit: Int) {
+		getMessages(_id: $_id, offset: $offset, limit: $limit) {
+			messages {
+				_id
+				body
+				createdAt
+				creator {
+					_id
+					username
+					imageUrl
+				}
+			}
+			pageInfo {
+				startCursor
+				endCursor
+				hasNextPage
+			}
+		}
+	}
+`;
+
 export const CREATE_USER = gql`
 	mutation createUser($username: String!, $email: String!, $password: String!) {
 		createUser(username: $username, email: $email, password: $password) {

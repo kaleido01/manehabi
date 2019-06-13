@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { CREATE_COMMENT } from "./../../../../queries/index";
-import { Form, Segment, Button } from "semantic-ui-react";
+import { Form, Segment, Button, TextArea } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 
-const CommentContainer = ({ creatorId, habitId }) => {
-	const [body, setBody] = useState("");
+const CommentContainer = ({ creatorId, habit }) => {
+	const [body, setBody] = useState(`${habit.countDate}日目 :`);
 
 	const handleSubmit = (event, createComment) => {
 		event.preventDefault();
@@ -16,25 +16,22 @@ const CommentContainer = ({ creatorId, habitId }) => {
 		<div>
 			<Mutation
 				mutation={CREATE_COMMENT}
-				variables={{ body, creatorId, habitId }}>
+				variables={{ body, creatorId, habitId: habit._id }}>
 				{(createComment, { data, loading }) => {
 					return (
 						<Form
 							onSubmit={event => handleSubmit(event, createComment)}
 							size="large">
 							<Segment>
-								<Form.Input
-									fluid
+								<TextArea
 									name="body"
-									icon="mail"
-									iconPosition="left"
-									placeholder="Eメールアドレス"
+									placeholder=""
 									onChange={event => setBody(event.target.value)}
 									value={body}
 									// className={this.handleInputError(errors, "Eメール")}
-									type="text"
+									type="textInput"
 								/>
-								<Button color="blue">コメント</Button>
+								<Button color="blue">一言コメント</Button>
 							</Segment>
 						</Form>
 					);

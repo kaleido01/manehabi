@@ -129,6 +129,22 @@ exports.resolvers = {
 			// .sort({ record: { date: 1 } });
 			console.log(habitRecords);
 			return habitRecords.timeRecord.reverse();
+		},
+		getMessages: async (root, { _id, offset, limit }, ctx) => {
+			const messages = await Comment.find({ habitId: _id })
+				.skip(offset)
+				.limit(limit)
+				.populate({ path: "creator", model: "User" })
+				.sort({ createdAt: "-1" });
+
+			const count = await Comment.countDocuments({ habitId: _id });
+
+			const pageInfo = {
+				startCursor: offset,
+				endCursor: limit,
+				hasNextPage: offset !== count
+			};
+			return { messages, pageInfo };
 		}
 	},
 
@@ -367,7 +383,6 @@ exports.resolvers = {
 			const habit = await Habit.findById(habitId);
 			await comment.save();
 
-			console.log(habit.comments);
 			habit.comments.push(comment._id);
 			await habit.save();
 
