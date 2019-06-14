@@ -35,17 +35,42 @@ exports.resolvers = {
 				.exec();
 			return user;
 		},
-		getAllHabits: async (root, { offset, limit }, ctx) => {
-			const habits = await Habit.find()
-				.skip(offset)
-				.limit(limit)
-				.populate({
-					path: "creator",
-					model: "User"
-				})
-				.sort({ createdAt: -1 });
+		getAllHabits: async (
+			root,
+			{ offset, limit, searchTerm, option, descending },
+			ctx
+		) => {
+			let sort = {};
+			sort[option] = descending;
 
-			const count = await Habit.countDocuments();
+			let habits;
+			let count;
+
+			if (searchTerm) {
+				habits = await Habit.find({
+					$text: { $search: searchTerm }
+				})
+					.skip(offset)
+					.limit(limit)
+					.populate({
+						path: "creator",
+						model: "User"
+					})
+					.sort(sort);
+				count = await Habit.countDocuments({
+					$text: { $search: searchTerm }
+				});
+			} else {
+				habits = await Habit.find()
+					.skip(offset)
+					.limit(limit)
+					.populate({
+						path: "creator",
+						model: "User"
+					})
+					.sort(sort);
+				count = await Habit.countDocuments();
+			}
 			const pageInfo = {
 				startCursor: offset,
 				endCursor: limit,

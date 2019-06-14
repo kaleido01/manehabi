@@ -86,8 +86,20 @@ export const GET_CURRENT_USER = gql`
 `;
 
 export const GET_ALL_HABITS = gql`
-	query getAllHabits($offset: Int, $limit: Int) {
-		getAllHabits(offset: $offset, limit: $limit) {
+	query getAllHabits(
+		$offset: Int
+		$limit: Int
+		$descending: String
+		$option: String
+		$searchTerm: String
+	) {
+		getAllHabits(
+			offset: $offset
+			limit: $limit
+			descending: $descending
+			option: $option
+			searchTerm: $searchTerm
+		) {
 			habits {
 				_id
 				title

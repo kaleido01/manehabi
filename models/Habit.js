@@ -90,6 +90,8 @@ HabitSchema.post("remove", (doc, next) => {
 	next();
 });
 
+HabitSchema.index({ "$**": "text" });
+
 // schema.index({name: 'text', 'profile.something': 'text'});
 
 module.exports = mongoose.model("Habit", HabitSchema);

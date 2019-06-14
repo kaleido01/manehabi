@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Query } from "react-apollo";
 import { withRouter } from "react-router-dom";
 import { GET_ALL_HABITS } from "./../../queries";
@@ -7,8 +7,18 @@ import HabitList from "./HabitList";
 import { InitialLoader } from "../shered/Loader";
 import { Grid, Header, Comment, Segment } from "semantic-ui-react";
 import queryString from "query-string";
+import SearchHabits from "./SearchHabits";
 
 const Habits = ({ location, refetch }) => {
+	const [descending, setDescending] = useState("-1");
+	const [option, setOption] = useState("createdAt");
+	const [searchTerm, setSearchTerm] = useState("");
+
+	const query = {
+		descending,
+		option,
+		searchTerm
+	};
 	useEffect(() => {
 		const { token } = queryString.parse(location.search);
 		if (token) {
@@ -40,13 +50,22 @@ const Habits = ({ location, refetch }) => {
 	return (
 		<Grid textAlign="center" centered>
 			<Grid.Column style={{ minWidth: "350px" }} width={8}>
-				<Query query={GET_ALL_HABITS} variables={{ offset: 0, limit: 5 }}>
-					{({ data, fetchMore, loading, error }) => {
+				<Query
+					query={GET_ALL_HABITS}
+					variables={{ offset: 0, limit: 5, ...query }}>
+					{({ data, fetchMore, loading }) => {
 						if (loading) return <InitialLoader />;
-						if (error) return console.log(error);
 						const { habits, pageInfo } = data.getAllHabits;
 						return (
 							<Segment>
+								<SearchHabits
+									setDescending={setDescending}
+									descending={descending}
+									option={option}
+									setOption={setOption}
+									searchTerm={searchTerm}
+									setSearchTerm={setSearchTerm}
+								/>
 								<Comment.Group>
 									<Header as="h3" dividing textAlign="center">
 										新着習慣一覧
