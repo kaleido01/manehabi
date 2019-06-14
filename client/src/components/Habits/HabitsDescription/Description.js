@@ -47,15 +47,13 @@ const Description = ({ habit }) => {
 				<Icon name="redo" />
 				挫折した回数 : {habit.numberOfFailure}
 				<Divider />
-				<Grid>
-					<Grid.Column width={6} floated="left">
-						<Icon name="star" color="yellow" />
-						応援の星 : {habit.starUser.length}
-					</Grid.Column>
-					<Grid.Column computer={5} floated="right" mobile={9}>
-						<StarButton habit={habit} />
-					</Grid.Column>
-				</Grid>
+				<Grid.Column computer={5} tablet={5} mobile={8} floated="left">
+					<Icon name="star" color="yellow" />
+					応援の星 : {habit.starUser.length}
+				</Grid.Column>
+				<Grid.Column computer={5} tablet={5} mobile={8}>
+					<StarButton habit={habit} />
+				</Grid.Column>
 				<Divider />
 				<Button
 					as="a"

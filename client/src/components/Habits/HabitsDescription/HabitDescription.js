@@ -35,10 +35,10 @@ const HabitDescription = ({ match }) => {
 				return (
 					<Grid textAlign="center" centered stackable container>
 						<Grid.Row>
-							<Grid.Column computer={6} mobile={8} tablet={8}>
+							<Grid.Column computer={6} mobile={8} tablet={6}>
 								<HabitCreator habit={getHabit} />
 							</Grid.Column>
-							<Grid.Column computer={10} tablet={8} mobile={8}>
+							<Grid.Column computer={10} tablet={10} mobile={8}>
 								<Description habit={getHabit} />
 							</Grid.Column>
 						</Grid.Row>
