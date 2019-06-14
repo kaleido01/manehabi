@@ -15,6 +15,7 @@ const SearchComment = ({
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSearchChange = (e, { value }) => {
+		console.log("count");
 		setIsLoading(true);
 
 		setSearchTerm(value);
@@ -31,7 +32,8 @@ const SearchComment = ({
 						<Search
 							loading={isLoading}
 							showNoResults={false}
-							onSearchChange={_.debounce(handleSearchChange, 3000, {
+							onSearchChange={_.debounce(handleSearchChange, 10000, {
+								trailing: true,
 								leading: true
 							})}
 							value={searchTerm}
