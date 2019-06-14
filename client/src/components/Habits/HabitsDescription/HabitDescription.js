@@ -21,10 +21,12 @@ const HabitDescription = ({ match }) => {
 	const [days, setDays] = useState(7);
 	const [descending, setDescending] = useState("-1");
 	const [user, setUser] = useState("all");
+	const [searchTerm, setSearchTerm] = useState("");
 
 	const commentOptions = {
 		descending,
-		user
+		user,
+		searchTerm
 	};
 
 	return (
@@ -94,6 +96,8 @@ const HabitDescription = ({ match }) => {
 								descending={descending}
 								user={user}
 								setUser={setUser}
+								searchTerm={searchTerm}
+								setSearchTerm={setSearchTerm}
 							/>
 							<MessageList habit={getHabit} commentOptions={commentOptions} />
 						</Grid.Column>

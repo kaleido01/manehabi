@@ -76,7 +76,7 @@ type Query{
   getHabit(_id:ID!):Habit
   getHabitRecords(_id:ID!,limit:Int!):[HabitRecord]
   getHabitTimeRecords(_id:ID!,limit:Int!):[HabitRecord]
-  getMessages(_id:ID!,offset:Int,limit:Int,user:String,descending:String):MessageAndPageInfo
+  getMessages(_id:ID!,offset:Int,limit:Int,user:String,descending:String,searchTerm:String):MessageAndPageInfo
 }
 
 

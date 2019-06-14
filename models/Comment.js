@@ -21,4 +21,6 @@ const CommentSchema = new Schema({
 	}
 });
 
+CommentSchema.index({ "$**": "text" });
+
 module.exports = mongoose.model("Comment", CommentSchema);

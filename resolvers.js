@@ -132,7 +132,7 @@ exports.resolvers = {
 		},
 		getMessages: async (
 			root,
-			{ _id, offset, limit, descending, user },
+			{ _id, offset, limit, descending, user, searchTerm },
 			{ currentUser }
 		) => {
 			let _currentUser;
@@ -141,8 +141,6 @@ exports.resolvers = {
 			}
 
 			let condition;
-
-			console.log(user);
 
 			if (user === "all") {
 				condition = {
@@ -160,7 +158,14 @@ exports.resolvers = {
 				};
 			}
 
-			console.log("condition", condition);
+			if (searchTerm) {
+				condition = {
+					...condition,
+					$text: { $search: searchTerm }
+				};
+			}
+
+			console.log("searchTerm", searchTerm);
 
 			const messages = await Comment.find(condition)
 				.skip(offset)
@@ -168,7 +173,7 @@ exports.resolvers = {
 				.populate({ path: "creator", model: "User" })
 				.sort({ createdAt: +descending });
 
-			console.log("messages", messages);
+			// console.log("messages", messages);
 
 			const count = await Comment.countDocuments(condition);
 

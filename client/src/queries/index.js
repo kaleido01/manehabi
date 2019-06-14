@@ -201,6 +201,7 @@ export const GET_MESSAGES = gql`
 		$limit: Int
 		$descending: String
 		$user: String
+		$searchTerm: String
 	) {
 		getMessages(
 			_id: $_id
@@ -208,6 +209,7 @@ export const GET_MESSAGES = gql`
 			limit: $limit
 			descending: $descending
 			user: $user
+			searchTerm: $searchTerm
 		) {
 			messages {
 				_id
