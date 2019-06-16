@@ -214,16 +214,22 @@ exports.resolvers = {
 	Mutation: {
 		createHabit: async (
 			root,
-			{ title, description, unit, isTime },
+			{ title, description, units },
 			{ currentUser }
 		) => {
 			const user = await User.findOne({ email: currentUser.email });
+
+			const habitRecords = units.map(unit => {
+				return {
+					unit
+				};
+			});
+
 			const newHabit = new Habit({
 				title,
 				description,
 				creator: user._id,
-				isTimeRecord: isTime,
-				unit
+				habitRecords
 			});
 			await newHabit.save();
 			user.habits.push(newHabit._id);

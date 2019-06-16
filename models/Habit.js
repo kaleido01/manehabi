@@ -44,12 +44,10 @@ const HabitSchema = new Schema({
 		default: 0
 	},
 	unit: {
-		type: String,
-		required: true
+		type: String
 	},
 	isTimeRecord: {
-		type: Boolean,
-		required: true
+		type: Boolean
 	},
 	timeRecord: {
 		type: [Schema.Types.ObjectId],

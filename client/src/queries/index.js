@@ -4,15 +4,9 @@ export const CREATE_HABIT = gql`
 	mutation createHabit(
 		$title: String!
 		$description: String!
-		$unit: String!
-		$isTime: Boolean!
+		$units: [String!]
 	) {
-		createHabit(
-			title: $title
-			description: $description
-			unit: $unit
-			isTime: $isTime
-		) {
+		createHabit(title: $title, description: $description, units: $units) {
 			title
 			description
 		}

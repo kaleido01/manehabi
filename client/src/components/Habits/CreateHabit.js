@@ -9,7 +9,7 @@ import {
 	Button,
 	Message,
 	Transition,
-	Checkbox
+	GridColumn
 } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import { CREATE_HABIT, GET_ALL_HABITS, GET_USER_HABITS } from "../../queries";
@@ -19,9 +19,8 @@ export class CreateHabit extends Component {
 		onOpen: false,
 		title: "",
 		description: "",
-		unit: "",
+		units: [""],
 		errors: [],
-		isTime: false,
 		onError: false
 	};
 
@@ -56,8 +55,44 @@ export class CreateHabit extends Component {
 			? "error"
 			: "";
 	};
+
+	handleAddUnit = () => {
+		const newUnits = [...this.state.units];
+		newUnits.push("");
+		this.setState({ units: newUnits });
+	};
+	handleRemoveUnit = () => {
+		const newUnits = [...this.state.units];
+		newUnits.pop();
+		this.setState({ units: newUnits });
+	};
+
+	handleUnitsChange = (e, index) => {
+		const newUnits = [...this.state.units];
+		newUnits[index] = e.target.value;
+		this.setState({ units: newUnits });
+	};
+
+	renderUnits = () => {
+		const { units } = this.state;
+		return units.map((unit, index) => {
+			const unit_name = "unit_name" + index;
+			return (
+				<Form.Input
+					key={index}
+					name={unit_name}
+					icon="tags"
+					iconPosition="left"
+					placeholder="習慣の単位 (例: 文字)"
+					onChange={e => this.handleUnitsChange(e, index)}
+					value={unit}
+					type="text"
+				/>
+			);
+		});
+	};
 	render() {
-		const { onOpen, title, description, errors, unit, isTime } = this.state;
+		const { onOpen, title, description, errors, units } = this.state;
 		return (
 			<Grid className="Auth" textAlign="center" verticalAlign="middle">
 				<Grid.Column style={{ maxWidth: 367 }}>
@@ -67,7 +102,7 @@ export class CreateHabit extends Component {
 					{onOpen ? null : (
 						<Mutation
 							mutation={CREATE_HABIT}
-							variables={{ title, description, unit, isTime }}
+							variables={{ title, description, units }}
 							refetchQueries={[
 								{ query: GET_ALL_HABITS, variables: { offset: 0, limit: 5 } },
 								{ query: GET_USER_HABITS, variables: { offset: 0, limit: 5 } }
@@ -75,9 +110,7 @@ export class CreateHabit extends Component {
 							onCompleted={() => this.setState({ onOpen: true })}>
 							{(createHabit, { data, loading, error }) => {
 								return (
-									<Form
-										size="large"
-										onSubmit={event => this.handleSubmit(event, createHabit)}>
+									<Form size="large">
 										<Segment stacked>
 											<Form.Input
 												fluid
@@ -98,31 +131,33 @@ export class CreateHabit extends Component {
 												className={this.handleInputError(errors, "パスワード")}
 												type="text"
 											/>
-											<Form.Input
-												name="unit"
-												icon="tags"
-												iconPosition="left"
-												placeholder="習慣の単位 (例: 文字)"
-												onChange={this.handleChange}
-												value={unit}
-												type="text"
-											/>
-											<Form.Field
-												control={Checkbox}
-												name="needTime"
-												label="時間の積み上げも追加"
-												onChange={() =>
-													this.setState(prevState => {
-														return { isTime: !prevState.isTime };
-													})
-												}
-												className={this.handleInputError(errors, "パスワード")}
-											/>
+											<Grid columns={3}>
+												<Grid.Column>
+													<strong>習慣の単位(任意個数)</strong>
+												</Grid.Column>
+												<GridColumn>
+													<Button
+														color="blue"
+														icon="add"
+														onClick={this.handleAddUnit}
+													/>
+												</GridColumn>
+												<GridColumn>
+													<Button
+														icon="remove"
+														color="red"
+														onClick={this.handleRemoveUnit}
+													/>
+												</GridColumn>
+											</Grid>
+											{this.renderUnits()}
+
 											<Button
 												disabled={loading}
 												className={loading ? "loading" : ""}
 												color="orange"
 												size="large"
+												onClick={event => this.handleSubmit(event, createHabit)}
 												fluid>
 												作成
 											</Button>
