@@ -90,12 +90,12 @@ exports.resolvers = {
 				});
 
 			const count = await Habit.countDocuments({ creator: user._id });
-			console.log(count);
 			const pageInfo = {
 				startCursor: offset,
 				endCursor: limit,
 				hasNextPage: offset !== count
 			};
+
 			return { habits, pageInfo };
 		},
 		getHabit: async (root, { _id }, ctx) => {
@@ -221,7 +221,8 @@ exports.resolvers = {
 
 			const habitRecords = units.map(unit => {
 				return {
-					unit
+					unit,
+					habitNumber: null
 				};
 			});
 
@@ -252,18 +253,13 @@ exports.resolvers = {
 
 			return habit;
 		},
-		updateHabit: async (root, { _id, today, todayTime }, { currentUser }) => {
+		updateHabit: async (root, { _id, todayRecords }, { currentUser }) => {
 			const user = await User.findOne({ email: currentUser.email });
 			const habit = await Habit.findById(_id)
 				.populate({
-					path: "record",
-					model: "HabitRecord",
-					options: { sort: { date: -1 } }
-				})
-				.populate({
-					path: "timeRecord",
-					model: "HabitRecord",
-					options: { sort: { date: -1 } }
+					path: "habitRecords.records",
+					model: "HabitRecord"
+					// options: { sort: { date: -1 } }
 				})
 				.populate({
 					path: "creator",
@@ -271,67 +267,44 @@ exports.resolvers = {
 				})
 				.exec();
 
+			console.log(todayRecords);
+
 			if (String(user._id) !== String(habit.creator._id)) {
 				return new Error("作成者が異なるので更新できません");
 			}
 
-			//ここからitemの更新
-			let beforeTotal = 0;
-			let beforeId = null;
-			if (habit.record.length !== 0) {
-				let { _id, total } = habit.record[0];
-				beforeId = _id;
-				beforeTotal = total;
-			}
-			const record = new HabitRecord({
-				date: Date.now(),
-				total: beforeTotal + today,
-				today,
-				before: beforeId,
-				habitId: _id
+			//ここからrecordsの更新
+			await habit.habitRecords.forEach(async habitRecord => {
+				let beforeTotal = 0;
+				let beforeId = null;
+
+				const updateIndex = todayRecords.findIndex(todayRecord => {
+					return String(todayRecord.recordNumber) === String(habitRecord._id);
+				});
+				const { today } = todayRecords[updateIndex];
+				if (habitRecord.records.length !== 0) {
+					let { _id, total } = habitRecord.records[0];
+					beforeId = _id;
+					beforeTotal = total;
+				}
+				const record = new HabitRecord({
+					date: Date.now(),
+					total: beforeTotal + today,
+					today,
+					before: beforeId,
+					habitId: _id
+				});
+
+				habit.habitRecords[updateIndex].records.push(record._id);
+				console.log("1", habit.habitRecords[updateIndex].records);
+				await record.save();
 			});
+			console.log("2", habit.habitRecords);
 
-			await record.save();
-
-			if (!habit.record) {
-				habit.record = [record._id];
-			} else {
-				habit.record.push(record._id);
-			}
 			habit.updateDate = Date.now();
 			habit.countDate += 1;
 
 			await habit.save();
-
-			let timeRecord = [];
-
-			if (habit.isTimeRecord) {
-				beforeTotal = 0;
-				beforeId = null;
-
-				if (habit.timeRecord.length !== 0) {
-					let { _id, total } = habit.timeRecord[0];
-					beforeId = _id;
-					beforeTotal = total;
-				}
-
-				timeRecord = new HabitRecord({
-					date: Date.now(),
-					total: beforeTotal + todayTime,
-					today: todayTime,
-					before: beforeId,
-					habitId: _id
-				});
-				await timeRecord.save();
-
-				if (!habit.timeRecord) {
-					habit.timeRecord = [timeRecord._id];
-				} else {
-					habit.timeRecord.push(timeRecord._id);
-				}
-				habit.updateDate = Date.now();
-				await habit.save();
-			}
 
 			// for (let index = 0; index < 100; index++) {
 			// 	const record = new HabitRecord({
@@ -354,7 +327,7 @@ exports.resolvers = {
 			// 	await habit.save();
 			// }
 
-			return [record, timeRecord];
+			return true;
 		},
 		starHabit: async (root, { _id }, { currentUser }) => {
 			if (!currentUser) {

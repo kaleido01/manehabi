@@ -29,8 +29,15 @@ type Habit{
   unit:String
 	isTimeRecord:Boolean
   timeRecord:[HabitRecord]
+  habitRecords:[habitRecords]
   starUser:[User]
   comments:[Comment]
+}
+
+type habitRecords{
+  _id:ID
+  unit:String
+  records:[HabitRecord]
 }
 
 type HabitRecord{
@@ -81,6 +88,11 @@ type Query{
 
 
 
+input todayRecord {
+    today:Int,
+    recordNumber:ID
+}
+
 type Mutation{
   createHabit(title:String!,description:String!,units:[String!]):Habit
   deleteHabit(_id:ID!):Habit
@@ -88,7 +100,7 @@ type Mutation{
   createUser(username:String!,email:String!,password:String!):Token
   starHabit(_id:ID!):Habit
   unStarHabit(_id:ID!):Habit
-  updateHabit(_id:ID!,today:Int!,todayTime:Int):[HabitRecord]
+  updateHabit(_id:ID!,todayRecords:[todayRecord]):Boolean
   updateProfile(username:String,email:String,oneWord:String):User
   login(email:String!,password:String!):Token
   createComment(body:String!,habitId:ID!):Comment

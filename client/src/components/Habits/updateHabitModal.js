@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Icon, Input } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import { UPDATE_HABIT, GET_ALL_HABITS, GET_USER_HABITS } from "../../queries";
 import Loader from "./../shered/Loader";
 
 const UpdateHabitModal = ({ closeModal, habit, open }) => {
-	const [time, setTime] = useState(0);
-	const [item, setItem] = useState(0);
+	const [todayRecords, setTodayRecords] = useState([]);
+
+	useEffect(() => {
+		habit.habitRecords.map(habitRecord => {
+			setTodayRecords(prevState => {
+				return [
+					...prevState,
+					{
+						recordNumber: habitRecord._id,
+						today: 0
+					}
+				];
+			});
+		});
+	}, []);
+	console.log(habit.habitRecords);
+	console.log(todayRecords);
 
 	const handleUpdateHabit = (updateHabit, closeModal) => {
 		updateHabit()
@@ -15,6 +30,38 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 				console.log(err);
 				closeModal();
 			});
+	};
+
+	const handleChange = (e, index) => {
+		const newTodayRecords = [...todayRecords];
+		console.log(newTodayRecords);
+		newTodayRecords[index].today = +e.target.value;
+		setTodayRecords(newTodayRecords);
+	};
+
+	console.log(todayRecords.length);
+	const renderUnit = () => {
+		return (
+			todayRecords.length !== 0 &&
+			habit.habitRecords.map((habitRecord, index) => {
+				const { unit, recordNumber } = habitRecord;
+				console.log(index);
+				return (
+					<Input
+						fluid
+						name={recordNumber}
+						iconPosition="left"
+						label={`今日の積み上げ${unit}数`}
+						placeholder={`今日の積み上げ${unit}数`}
+						onChange={e => handleChange(e, index)}
+						value={todayRecords[index].today}
+						type="number"
+						min={0}
+						style={{ margin: "1em 0" }}
+					/>
+				);
+			})
+		);
 	};
 
 	// const handleUpdateCache = (cache, { data: { deleteHabit } }) => {
@@ -45,7 +92,7 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 	return (
 		<Mutation
 			mutation={UPDATE_HABIT}
-			variables={{ _id: habit._id, today: +item, todayTime: +time }}
+			variables={{ _id: habit._id, todayRecords }}
 			onCompleted={closeModal}
 			refetchQueries={[
 				{ query: GET_ALL_HABITS, variables: { offset: 0, limit: 5 } },
@@ -60,31 +107,7 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 						<Modal.Header>{habit.title}の更新</Modal.Header>
 						<Modal.Content>
 							{habit.title}の積み上げを更新しましょう！
-							{habit.isTimeRecord ? (
-								<Input
-									fluid
-									name="time"
-									label="今日の積み上げ分数"
-									iconPosition="left"
-									placeholder="今日の積み上げ分数"
-									onChange={event => setTime(event.target.value)}
-									value={time}
-									type="number"
-									min={0}
-									style={{ margin: "1em 0" }}
-								/>
-							) : null}
-							<Input
-								fluid
-								name="item"
-								iconPosition="left"
-								label={`今日の積み上げ${habit.unit}数`}
-								placeholder={`今日の積み上げ${habit.unit}数`}
-								onChange={event => setItem(event.target.value)}
-								value={item}
-								type="number"
-								min={0}
-							/>
+							{renderUnit()}
 						</Modal.Content>
 						<Modal.Actions>
 							<Button

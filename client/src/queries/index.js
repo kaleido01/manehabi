@@ -21,11 +21,8 @@ export const DELETE_HABIT = gql`
 `;
 
 export const UPDATE_HABIT = gql`
-	mutation updateHabit($_id: ID!, $today: Int!, $todayTime: Int) {
-		updateHabit(_id: $_id, today: $today, todayTime: $todayTime) {
-			today
-			total
-		}
+	mutation updateHabit($_id: ID!, $todayRecords: [todayRecord]) {
+		updateHabit(_id: $_id, todayRecords: $todayRecords)
 	}
 `;
 export const RESET_COUNT = gql`
@@ -130,8 +127,6 @@ export const GET_USER_HABITS = gql`
 				startDate
 				limitDate
 				createdAt
-				unit
-				isTimeRecord
 				updateDate
 				starUser {
 					_id
@@ -140,6 +135,10 @@ export const GET_USER_HABITS = gql`
 					_id
 					username
 					imageUrl
+				}
+				habitRecords {
+					unit
+					_id
 				}
 			}
 			pageInfo {
