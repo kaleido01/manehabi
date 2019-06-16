@@ -61,6 +61,22 @@ const HabitSchema = new Schema({
 		ref: "HabitRecord",
 		default: []
 	},
+	habitRecords: [
+		{
+			recordNumber: {
+				type: Schema.Types.ObjectId
+			},
+			unit: {
+				type: String,
+				required: true
+			},
+			records: {
+				type: [Schema.Types.ObjectId],
+				ref: "HabitRecord",
+				default: []
+			}
+		}
+	],
 	creator: {
 		type: Schema.Types.ObjectId,
 		ref: "User"
