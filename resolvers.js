@@ -105,7 +105,12 @@ exports.resolvers = {
 			});
 			return habit;
 		},
-		getHabitRecords: async (root, { _id, limit }, ctx) => {
+		getHabitRecords: async (
+			root,
+			{ habitId, habitRecordNumber, limit },
+			ctx
+		) => {
+			console.log(habitId, habitRecordNumber);
 			const startDate = moment()
 				.add(-limit + 1, "days")
 				.startOf("days")
@@ -118,17 +123,24 @@ exports.resolvers = {
 			// 	.limit(limit)
 			// 	.sort({ date: 1 });
 
-			const habitRecords = await Habit.findById({ _id })
-				.populate({
-					path: "record",
-					model: "HabitRecord",
-					match: { date: { $gte: startDate } },
-					options: { sort: { date: -1 }, limit }
-				})
-				.sort({ date: 1 });
+			const habitRecords = await HabitRecord.find({
+				habitId,
+				habitRecordNumber,
+				date: { $gte: startDate }
+			}).sort({ date: 1 });
+
+			console.log(habitRecords);
+
+			// .populate({
+			// 	path: "record",
+			// 	model: "HabitRecord",
+			// 	match: { date: { $gte: startDate } },
+			// 	options: { sort: { date: -1 }, limit }
+			// })
+			// .sort({ date: 1 });
 			// .sort({ record: { date: 1 } });
 
-			return habitRecords.record.reverse();
+			return habitRecords ? habitRecords : [];
 		},
 		getHabitTimeRecords: async (root, { _id, limit }, ctx) => {
 			const startDate = moment()
@@ -221,8 +233,7 @@ exports.resolvers = {
 
 			const habitRecords = units.map(unit => {
 				return {
-					unit,
-					habitNumber: null
+					unit
 				};
 			});
 
@@ -267,8 +278,6 @@ exports.resolvers = {
 				})
 				.exec();
 
-			console.log(todayRecords);
-
 			if (String(user._id) !== String(habit.creator._id)) {
 				return new Error("作成者が異なるので更新できません");
 			}
@@ -281,9 +290,12 @@ exports.resolvers = {
 				const updateIndex = todayRecords.findIndex(todayRecord => {
 					return String(todayRecord.recordNumber) === String(habitRecord._id);
 				});
-				const { today } = todayRecords[updateIndex];
+				console.log(todayRecords[updateIndex]);
+				const { today, recordNumber } = todayRecords[updateIndex];
 				if (habitRecord.records.length !== 0) {
-					let { _id, total } = habitRecord.records[0];
+					let { _id, total } = habitRecord.records[
+						habitRecord.records.length - 1
+					];
 					beforeId = _id;
 					beforeTotal = total;
 				}
@@ -292,14 +304,13 @@ exports.resolvers = {
 					total: beforeTotal + today,
 					today,
 					before: beforeId,
-					habitId: _id
+					habitId: _id,
+					habitRecordNumber: recordNumber
 				});
 
 				habit.habitRecords[updateIndex].records.push(record._id);
-				console.log("1", habit.habitRecords[updateIndex].records);
 				await record.save();
 			});
-			console.log("2", habit.habitRecords);
 
 			habit.updateDate = Date.now();
 			habit.countDate += 1;

@@ -24,6 +24,10 @@ const HabitRecordSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: "Habit",
 		required: true
+	},
+	habitRecordNumber: {
+		type: Schema.Types.ObjectId,
+		required: true
 	}
 });
 

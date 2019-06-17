@@ -166,6 +166,11 @@ export const GET_HABIT = gql`
 			starUser {
 				_id
 			}
+			habitRecords {
+				unit
+				_id
+			}
+
 			creator {
 				_id
 				username
@@ -177,8 +182,12 @@ export const GET_HABIT = gql`
 `;
 
 export const GET_HABIT_RECORDS = gql`
-	query getHabitRecords($_id: ID!, $limit: Int!) {
-		getHabitRecords(_id: $_id, limit: $limit) {
+	query getHabitRecords($habitId: ID!, $habitRecordNumber: ID!, $limit: Int!) {
+		getHabitRecords(
+			habitId: $habitId
+			habitRecordNumber: $habitRecordNumber
+			limit: $limit
+		) {
 			_id
 			date
 			total

@@ -61,7 +61,7 @@ const HabitSchema = new Schema({
 	},
 	habitRecords: [
 		{
-			_id: {
+			recordNumber: {
 				type: Schema.Types.ObjectId
 			},
 			unit: {

@@ -81,7 +81,7 @@ type Query{
   getAllHabits(offset:Int,limit:Int,descending:String,option:String,searchTerm:String):HabitAndPageInfo
   getUserHabits(offset:Int,limit:Int):HabitAndPageInfo
   getHabit(_id:ID!):Habit
-  getHabitRecords(_id:ID!,limit:Int!):[HabitRecord]
+  getHabitRecords(habitId:ID!,habitRecordNumber:ID!,limit:Int!):[HabitRecord]
   getHabitTimeRecords(_id:ID!,limit:Int!):[HabitRecord]
   getMessages(_id:ID!,offset:Int,limit:Int,user:String,descending:String,searchTerm:String):MessageAndPageInfo
 }

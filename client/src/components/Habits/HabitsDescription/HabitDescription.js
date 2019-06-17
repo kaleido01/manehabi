@@ -2,11 +2,7 @@ import React, { useState } from "react";
 
 import { withRouter } from "react-router-dom";
 import { Query } from "react-apollo";
-import {
-	GET_HABIT,
-	GET_HABIT_RECORDS,
-	GET_HABIT_TIMERECORDS
-} from "../../../queries";
+import { GET_HABIT, GET_HABIT_RECORDS } from "../../../queries";
 import { Grid } from "semantic-ui-react";
 import Loader from "../../shered/Loader";
 import HabitCreator from "./HabitCreator";
@@ -29,6 +25,36 @@ const HabitDescription = ({ match }) => {
 		searchTerm
 	};
 
+	const renderGraph = habit => {
+		console.log(days);
+		return habit.habitRecords.map(habitRecord => {
+			return (
+				<Query
+					query={GET_HABIT_RECORDS}
+					variables={{
+						habitId: habit._id,
+						habitRecordNumber: habitRecord._id,
+						limit: days
+					}}>
+					{({ data, loading }) => {
+						if (loading) return <div>loading</div>;
+						const { getHabitRecords } = data;
+
+						return (
+							<HabitGraph
+								days={days}
+								setDays={setDays}
+								records={getHabitRecords}
+								habit={habit}
+								unit={habitRecord.unit}
+							/>
+						);
+					}}
+				</Query>
+			);
+		});
+	};
+
 	return (
 		<Query query={GET_HABIT} variables={{ _id }}>
 			{({ data, loading, error }) => {
@@ -46,44 +72,8 @@ const HabitDescription = ({ match }) => {
 						</Grid.Row>
 
 						<Grid.Row>
-							{getHabit.isTimeRecord ? (
-								<Grid.Column computer={8} mobile={16}>
-									<Query
-										query={GET_HABIT_TIMERECORDS}
-										variables={{ _id, limit: days }}>
-										{({ data, loading }) => {
-											if (loading) return <div>loading</div>;
-											const { getHabitTimeRecords } = data;
-											return (
-												<HabitGraph
-													days={days}
-													setDays={setDays}
-													records={getHabitTimeRecords}
-													habit={getHabit}
-												/>
-											);
-										}}
-									</Query>
-								</Grid.Column>
-							) : null}
 							<Grid.Column computer={8} mobile={16}>
-								<Query
-									query={GET_HABIT_RECORDS}
-									variables={{ _id, limit: days }}>
-									{({ data, loading }) => {
-										if (loading) return <div>loading</div>;
-										const { getHabitRecords } = data;
-
-										return (
-											<HabitGraph
-												days={days}
-												setDays={setDays}
-												records={getHabitRecords}
-												habit={getHabit}
-											/>
-										);
-									}}
-								</Query>
+								{renderGraph(getHabit)}
 							</Grid.Column>
 						</Grid.Row>
 						<Grid.Column width={8}>
