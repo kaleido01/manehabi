@@ -229,6 +229,30 @@ exports.resolvers = {
 			{ title, description, units },
 			{ currentUser }
 		) => {
+			let errors = [];
+			if (!currentUser) {
+				errors.push({
+					message: "セッションが切れていますログインしなおしてください"
+				});
+			}
+
+			if (!title || !description || units) {
+				errors.push({
+					message: "タイトルは必須です"
+				});
+			}
+
+			if (!description) {
+				errors.push({ message: "説明は必須です" });
+			}
+
+			if (errors.length > 0) {
+				const error = new Error(errors);
+				error.data = errors;
+				error.code = 422;
+
+				throw error;
+			}
 			const user = await User.findOne({ email: currentUser.email });
 
 			const habitRecords = units.map(unit => {

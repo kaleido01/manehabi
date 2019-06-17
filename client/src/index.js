@@ -25,10 +25,16 @@ const client = new ApolloClient({
 			}
 		});
 	},
-	onError: ({ networkError }) => {
+	onError: ({ networkError, graphQLErrors }) => {
 		if (networkError) {
 			console.log("network Error", networkError);
 		}
+		// if (graphQLErrors) {
+		// 	errors = graphQLErrors.map(({ message, data, path }) => {
+		// 		console.log(data);
+		// 		return data;
+		// 	});
+		// }
 	}
 });
 

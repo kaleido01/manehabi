@@ -107,6 +107,15 @@ const server = new ApolloServer({
 		settings: {
 			"editor.theme": "light"
 		}
+	},
+	formatError(err) {
+		if (!err.originalError) {
+			return err;
+		}
+		const data = err.originalError.data;
+		const message = err.message || "何かエラーが発生しました。";
+		const code = err.originalError.code;
+		return { message, status: code, data };
 	}
 });
 
