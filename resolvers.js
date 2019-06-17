@@ -413,7 +413,7 @@ exports.resolvers = {
 		},
 		updateProfile: async (
 			root,
-			{ username, email, oneWord },
+			{ username, email, oneWord, description },
 			{ currentUser }
 		) => {
 			const user = await User.findOne({ email: currentUser.email });
@@ -421,6 +421,7 @@ exports.resolvers = {
 			user.username = username;
 			user.email = email;
 			user.oneWord = oneWord;
+			user.desription = description;
 
 			user.save();
 

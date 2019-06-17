@@ -97,10 +97,8 @@ HabitSchema.post("remove", (doc, next) => {
 		{ favorites: { _id: doc._id } },
 		{ $pull: { favorites: doc._id } }
 	).exec();
-	// 上二つの処理が未完了
 	Comment.remove({ _id: { $in: doc.comments } }).exec();
-	HabitRecord.remove({ _id: { $in: doc.record } }).exec();
-	HabitRecord.remove({ _id: { $in: doc.timeRecord } }).exec();
+	HabitRecord.remove({ habitId: doc._id }).exec();
 	next();
 });
 

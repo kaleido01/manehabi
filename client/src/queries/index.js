@@ -252,12 +252,23 @@ export const CREATE_USER = gql`
 	}
 `;
 export const UPDATE_PROFILE = gql`
-	mutation updateProfile($username: String, $email: String, $oneWord: String) {
-		updateProfile(username: $username, email: $email, oneWord: $oneWord) {
+	mutation updateProfile(
+		$username: String
+		$email: String
+		$oneWord: String
+		$description: String
+	) {
+		updateProfile(
+			username: $username
+			email: $email
+			oneWord: $oneWord
+			description: $description
+		) {
 			_id
 			username
 			email
 			oneWord
+			description
 		}
 	}
 `;

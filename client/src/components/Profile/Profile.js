@@ -21,6 +21,7 @@ const Profile = () => {
 	const [username, setUsername] = useState(currentUser.username);
 	const [email, setEmail] = useState(currentUser.email);
 	const [oneWord, setOneWord] = useState(currentUser.oneWord);
+	const [description, setDescription] = useState(currentUser.description);
 	const [onOpen, setOnOpen] = useState(false);
 
 	const handleSubmit = (event, updateProfile) => {
@@ -110,6 +111,17 @@ const Profile = () => {
 												label="一言コメント"
 												onChange={event => setOneWord(event.target.value)}
 												value={oneWord}
+												type="text"
+											/>
+											<Form.TextArea
+												fluid
+												name="oneWord"
+												icon="edit"
+												iconPosition="left"
+												placeholder="自己紹介"
+												label="自己紹介"
+												onChange={event => setDescription(event.target.value)}
+												value={description}
 												type="text"
 											/>
 											<Button color="teal">更新</Button>

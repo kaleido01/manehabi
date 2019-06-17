@@ -29,6 +29,10 @@ const UserSchema = new Schema({
 		type: String,
 		default: ""
 	},
+	description: {
+		type: String,
+		default: ""
+	},
 	joinDate: {
 		type: String,
 		default: () => moment().format("YYYY-MM-DD")

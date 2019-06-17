@@ -10,6 +10,7 @@ type User{
   imageUrl:String
 	joinDate:String
   oneWord:String
+  description:String
 	favorites:[Habit]
 	Habits: [Habit]
 }
@@ -101,7 +102,7 @@ type Mutation{
   starHabit(_id:ID!):Habit
   unStarHabit(_id:ID!):Habit
   updateHabit(_id:ID!,todayRecords:[todayRecord]):Boolean
-  updateProfile(username:String,email:String,oneWord:String):User
+  updateProfile(username:String,email:String,oneWord:String,description:String):User
   login(email:String!,password:String!):Token
   createComment(body:String!,habitId:ID!):Comment
 
