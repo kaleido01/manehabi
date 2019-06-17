@@ -36,15 +36,6 @@ const MessageList = ({ habit, commentOptions }) => {
 		);
 	};
 
-	const variables = {
-		_id: habit._id,
-		offset: 0,
-		limit: 5,
-		...commentOptions
-	};
-
-	console.log(variables);
-
 	return (
 		<Query
 			query={GET_MESSAGES}
@@ -55,9 +46,12 @@ const MessageList = ({ habit, commentOptions }) => {
 				...commentOptions
 			}}>
 			{({ data, loading, fetchMore }) => {
-				if (loading) return <div>loading</div>;
+				if (loading) return <Loader />;
 				const { messages, pageInfo } = data.getMessages;
-				return (
+				console.log(messages.length);
+				return messages.length === 0 ? (
+					<Message info>まだコメントがありません</Message>
+				) : (
 					<Segment>
 						<InfiniteScroll
 							loadMore={() => onLoadMore(messages, fetchMore)}

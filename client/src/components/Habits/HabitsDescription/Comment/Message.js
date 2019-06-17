@@ -7,10 +7,11 @@ const Message = ({ comment }) => {
 	const currentUser = useContext(UserContext);
 	let color = "purple";
 	if (currentUser) {
-		color = currentUser._id === comment.creator._id ? "black" : "purple";
+		color =
+			comment && currentUser._id === comment.creator._id ? "black" : "purple";
 	}
 
-	return (
+	return comment ? (
 		<Segment raised color={color}>
 			<Comment>
 				<Comment.Avatar src={comment.creator.imageUrl} />
@@ -24,7 +25,7 @@ const Message = ({ comment }) => {
 				</Comment.Content>
 			</Comment>
 		</Segment>
-	);
+	) : null;
 };
 
 export default Message;

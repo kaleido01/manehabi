@@ -80,6 +80,7 @@ const HabitDescription = ({ match }) => {
 							<CommentContainer
 								habit={getHabit}
 								creatorId={getHabit.creator._id}
+								commentOptions={commentOptions}
 							/>
 							<SearchComment
 								setDescending={setDescending}

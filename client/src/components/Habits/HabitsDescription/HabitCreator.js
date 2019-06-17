@@ -8,10 +8,7 @@ const HabitCreator = ({ habit }) => {
 				<Image floated="right" size="mini" src={habit.creator.imageUrl} />
 				<Card.Header>作成者 : {habit.creator.username}</Card.Header>
 				<Card.Meta>参加日 : {habit.creator.joinDate}</Card.Meta>
-				<Card.Description>
-					一言コメント実装予定です...
-					{/* TODO:一言  */}
-				</Card.Description>
+				<Card.Description>{habit.creator.oneWord}</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
 				<Button

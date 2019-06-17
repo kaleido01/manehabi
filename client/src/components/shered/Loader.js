@@ -12,6 +12,18 @@ const override = css`
 const Loader = () => {
 	return <HashLoader color={"#123abc"} size={50} css={override} />;
 };
+
+export const WelcomeLoader = () => {
+	return (
+		<div className="WelcomeLoader">
+			<div className="spinner">
+				<div className="bounce1" />
+				<div className="bounce2" />
+				<div className="bounce3" />
+			</div>
+		</div>
+	);
+};
 export const Pacman = () => {
 	return (
 		<div className="Pacman">

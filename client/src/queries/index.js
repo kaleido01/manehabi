@@ -106,6 +106,7 @@ export const GET_ALL_HABITS = gql`
 					_id
 					username
 					imageUrl
+					oneWord
 				}
 			}
 			pageInfo {
@@ -135,6 +136,7 @@ export const GET_USER_HABITS = gql`
 					_id
 					username
 					imageUrl
+					oneWord
 				}
 				habitRecords {
 					unit
@@ -176,6 +178,7 @@ export const GET_HABIT = gql`
 				username
 				imageUrl
 				joinDate
+				oneWord
 			}
 		}
 	}
@@ -276,7 +279,9 @@ export const UPDATE_PROFILE = gql`
 export const CREATE_COMMENT = gql`
 	mutation createComment($body: String!, $habitId: ID!) {
 		createComment(body: $body, habitId: $habitId) {
+			_id
 			body
+			createdAt
 		}
 	}
 `;
