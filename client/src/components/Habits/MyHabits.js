@@ -39,34 +39,32 @@ const MyHabits = ({ history }) => {
 	return (
 		<Grid textAlign="center" centered>
 			<Grid.Column style={{ minWidth: "350px" }} width={8}>
-				<Query query={GET_USER_HABITS} variables={{ offset: 0, limit: 5 }}>
-					{({ data, fetchMore, loading, error }) => {
-						if (loading) return <Loader />;
-						if (error) return <div>{error}</div>;
+				<Segment>
+					<Comment.Group>
+						<Header as="h3" dividing>
+							{currentUser.username}さんの習慣一覧
+						</Header>
+						<Query query={GET_USER_HABITS} variables={{ offset: 0, limit: 5 }}>
+							{({ data, fetchMore, loading, error }) => {
+								if (loading) return <Loader />;
+								if (error) return <div>{error}</div>;
 
-						const { habits, pageInfo } = data.getUserHabits;
-						return (
-							<Segment>
-								<Comment.Group>
-									<Header as="h3" dividing>
-										{currentUser.username}さんの習慣一覧
-									</Header>
-									{habits.length !== 0 ? (
-										<HabitList
-											habits={habits}
-											pageInfo={pageInfo}
-											onLoadMore={() => onLoadMore(habits, fetchMore)}
-										/>
-									) : (
-										<Message info floating>
-											まだ習慣がありません。最初の習慣を作りましょう
-										</Message>
-									)}
-								</Comment.Group>
-							</Segment>
-						);
-					}}
-				</Query>
+								const { habits, pageInfo } = data.getUserHabits;
+								return habits.length !== 0 ? (
+									<HabitList
+										habits={habits}
+										pageInfo={pageInfo}
+										onLoadMore={() => onLoadMore(habits, fetchMore)}
+									/>
+								) : (
+									<Message info floating>
+										まだ習慣がありません。最初の習慣を作りましょう
+									</Message>
+								);
+							}}
+						</Query>
+					</Comment.Group>
+				</Segment>
 			</Grid.Column>
 		</Grid>
 	);
