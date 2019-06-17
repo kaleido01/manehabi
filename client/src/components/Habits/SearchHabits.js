@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Form, Radio, Grid, Segment, Search } from "semantic-ui-react";
+import { Form, Radio, Grid, Segment, Search, Header } from "semantic-ui-react";
 import _ from "lodash";
 
 const SearchHabits = ({
@@ -22,8 +22,10 @@ const SearchHabits = ({
 	};
 	return (
 		<Form>
-			<Segment>
-				<Form.Field>検索条件の設定</Form.Field>
+			<Segment className="Search">
+				<Form.Field>
+					<Header as="h3">検索条件の設定</Header>
+				</Form.Field>
 				<Grid>
 					<Grid.Column width={16}>
 						<Search

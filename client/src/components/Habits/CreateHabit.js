@@ -131,7 +131,7 @@ export class CreateHabit extends Component {
 												className={this.handleInputError(errors, "パスワード")}
 												type="text"
 											/>
-											<Grid columns={3}>
+											<Grid columns={3} style={{ margin: "0.01em 0" }}>
 												<Grid.Column>
 													<strong>習慣の単位(任意個数)</strong>
 												</Grid.Column>
