@@ -55,9 +55,9 @@ app.use(
 app.use(cookieParser());
 app.use(passport.session());
 console.log("aaaa");
-app.get("/auth/twitter", passport.authenticate("twitter"));
+app.use("/auth/twitter", passport.authenticate("twitter"));
 console.log("bbbb");
-app.get(
+app.use(
 	"/auth/twitter/callback",
 	passport.authenticate("twitter", {
 		failureRedirect: `${baseURL}/signin`
