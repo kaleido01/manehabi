@@ -1,6 +1,14 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Comment, Segment, Button, Grid } from "semantic-ui-react";
+import {
+	Comment,
+	Segment,
+	Button,
+	Grid,
+	Message,
+	Transition,
+	Icon
+} from "semantic-ui-react";
 import "./Habits.css";
 import { UserContext } from "./../../index";
 import StarLabel from "./StarLabel";
@@ -13,6 +21,8 @@ const Habit = ({ habit, match }) => {
 	const [updateOpen, setUpdateOpen] = useState(false);
 	const [deleteOpen, setDeleteOpen] = useState(false);
 	const [resetOpen, setResetOpen] = useState(false);
+	const [errors, setErrors] = useState([]);
+	const [onSuccessMessage, setOnSuccessMessage] = useState(false);
 	const currentUser = useContext(UserContext);
 	const myHabit = currentUser && currentUser._id === habit.creator._id;
 	const isMyHabit = match.path === "/myhabits";
@@ -33,6 +43,29 @@ const Habit = ({ habit, match }) => {
 
 	return (
 		<Fragment>
+			<div className="SuccessMessage">
+				<Transition
+					animation="swing right"
+					visible={onSuccessMessage}
+					duration="500"
+					onComplete={() =>
+						setTimeout(() => {
+							setOnSuccessMessage(false);
+						}, 2000)
+					}>
+					<Message
+						size="small"
+						compact
+						success
+						onDismiss={() => setOnSuccessMessage(false)}
+						style={{ maxwidth: "250px" }}>
+						<Message.Content>
+							<Icon name="check" />
+							<span>正常に処理が完了しました。</span>{" "}
+						</Message.Content>
+					</Message>
+				</Transition>
+			</div>
 			<Segment.Group raised style={{ margin: "1em" }}>
 				<Segment attached="top" color={myHabit ? "orange" : "teal"}>
 					<StarLabel habit={habit} />
@@ -91,16 +124,25 @@ const Habit = ({ habit, match }) => {
 						open={deleteOpen}
 						habit={habit}
 						closeModal={() => setDeleteOpen(false)}
+						errors={errors}
+						setErrors={setErrors}
+						setOnSuccessMessage={setOnSuccessMessage}
 					/>
 					<UpdateHabitModal
 						open={updateOpen}
 						habit={habit}
 						closeModal={() => setUpdateOpen(false)}
+						errors={errors}
+						setErrors={setErrors}
+						setOnSuccessMessage={setOnSuccessMessage}
 					/>
 					<ResetCountModal
 						open={resetOpen}
 						habit={habit}
 						closeModal={() => setResetOpen(false)}
+						errors={errors}
+						setErrors={setErrors}
+						setOnSuccessMessage={setOnSuccessMessage}
 					/>
 				</Fragment>
 			) : null}

@@ -79,9 +79,7 @@ app.use(async (req, res, next) => {
 			currentUser = await jwt.verify(token, secret);
 			req.currentUser = currentUser;
 		}
-	} catch (err) {
-		console.error(`Unable to authenticate user with token`);
-	}
+	} catch (err) {}
 	next();
 });
 
@@ -97,9 +95,7 @@ const server = new ApolloServer({
 			if (token) {
 				currentUser = await jwt.verify(token, secret);
 			}
-		} catch (err) {
-			console.error(`Unable to authenticate user with token`);
-		}
+		} catch (err) {}
 		return { currentUser };
 	},
 	playground: {

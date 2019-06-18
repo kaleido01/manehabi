@@ -1,18 +1,26 @@
 import React from "react";
-import { Modal, Button, Icon } from "semantic-ui-react";
+import { Modal, Button, Icon, Message } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import { DELETE_HABIT, GET_USER_HABITS } from "../../queries";
 import Loader from "./../shered/Loader";
 
-const DeleteHabitModal = ({ closeModal, habit, open }) => {
+const DeleteHabitModal = ({
+	closeModal,
+	habit,
+	open,
+	errors,
+	setErrors,
+	setOnSuccessMessage
+}) => {
 	const handleDeleteHabit = (deleteHabit, closeModal) => {
 		deleteHabit()
 			.then(data => {
+				setOnSuccessMessage(true);
+
 				closeModal();
 			})
 			.catch(err => {
 				console.log(err);
-				closeModal();
 			});
 	};
 
@@ -45,12 +53,25 @@ const DeleteHabitModal = ({ closeModal, habit, open }) => {
 			update={handleUpdateCache}>
 			{(deleteHabit, { data, loading, error }) => {
 				if (loading) return <Loader />;
+				console.log(error);
+				if (error) {
+					setErrors(error.graphQLErrors[0].data);
+				}
 				return (
 					<Modal basic open={open} onClose={closeModal}>
 						<Modal.Header>習慣削除の確認</Modal.Header>
 						<Modal.Content>
 							{habit.title}を削除してよろしいですか？
+							{errors && errors.length > 0 && (
+								<Message
+									negative
+									size="mini"
+									header="エラー"
+									list={errors.map(error => error.message)}
+								/>
+							)}
 						</Modal.Content>
+
 						<Modal.Actions>
 							<Button
 								color="red"

@@ -17,7 +17,8 @@ const { isFindUser, isCurrentUser } = require("./validation/userValidation");
 const {
 	validateTitle,
 	validateDescription,
-	validateUnits
+	validateUnits,
+	validateToday
 } = require("./validation/habitValidation");
 
 exports.resolvers = {
@@ -266,6 +267,10 @@ exports.resolvers = {
 			return newHabit;
 		},
 		deleteHabit: async (root, { _id }, { currentUser }) => {
+			let errors = [];
+
+			isCurrentUser(currentUser, errors);
+			checkErrors(errors);
 			const user = await User.findOne({ email: currentUser.email });
 
 			const habit = await Habit.findById(_id).populate({
@@ -282,7 +287,15 @@ exports.resolvers = {
 			return habit;
 		},
 		updateHabit: async (root, { _id, todayRecords }, { currentUser }) => {
+			let errors = [];
+
+			isCurrentUser(currentUser, errors);
+			checkErrors(errors);
+			validateToday(todayRecords, errors);
+			checkErrors(errors);
+
 			const user = await User.findOne({ email: currentUser.email });
+
 			const habit = await Habit.findById(_id)
 				.populate({
 					path: "habitRecords.records",
@@ -373,9 +386,10 @@ exports.resolvers = {
 			return await Habit.findById(_id);
 		},
 		resetCount: async (root, { _id }, { currentUser }) => {
-			const errors = [];
-			isCurrentUser(currentUser, errors);
+			let errors = [];
 
+			isCurrentUser(currentUser, errors);
+			checkErrors(errors);
 			const user = await User.findOne({ email: currentUser.email });
 
 			const habit = await Habit.findById(_id).populate({

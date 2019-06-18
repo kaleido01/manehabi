@@ -1,6 +1,6 @@
 const validator = require("validator");
 
-const { isEmpty } = validator;
+const { isEmpty, isNumeric } = validator;
 
 exports.validateTitle = (title, errors) => {
 	if (isEmpty(title)) {
@@ -26,4 +26,17 @@ exports.validateUnits = (units, errors) => {
 			});
 		}
 	});
+};
+
+exports.validateToday = (todayRecords, errors) => {
+	console.log(errors);
+	todayRecords.map(todayRecord => {
+		const { today } = todayRecord;
+		if (!isNumeric("" + today)) {
+			errors.push({
+				message: "数字を入力してください"
+			});
+		}
+	});
+	console.log(errors);
 };

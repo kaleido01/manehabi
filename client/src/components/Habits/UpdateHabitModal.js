@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Icon, Input } from "semantic-ui-react";
+import { Modal, Button, Icon, Input, Message } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import {
 	UPDATE_HABIT,
@@ -9,7 +9,14 @@ import {
 } from "../../queries";
 import Loader from "./../shered/Loader";
 
-const UpdateHabitModal = ({ closeModal, habit, open }) => {
+const UpdateHabitModal = ({
+	closeModal,
+	habit,
+	open,
+	errors,
+	setErrors,
+	setOnSuccessMessage
+}) => {
 	const [todayRecords, setTodayRecords] = useState([]);
 
 	useEffect(() => {
@@ -25,32 +32,28 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 			});
 		});
 	}, []);
-	console.log(habit.habitRecords);
-	console.log(todayRecords);
 
 	const handleUpdateHabit = (updateHabit, closeModal) => {
 		updateHabit()
-			.then(data => {})
+			.then(data => {
+				setOnSuccessMessage(true);
+			})
 			.catch(err => {
 				console.log(err);
-				closeModal();
 			});
 	};
 
 	const handleChange = (e, index) => {
 		const newTodayRecords = [...todayRecords];
-		console.log(newTodayRecords);
 		newTodayRecords[index].today = +e.target.value;
 		setTodayRecords(newTodayRecords);
 	};
 
-	console.log(todayRecords.length);
 	const renderUnit = () => {
 		return (
 			todayRecords.length !== 0 &&
 			habit.habitRecords.map((habitRecord, index) => {
 				const { unit, recordNumber } = habitRecord;
-				console.log(index);
 				return (
 					<Input
 						fluid
@@ -83,12 +86,23 @@ const UpdateHabitModal = ({ closeModal, habit, open }) => {
 		>
 			{(updateHabit, { data, loading, error }) => {
 				if (loading) return <Loader />;
+				if (error) {
+					setErrors(error.graphQLErrors[0].data);
+				}
 				return (
 					<Modal basic open={open} onClose={closeModal}>
 						<Modal.Header>{habit.title}の更新</Modal.Header>
 						<Modal.Content>
 							{habit.title}の積み上げを更新しましょう！
 							{renderUnit()}
+							{errors && errors.length > 0 && (
+								<Message
+									negative
+									size="mini"
+									header="エラー"
+									list={errors.map(error => error.message)}
+								/>
+							)}
 						</Modal.Content>
 						<Modal.Actions>
 							<Button

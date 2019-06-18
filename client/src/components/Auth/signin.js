@@ -99,7 +99,6 @@ class Signin extends React.Component {
 							variables={{ email, password }}
 							onCompleted={() => this.setState({ onOpen: true })}>
 							{(login, { data, loading, error }) => {
-								console.log(errors);
 								if (errors.length === 0) {
 									if (error) {
 										this.setState({ errors: error.graphQLErrors[0].data });
