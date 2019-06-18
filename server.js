@@ -26,7 +26,7 @@ const secret = require("./config/keys").secret;
 const baseClientURL = require("./config/keys").baseClientURL;
 const baseURL =
 	process.env.NODE_ENV === "production"
-		? "https://manehabi.herokuapp.com/"
+		? "https://manehabi.herokuapp.com"
 		: "http://localhost:3000";
 
 mongoose
@@ -34,12 +34,12 @@ mongoose
 	.then(() => console.log("MongoDB Connected"))
 	.catch(err => console.log(err));
 
-const corsOption = {
-	origin: ["http://127:0:0:1:3000", baseURL],
-	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-	credentials: true
-};
-app.use(cors(corsOption));
+// const corsOption = {
+// 	origin: ["http://127:0:0:1:3000", baseURL],
+// 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+// 	credentials: true
+// };
+app.use(cors("*"));
 
 app.use(passport.initialize());
 
@@ -98,12 +98,12 @@ const server = new ApolloServer({
 		} catch (err) {}
 		return { currentUser };
 	},
-	playground: {
-		endpoint: `http://localhost:4000/graphql`,
-		settings: {
-			"editor.theme": "light"
-		}
-	},
+	// playground: {
+	// 	endpoint: `http://localhost:4000/graphql`,
+	// 	settings: {
+	// 		"editor.theme": "light"
+	// 	}
+	// },
 	formatError(err) {
 		if (!err.originalError) {
 			return err;
