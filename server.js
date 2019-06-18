@@ -94,6 +94,7 @@ const server = new ApolloServer({
 			token = req.headers["authorization"];
 			if (token) {
 				currentUser = await jwt.verify(token, secret);
+				console.log("aaa");
 			}
 		} catch (err) {}
 		return { currentUser };
