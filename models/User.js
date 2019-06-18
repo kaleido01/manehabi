@@ -17,8 +17,21 @@ const UserSchema = new Schema({
 		unique: true
 	},
 	password: {
+		type: String
+	},
+	provider: {
+		authType: String,
+		authId: String,
+		token: String,
+		tokenSecret: String
+	},
+	oneWord: {
 		type: String,
-		required: true
+		default: ""
+	},
+	description: {
+		type: String,
+		default: ""
 	},
 	joinDate: {
 		type: String,

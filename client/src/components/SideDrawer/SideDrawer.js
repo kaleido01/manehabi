@@ -27,6 +27,11 @@ const SideDrawer = ({ onSide, onHide }) => {
 						<Icon name="tasks" />
 						MyHabits
 					</Menu.Item>
+					<Menu.Item as={NavLink} to="/favorites" onClick={() => onHide(false)}>
+						<Icon name="star" />
+						MyFavorites
+					</Menu.Item>
+
 					<Menu.Item as={NavLink} to="/newhabit" onClick={() => onHide(false)}>
 						<Icon name="pencil alternate" />
 						NewHabit

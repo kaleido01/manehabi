@@ -1,90 +1,106 @@
-import React, { useState } from "react";
-import { Modal, Button, Icon, Input } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Modal, Button, Icon, Input, Message } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
-import { UPDATE_HABIT, GET_ALL_HABITS, GET_USER_HABITS } from "../../queries";
+import {
+	UPDATE_HABIT,
+	GET_ALL_HABITS,
+	GET_USER_HABITS,
+	GET_HABIT
+} from "../../queries";
 import Loader from "./../shered/Loader";
 
-const UpdateHabitModal = ({ closeModal, habit, open }) => {
-	const [time, setTime] = useState(0);
-	const [item, setItem] = useState(0);
+const UpdateHabitModal = ({
+	closeModal,
+	habit,
+	open,
+	errors,
+	setErrors,
+	setOnSuccessMessage
+}) => {
+	const [todayRecords, setTodayRecords] = useState([]);
+
+	useEffect(() => {
+		habit.habitRecords.map(habitRecord => {
+			setTodayRecords(prevState => {
+				return [
+					...prevState,
+					{
+						recordNumber: habitRecord._id,
+						today: 0
+					}
+				];
+			});
+		});
+	}, []);
 
 	const handleUpdateHabit = (updateHabit, closeModal) => {
 		updateHabit()
-			.then(data => {})
-			.catch(err => {
-				console.log(err);
-				closeModal();
-			});
+			.then(data => {
+				setOnSuccessMessage(true);
+			})
+			.catch(err => {});
 	};
 
-	// const handleUpdateCache = (cache, { data: { deleteHabit } }) => {
-	// 	const data = cache.readQuery({
-	// 		query: GET_USER_HABITS,
-	// 		variables: { offset: 0, limit: 5 }
-	// 	});
-	// 	console.log(data);
-	// 	console.log(deleteHabit);
-	// 	const newHabits = data.getUserHabits.habits.filter(
-	// 		habit => habit._id !== deleteHabit._id
-	// 	);
-	// 	console.log(newHabits);
-	// 	cache.writeQuery({
-	// 		query: GET_USER_HABITS,
-	// 		variables: { offset: 0, limit: 5 },
-	// 		data: {
-	// 			...data,
-	// 			getUserHabits: {
-	// 				...data.getUserHabits,
-	// 				habits: newHabits,
-	// 				pageInfo: data.getUserHabits.pageInfo
-	// 			}
-	// 		}
-	// 	});
-	// };
+	const handleChange = (e, index) => {
+		const newTodayRecords = [...todayRecords];
+		newTodayRecords[index].today = +e.target.value;
+		setTodayRecords(newTodayRecords);
+	};
+
+	const renderUnit = () => {
+		return (
+			todayRecords.length !== 0 &&
+			habit.habitRecords.map((habitRecord, index) => {
+				const { unit, recordNumber } = habitRecord;
+				return (
+					<Input
+						fluid
+						name={recordNumber}
+						iconPosition="left"
+						label={`今日の積み上げ${unit}数`}
+						placeholder={`今日の積み上げ${unit}数`}
+						onChange={e => handleChange(e, index)}
+						value={todayRecords[index].today}
+						type="number"
+						min={0}
+						style={{ margin: "1em 0" }}
+					/>
+				);
+			})
+		);
+	};
 
 	return (
 		<Mutation
 			mutation={UPDATE_HABIT}
-			variables={{ _id: habit._id, today: +item, todayTime: +time }}
+			variables={{ _id: habit._id, todayRecords }}
 			onCompleted={closeModal}
 			refetchQueries={[
 				{ query: GET_ALL_HABITS, variables: { offset: 0, limit: 5 } },
-				{ query: GET_USER_HABITS, variables: { offset: 0, limit: 5 } }
+				{ query: GET_USER_HABITS, variables: { offset: 0, limit: 5 } },
+				{ query: GET_HABIT, variables: { _id: habit._id } }
 			]}
 			// update={handleUpdateCache}
 		>
 			{(updateHabit, { data, loading, error }) => {
 				if (loading) return <Loader />;
+				if (error) {
+					setErrors(error.graphQLErrors[0].data);
+				}
 				return (
 					<Modal basic open={open} onClose={closeModal}>
 						<Modal.Header>{habit.title}の更新</Modal.Header>
 						<Modal.Content>
 							{habit.title}の積み上げを更新しましょう！
-							{habit.isTimeRecord ? (
-								<Input
-									fluid
-									name="time"
-									label="今日の積み上げ分数"
-									iconPosition="left"
-									placeholder="今日の積み上げ分数"
-									onChange={event => setTime(event.target.value)}
-									value={time}
-									type="number"
-									min={0}
-									style={{ margin: "1em 0" }}
+							{renderUnit()}
+							{errors && errors.length > 0 && (
+								<Message
+									negative
+									size="mini"
+									header="エラー"
+									list={errors.map(error => error.message)}
 								/>
-							) : null}
-							<Input
-								fluid
-								name="item"
-								iconPosition="left"
-								label={`今日の積み上げ${habit.unit}数`}
-								placeholder={`今日の積み上げ${habit.unit}数`}
-								onChange={event => setItem(event.target.value)}
-								value={item}
-								type="number"
-								min={0}
-							/>
+							)}
 						</Modal.Content>
 						<Modal.Actions>
 							<Button

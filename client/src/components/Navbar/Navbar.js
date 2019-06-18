@@ -27,7 +27,8 @@ const AuthNav = ({ onSide }) => {
 				position="right"
 				minWidth={Responsive.onlyTablet.minWidth}>
 				<Menu.Item link as={NavLink} to="/habits" name="habits" />
-				<Menu.Item link as={NavLink} to="/myhabits" name="myhabits" />
+				<Menu.Item link as={NavLink} to="/myhabits" name="my habits" />
+				<Menu.Item link as={NavLink} to="/favorites" name="my favorites" />
 				<Menu.Item link as={NavLink} to="/newhabit" name="newHabit" />
 				<Menu.Item link as={NavLink} to="/profile" name="profile" />
 				<Menu.Item>
@@ -56,7 +57,6 @@ const UnAuthNav = ({ onSide }) => {
 				position="right"
 				minWidth={Responsive.onlyTablet.minWidth}>
 				<Menu.Item link as={NavLink} to="/habits" name="habit" />
-				<Menu.Item link as={NavLink} to="/profile" name="profile" />
 				<Menu.Item>
 					<Button as={Link} to="/signin" inverted>
 						Signin

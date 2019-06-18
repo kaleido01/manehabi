@@ -9,9 +9,7 @@ const Layout = ({ children }) => {
 	return (
 		<Sidebar.Pushable>
 			<Navbar onSide={setOnSide} />
-
 			<SideDrawer onSide={onSide} onHide={setOnSide} />
-
 			<div className="Layout">{children}</div>
 		</Sidebar.Pushable>
 	);

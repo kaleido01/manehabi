@@ -1,6 +1,8 @@
 module.exports = {
 	mongoURI: process.env.MONGO_URI,
-	secret: process.env.SECRET
-	// PORT: process.env.PORT,
-	// NODE_ENV: process.env.NODE_ENV
+	secret: process.env.SECRET,
+	consumerKey: process.env.CONSUMER_KEY,
+	consumerSecret: process.env.CONSUMER_SECRET,
+	cookieKeys: process.env.COOKIE_KEYS,
+	baseClientURL: procecc.env.BASE_CLIENT_URL
 };

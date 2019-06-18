@@ -13,6 +13,8 @@ import {
 	Transition
 } from "semantic-ui-react";
 import "./Auth.css";
+import { API_URL } from "../../config";
+import { isEmail, isEmpty, isLength } from "validator";
 
 class Signin extends React.Component {
 	state = {
@@ -23,28 +25,35 @@ class Signin extends React.Component {
 	};
 
 	isFormValid = () => {
+		const { email, password } = this.state;
 		const errors = [];
 		let error;
 		let valid = true;
-		if (this.isFormEmpty(this.state)) {
-			error = { message: "全てのフィールドを埋めてください" };
-			this.setState({ errors: errors.concat(error) });
+
+		if (!isEmpty(email)) {
+			if (!isEmail(email)) {
+				error = { message: "Eメールが不正です" };
+				errors.push(error);
+				valid = false;
+			}
+		} else {
+			error = { message: "Eメールは必須です" };
+			errors.push(error);
 			valid = false;
 		}
-		if (!this.isPasswordValid(this.state)) {
+		if (!this.isPasswordValid(password)) {
 			error = { message: "パスワードが不正です" };
-			this.setState({ errors: errors.concat(error) });
+			errors.push(error);
 			valid = false;
 		}
+		this.setState({ errors });
 		return valid;
 	};
-
-	isFormEmpty = ({ email, password }) => {
-		return !email.length || !password.length;
-	};
-
-	isPasswordValid = ({ password }) => {
-		if (password < 6) {
+	isPasswordValid = password => {
+		if (isEmpty(password)) {
+			return false;
+		}
+		if (!isLength(password, { min: 6 })) {
 			return false;
 		}
 		return true;
@@ -62,8 +71,8 @@ class Signin extends React.Component {
 	handleSubmit = (event, createUser) => {
 		event.preventDefault();
 		if (this.isFormValid()) {
+			this.setState({ errors: [] });
 			createUser().then(async ({ data }) => {
-				this.setState({ errors: [] });
 				localStorage.setItem("token", data.login.token);
 				await this.props.refetch();
 			});
@@ -90,8 +99,10 @@ class Signin extends React.Component {
 							variables={{ email, password }}
 							onCompleted={() => this.setState({ onOpen: true })}>
 							{(login, { data, loading, error }) => {
-								if (error) {
-									console.log(error, data);
+								if (errors.length === 0) {
+									if (error) {
+										this.setState({ errors: error.graphQLErrors[0].data });
+									}
 								}
 								return (
 									<Form
@@ -128,6 +139,18 @@ class Signin extends React.Component {
 												fluid>
 												ログイン
 											</Button>
+
+											<Button
+												disabled={loading}
+												className={loading ? "loading" : ""}
+												color="twitter"
+												size="large"
+												style={{ margin: "1em 0 0 0" }}
+												fluid
+												as="a"
+												href={`${API_URL}/auth/twitter`}>
+												<Icon name="twitter" /> Twitterでログインする
+											</Button>
 										</Segment>
 									</Form>
 								);
@@ -138,7 +161,6 @@ class Signin extends React.Component {
 					{errors.length > 0 && (
 						<Message error>
 							<h3>エラー</h3>
-							{console.log(errors)}
 							{this.displayErrors(errors)}
 						</Message>
 					)}

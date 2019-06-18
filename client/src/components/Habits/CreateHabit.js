@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import {
 	Grid,
 	Header,
@@ -8,149 +9,179 @@ import {
 	Button,
 	Message,
 	Transition,
-	Checkbox
+	GridColumn
 } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import { CREATE_HABIT, GET_ALL_HABITS, GET_USER_HABITS } from "../../queries";
 
-export class CreateHabit extends Component {
-	state = {
-		onOpen: false,
-		title: "",
-		description: "",
-		unit: "",
-		errors: [],
-		isTime: false
-	};
+const CreateHabit = ({ history }) => {
+	const [onOpen, setOnOpen] = useState(false);
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
+	const [units, setUnits] = useState([""]);
+	const [errors, setErrors] = useState([]);
 
-	handleChange = event => {
-		const { name, value } = event.target;
-		this.setState({ [name]: value });
-	};
-
-	isFormValid = () => {
+	const isFormValid = () => {
 		return true;
 	};
-	handleSubmit = (event, createHabit) => {
+	const handleSubmit = (event, createHabit) => {
 		event.preventDefault();
-		if (this.isFormValid()) {
-			createHabit().then(async ({ data }) => {
-				this.setState({ errors: [] });
-			});
+		if (isFormValid()) {
+			setErrors([]);
+			createHabit()
+				.then(async ({ data }) => {})
+				.catch(({ errors }) => {});
 		}
 	};
 
-	handleInputError = (errors, inputName) => {
+	const displayErrors = errors => {
+		return errors.map((error, i) => {
+			return <div key={i}>{error.message}</div>;
+		});
+	};
+
+	const handleInputError = (errors, inputName) => {
 		return errors.some(error => error.message.includes(inputName))
 			? "error"
 			: "";
 	};
-	render() {
-		const { onOpen, title, description, errors, unit, isTime } = this.state;
-		return (
-			<Grid className="Auth" textAlign="center" verticalAlign="middle">
-				<Grid.Column style={{ maxWidth: 367 }}>
-					<Header as="h2" icon color="purple" textAlign="center">
-						<Icon name="tag" color="purple" /> 新しい習慣を作成しよう
-					</Header>
-					{onOpen ? null : (
-						<Mutation
-							mutation={CREATE_HABIT}
-							variables={{ title, description, unit, isTime }}
-							refetchQueries={[
-								{ query: GET_ALL_HABITS, variables: { offset: 0, limit: 5 } },
-								{ query: GET_USER_HABITS, variables: { offset: 0, limit: 5 } }
-							]}
-							onCompleted={() => this.setState({ onOpen: true })}>
-							{(createHabit, { data, loading, error }) => {
-								if (error) {
-									console.log(error, data);
-								}
-								return (
-									<Form
-										size="large"
-										onSubmit={event => this.handleSubmit(event, createHabit)}>
-										<Segment stacked>
-											<Form.Input
-												fluid
-												name="title"
-												icon="thumbtack"
-												iconPosition="left"
-												placeholder="習慣のタイトル"
-												onChange={this.handleChange}
-												value={title}
-												className={this.handleInputError(errors, "Eメール")}
-												type="text"
-											/>
-											<Form.TextArea
-												name="description"
-												placeholder="習慣の説明"
-												onChange={this.handleChange}
-												value={description}
-												className={this.handleInputError(errors, "パスワード")}
-												type="text"
-											/>
-											<Form.Input
-												name="unit"
-												icon="tags"
-												iconPosition="left"
-												placeholder="習慣の単位 (例: 文字)"
-												onChange={this.handleChange}
-												value={unit}
-												type="text"
-											/>
-											<Form.Field
-												control={Checkbox}
-												name="needTime"
-												label="時間の積み上げも追加"
-												onChange={() =>
-													this.setState(prevState => {
-														return { isTime: !prevState.isTime };
-													})
-												}
-												className={this.handleInputError(errors, "パスワード")}
-											/>
-											<Button
-												disabled={loading}
-												className={loading ? "loading" : ""}
-												color="orange"
-												size="large"
-												fluid>
-												作成
-											</Button>
-										</Segment>
-									</Form>
-								);
-							}}
-						</Mutation>
-					)}
 
-					{errors.length > 0 && (
-						<Message error>
-							<h3>エラー</h3>
-							{console.log(errors)}
-							{this.displayErrors(errors)}
-						</Message>
-					)}
+	const handleAddUnit = () => {
+		const newUnits = [...units];
+		newUnits.push("");
+		setUnits(newUnits);
+	};
+	const handleRemoveUnit = () => {
+		const newUnits = [...units];
+		newUnits.pop();
+		setUnits(newUnits);
+	};
 
-					{/* success message */}
-					<Transition
-						animation="fade"
-						visible={onOpen}
-						duration="2000"
-						onComplete={() => this.props.history.push("/habits")}>
-						<Message icon success size="massive">
-							<Message.Content>
-								<Icon name="check" />
-								<Message.Header>新しい習慣を作成しました</Message.Header>
-								記念すべき1日目を更新しよう
-							</Message.Content>
-						</Message>
-					</Transition>
-				</Grid.Column>
-			</Grid>
-		);
-	}
-}
+	const handleUnitsChange = (e, index) => {
+		const newUnits = [...units];
+		newUnits[index] = e.target.value;
+		setUnits(newUnits);
+	};
 
-export default CreateHabit;
+	const renderUnits = () => {
+		return units.map((unit, index) => {
+			const unit_name = "unit_name" + index;
+			return (
+				<Form.Input
+					key={index}
+					name={unit_name}
+					icon="tags"
+					iconPosition="left"
+					placeholder="習慣の単位 (例: 文字)"
+					onChange={e => handleUnitsChange(e, index)}
+					className={handleInputError(errors, "単位")}
+					value={unit}
+					type="text"
+				/>
+			);
+		});
+	};
+	return (
+		<Grid className="Auth" textAlign="center" verticalAlign="middle">
+			<Grid.Column style={{ maxWidth: 367 }}>
+				<Header as="h2" icon color="purple" textAlign="center">
+					<Icon name="tag" color="purple" /> 新しい習慣を作成しよう
+				</Header>
+				{onOpen ? null : (
+					<Mutation
+						// errorPolicy="all"
+						mutation={CREATE_HABIT}
+						variables={{ title, description, units }}
+						refetchQueries={[
+							{ query: GET_ALL_HABITS, variables: { offset: 0, limit: 5 } },
+							{ query: GET_USER_HABITS, variables: { offset: 0, limit: 5 } }
+						]}
+						onCompleted={() => setOnOpen(true)}>
+						{(createHabit, { data, loading, error }) => {
+							if (error) {
+								setErrors(error.graphQLErrors[0].data);
+							}
+							return (
+								<Form size="large">
+									<Segment stacked>
+										<Form.Input
+											fluid
+											name="title"
+											icon="thumbtack"
+											iconPosition="left"
+											placeholder="習慣のタイトル"
+											onChange={e => setTitle(e.target.value)}
+											value={title}
+											className={handleInputError(errors, "タイトル")}
+											type="text"
+										/>
+										<Form.TextArea
+											name="description"
+											placeholder="習慣の説明"
+											onChange={e => setDescription(e.target.value)}
+											value={description}
+											className={handleInputError(errors, "説明")}
+											type="text"
+										/>
+										<Grid columns={3} style={{ margin: "0.01em 0" }}>
+											<Grid.Column>
+												<strong>習慣の単位(任意個数)</strong>
+											</Grid.Column>
+											<GridColumn>
+												<Button
+													color="blue"
+													icon="add"
+													onClick={handleAddUnit}
+												/>
+											</GridColumn>
+											<GridColumn>
+												<Button
+													icon="remove"
+													color="red"
+													onClick={handleRemoveUnit}
+												/>
+											</GridColumn>
+										</Grid>
+										{renderUnits()}
+
+										<Button
+											disabled={loading}
+											className={loading ? "loading" : ""}
+											color="orange"
+											size="large"
+											onClick={event => handleSubmit(event, createHabit)}
+											fluid>
+											作成
+										</Button>
+									</Segment>
+								</Form>
+							);
+						}}
+					</Mutation>
+				)}
+				{errors.length > 0 && (
+					<Message error>
+						<h3>エラー</h3>
+						{displayErrors(errors)}
+					</Message>
+				)}
+				{/* success message */}
+				<Transition
+					animation="fade"
+					visible={onOpen}
+					duration="2000"
+					onComplete={() => history.push("/habits")}>
+					<Message icon success size="massive">
+						<Message.Content>
+							<Icon name="check" />
+							<Message.Header>新しい習慣を作成しました</Message.Header>
+							記念すべき1日目を更新しよう
+						</Message.Content>
+					</Message>
+				</Transition>
+			</Grid.Column>
+		</Grid>
+	);
+};
+
+export default withRouter(CreateHabit);

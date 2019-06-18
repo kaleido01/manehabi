@@ -4,15 +4,9 @@ export const CREATE_HABIT = gql`
 	mutation createHabit(
 		$title: String!
 		$description: String!
-		$unit: String!
-		$isTime: Boolean!
+		$units: [String!]
 	) {
-		createHabit(
-			title: $title
-			description: $description
-			unit: $unit
-			isTime: $isTime
-		) {
+		createHabit(title: $title, description: $description, units: $units) {
 			title
 			description
 		}
@@ -27,11 +21,8 @@ export const DELETE_HABIT = gql`
 `;
 
 export const UPDATE_HABIT = gql`
-	mutation updateHabit($_id: ID!, $today: Int!, $todayTime: Int) {
-		updateHabit(_id: $_id, today: $today, todayTime: $todayTime) {
-			today
-			total
-		}
+	mutation updateHabit($_id: ID!, $todayRecords: [todayRecord]) {
+		updateHabit(_id: $_id, todayRecords: $todayRecords)
 	}
 `;
 export const RESET_COUNT = gql`
@@ -68,22 +59,38 @@ export const GET_CURRENT_USER = gql`
 			_id
 			username
 			email
+			imageUrl
+			joinDate
+			oneWord
 			favorites {
 				_id
 				title
 				createdAt
-				# creator {
-				# 	username
-				# 	imageUrl
-				# }
+				creator {
+					_id
+					username
+					imageUrl
+				}
 			}
 		}
 	}
 `;
 
 export const GET_ALL_HABITS = gql`
-	query getAllHabits($offset: Int, $limit: Int) {
-		getAllHabits(offset: $offset, limit: $limit) {
+	query getAllHabits(
+		$offset: Int
+		$limit: Int
+		$descending: String
+		$option: String
+		$searchTerm: String
+	) {
+		getAllHabits(
+			offset: $offset
+			limit: $limit
+			descending: $descending
+			option: $option
+			searchTerm: $searchTerm
+		) {
 			habits {
 				_id
 				title
@@ -99,6 +106,7 @@ export const GET_ALL_HABITS = gql`
 					_id
 					username
 					imageUrl
+					oneWord
 				}
 			}
 			pageInfo {
@@ -120,8 +128,6 @@ export const GET_USER_HABITS = gql`
 				startDate
 				limitDate
 				createdAt
-				unit
-				isTimeRecord
 				updateDate
 				starUser {
 					_id
@@ -130,6 +136,11 @@ export const GET_USER_HABITS = gql`
 					_id
 					username
 					imageUrl
+					oneWord
+				}
+				habitRecords {
+					unit
+					_id
 				}
 			}
 			pageInfo {
@@ -151,25 +162,32 @@ export const GET_HABIT = gql`
 			limitDate
 			createdAt
 			numberOfFailure
-			unit
-			isTimeRecord
-			updateDate
 			starUser {
 				_id
 			}
+			habitRecords {
+				unit
+				_id
+			}
+
 			creator {
 				_id
 				username
 				imageUrl
 				joinDate
+				oneWord
 			}
 		}
 	}
 `;
 
 export const GET_HABIT_RECORDS = gql`
-	query getHabitRecords($_id: ID!, $limit: Int!) {
-		getHabitRecords(_id: $_id, limit: $limit) {
+	query getHabitRecords($habitId: ID!, $habitRecordNumber: ID!, $limit: Int!) {
+		getHabitRecords(
+			habitId: $habitId
+			habitRecordNumber: $habitRecordNumber
+			limit: $limit
+		) {
 			_id
 			date
 			total
@@ -190,10 +208,87 @@ export const GET_HABIT_TIMERECORDS = gql`
 	}
 `;
 
+export const GET_MESSAGES = gql`
+	query getMessages(
+		$_id: ID!
+		$offset: Int
+		$limit: Int
+		$descending: String
+		$user: String
+		$searchTerm: String
+	) {
+		getMessages(
+			_id: $_id
+			offset: $offset
+			limit: $limit
+			descending: $descending
+			user: $user
+			searchTerm: $searchTerm
+		) {
+			messages {
+				_id
+				body
+				createdAt
+				creator {
+					_id
+					username
+					imageUrl
+				}
+			}
+			pageInfo {
+				startCursor
+				endCursor
+				hasNextPage
+			}
+		}
+	}
+`;
+
 export const CREATE_USER = gql`
-	mutation createUser($username: String!, $email: String!, $password: String!) {
-		createUser(username: $username, email: $email, password: $password) {
+	mutation createUser(
+		$username: String!
+		$email: String!
+		$password: String!
+		$passwordConfirmation: String!
+	) {
+		createUser(
+			username: $username
+			email: $email
+			password: $password
+			passwordConfirmation: $passwordConfirmation
+		) {
 			token
+		}
+	}
+`;
+export const UPDATE_PROFILE = gql`
+	mutation updateProfile(
+		$username: String
+		$email: String
+		$oneWord: String
+		$description: String
+	) {
+		updateProfile(
+			username: $username
+			email: $email
+			oneWord: $oneWord
+			description: $description
+		) {
+			_id
+			username
+			email
+			oneWord
+			description
+		}
+	}
+`;
+
+export const CREATE_COMMENT = gql`
+	mutation createComment($body: String!, $habitId: ID!) {
+		createComment(body: $body, habitId: $habitId) {
+			_id
+			body
+			createdAt
 		}
 	}
 `;

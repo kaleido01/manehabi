@@ -1,19 +1,24 @@
 import React from "react";
-import { Modal, Button, Icon } from "semantic-ui-react";
+import { Modal, Button, Icon, Message } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import { RESET_COUNT } from "../../queries";
 import Loader from "./../shered/Loader";
 
-const ResetCountModal = ({ closeModal, habit, open }) => {
+const ResetCountModal = ({
+	closeModal,
+	habit,
+	open,
+	errors,
+	setErrors,
+	setOnSuccessMessage
+}) => {
 	const handleResetCount = (resetCount, closeModal) => {
 		resetCount()
 			.then(data => {
+				setOnSuccessMessage(true);
 				closeModal();
 			})
-			.catch(err => {
-				console.log(err);
-				closeModal();
-			});
+			.catch(err => {});
 	};
 
 	// const handleUpdateCache = (cache, { data: { deleteHabit } }) => {
@@ -49,11 +54,22 @@ const ResetCountModal = ({ closeModal, habit, open }) => {
 		>
 			{(resetCount, { data, loading, error }) => {
 				if (loading) return <Loader />;
+				if (error) {
+					setErrors(error.graphQLErrors[0].data);
+				}
 				return (
 					<Modal basic open={open} onClose={closeModal}>
 						<Modal.Header>継続日数リセットの確認</Modal.Header>
 						<Modal.Content>
 							{habit.title}の継続日数をリセットしてよろしいですか？
+							{errors && errors.length > 0 && (
+								<Message
+									negative
+									size="mini"
+									header="エラー"
+									list={errors.map(error => error.message)}
+								/>
+							)}
 						</Modal.Content>
 						<Modal.Actions>
 							<Button

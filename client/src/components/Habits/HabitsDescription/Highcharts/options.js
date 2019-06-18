@@ -5,7 +5,7 @@ const options = data => {
 		},
 
 		title: {
-			text: `${data.title} (${data.yTitle})`
+			text: data.title
 		},
 		// subtitle: {
 		// 	text: "aaaa"
@@ -16,7 +16,7 @@ const options = data => {
 		yAxis: {
 			min: 0,
 			title: {
-				text: `積み上げ${data.yTitle}数`
+				text: data.yTitle
 			},
 			stackLabels: {
 				enabled: true

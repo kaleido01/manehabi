@@ -9,6 +9,8 @@ type User{
 	password:String!
   imageUrl:String
 	joinDate:String
+  oneWord:String
+  description:String
 	favorites:[Habit]
 	Habits: [Habit]
 }
@@ -21,14 +23,18 @@ type Habit{
   startDate:String,
   limitDate:String,
   updateDate:String,
-  record:[HabitRecord]
   countDate:Int,
   numberOfFailure:Int,
   creator:User
-  unit:String
-	isTimeRecord:Boolean
-  timeRecord:[HabitRecord]
+  habitRecords:[habitRecords]
   starUser:[User]
+  comments:[Comment]
+}
+
+type habitRecords{
+  _id:ID
+  unit:String
+  records:[HabitRecord]
 }
 
 type HabitRecord{
@@ -37,6 +43,14 @@ type HabitRecord{
   total:Int,
   today:Int,
   habitId:ID
+}
+
+type Comment{
+  _id:ID,
+  createdAt:String,
+  HabitId:ID,
+  creator:User
+  body:String
 }
 
 type Token{
@@ -54,26 +68,39 @@ type HabitAndPageInfo{
   habits:[Habit]
 }
 
+type MessageAndPageInfo{
+  pageInfo:pageInfo
+  messages:[Comment]
+}
+
 type Query{
   getCurrentUser:User
-  getAllHabits(offset:Int,limit:Int):HabitAndPageInfo
+  getAllHabits(offset:Int,limit:Int,descending:String,option:String,searchTerm:String):HabitAndPageInfo
   getUserHabits(offset:Int,limit:Int):HabitAndPageInfo
   getHabit(_id:ID!):Habit
-  getHabitRecords(_id:ID!,limit:Int!):[HabitRecord]
+  getHabitRecords(habitId:ID!,habitRecordNumber:ID!,limit:Int!):[HabitRecord]
   getHabitTimeRecords(_id:ID!,limit:Int!):[HabitRecord]
+  getMessages(_id:ID!,offset:Int,limit:Int,user:String,descending:String,searchTerm:String):MessageAndPageInfo
 }
 
 
 
+input todayRecord {
+    today:Int,
+    recordNumber:ID
+}
+
 type Mutation{
-  createHabit(title:String!,description:String!,unit:String!,isTime:Boolean!):Habit
+  createHabit(title:String!,description:String!,units:[String!]):Habit
   deleteHabit(_id:ID!):Habit
   resetCount(_id:ID!):Habit
-  createUser(username:String!,email:String!,password:String!):Token
+  createUser(username:String!,email:String!,password:String!,passwordConfirmation:String!):Token
   starHabit(_id:ID!):Habit
   unStarHabit(_id:ID!):Habit
-  updateHabit(_id:ID!,today:Int!,todayTime:Int):[HabitRecord]
+  updateHabit(_id:ID!,todayRecords:[todayRecord]):Boolean
+  updateProfile(username:String,email:String,oneWord:String,description:String):User
   login(email:String!,password:String!):Token
+  createComment(body:String!,habitId:ID!):Comment
 
 }
 

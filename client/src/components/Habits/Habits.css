@@ -3,12 +3,31 @@
 	background: #eee !important;
 }
 
+.Search {
+	background-color: rgb(226, 238, 247) !important;
+}
+
+.SuccessMessage {
+	position: relative !important;
+	top: 0em;
+	right: 0em;
+	z-index: 100;
+}
+
 /* -------------------------------------------- */
 /* ▼タブレット用デザインとして付け足すデザイン */
 /* -------------------------------------------- */
 @media (min-width: 768px) {
 	.Description.ui.label {
 		left: 127px !important;
+	}
+
+	.SuccessMessage {
+		position: relative !important;
+		top: 0em;
+		right: -20%;
+		width: 80%;
+		z-index: 100;
 	}
 }
 
@@ -19,5 +38,12 @@
 @media (min-width: 1024px) {
 	.Description.ui.label {
 		left: 127px !important;
+	}
+	.SuccessMessage {
+		position: relative !important;
+		top: 0em;
+		right: -50%;
+		width: 50%;
+		z-index: 100;
 	}
 }
