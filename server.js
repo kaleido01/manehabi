@@ -54,8 +54,9 @@ app.use(
 
 app.use(cookieParser());
 app.use(passport.session());
-
+console.log("aaaa");
 app.get("/auth/twitter", passport.authenticate("twitter"));
+console.log("bbbb");
 app.get(
 	"/auth/twitter/callback",
 	passport.authenticate("twitter", {
