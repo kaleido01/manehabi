@@ -458,6 +458,10 @@ exports.resolvers = {
 			return user;
 		},
 		createComment: async (root, { body, habitId }, { currentUser }) => {
+			let errors = [];
+			isCurrentUser(currentUser, errors);
+			checkErrors(errors);
+
 			const user = await User.findOne({ email: currentUser.email });
 			const comment = new Comment({
 				body,

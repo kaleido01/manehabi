@@ -1,10 +1,20 @@
 import React, { useState } from "react";
 import { CREATE_COMMENT, GET_MESSAGES } from "./../../../../queries/index";
-import { Form, Segment, Button, TextArea, Icon } from "semantic-ui-react";
+import {
+	Form,
+	Segment,
+	Button,
+	TextArea,
+	Icon,
+	Transition,
+	Message
+} from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 
 const CommentContainer = ({ creatorId, habit, commentOptions }) => {
 	const [body, setBody] = useState(`${habit.countDate}日目 :`);
+	const [errors, setErrors] = useState([]);
+	const [onOpen, setOnOpen] = useState(false);
 
 	const handleSubmit = (event, createComment) => {
 		event.preventDefault();
@@ -15,6 +25,22 @@ const CommentContainer = ({ creatorId, habit, commentOptions }) => {
 
 	return (
 		<div>
+			{errors.length > 0 && (
+				<Transition
+					transitionOnMount
+					animation="fade"
+					visible={onOpen}
+					duration={("2000", "2000")}>
+					<Message
+						negative
+						hidden={onOpen}
+						size="mini"
+						onDismiss={() => setOnOpen(false)}
+						header="エラー"
+						list={errors.map(error => error.message)}
+					/>
+				</Transition>
+			)}
 			<Mutation
 				mutation={CREATE_COMMENT}
 				variables={{ body, creatorId, habitId: habit._id }}
@@ -29,7 +55,11 @@ const CommentContainer = ({ creatorId, habit, commentOptions }) => {
 						}
 					}
 				]}>
-				{(createComment, { data, loading }) => {
+				{(createComment, { data, loading, error }) => {
+					if (error) {
+						setErrors(error.graphQLErrors[0].data);
+						setOnOpen(true);
+					}
 					return (
 						<Form
 							onSubmit={event => handleSubmit(event, createComment)}
