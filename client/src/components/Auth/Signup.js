@@ -9,7 +9,8 @@ import {
 	Button,
 	Header,
 	Message,
-	Icon
+	Icon,
+	Transition
 } from "semantic-ui-react";
 import "./Auth.css";
 import { API_URL } from "../../config";
@@ -21,7 +22,7 @@ class Signup extends React.Component {
 		password: "",
 		passwordConfirmation: "",
 		errors: [],
-		loading: false
+		onOpen: false
 	};
 
 	isFormValid = () => {
@@ -72,11 +73,10 @@ class Signup extends React.Component {
 	handleSubmit = (event, createUser) => {
 		event.preventDefault();
 		if (this.isFormValid()) {
+			this.setState({ errors: [] });
 			createUser().then(async ({ data }) => {
 				localStorage.setItem("token", data.createUser.token);
 				await this.props.refetch();
-
-				this.props.history.push("/habits");
 			});
 		}
 	};
@@ -93,109 +93,135 @@ class Signup extends React.Component {
 			email,
 			password,
 			passwordConfirmation,
-			errors
+			errors,
+			onOpen
 		} = this.state;
 		return (
-			<Mutation
-				mutation={CREATE_USER}
-				variables={{ username, email, password }}>
-				{(createUser, { data, loading, error }) => {
-					if (error) {
-						console.log(error, data);
-					}
-					return (
-						<Grid className="Auth" textAlign="center" verticalAlign="middle">
-							<Grid.Column style={{ maxWidth: 367 }}>
-								<Header as="h2" icon color="purple" textAlign="center">
-									<Icon name="new pied piper" color="purple" /> Manehabi
-									会員登録
-								</Header>
-								<Form
-									size="large"
-									onSubmit={event => this.handleSubmit(event, createUser)}>
-									<Segment stacked>
-										<Form.Input
-											fluid
-											name="username"
-											icon="user"
-											iconPosition="left"
-											placeholder="ユーザ名"
-											onChange={this.handleChange}
-											value={username}
-											className={this.handleInputError(errors, "ユーザー")}
-											type="text"
-										/>
-										<Form.Input
-											fluid
-											name="email"
-											icon="mail"
-											iconPosition="left"
-											placeholder="Eメールアドレス"
-											onChange={this.handleChange}
-											value={email}
-											className={this.handleInputError(errors, "Eメール")}
-											type="email"
-										/>
-										<Form.Input
-											fluid
-											name="password"
-											icon="lock"
-											iconPosition="left"
-											placeholder="パスワード"
-											onChange={this.handleChange}
-											value={password}
-											className={this.handleInputError(errors, "パスワード")}
-											type="password"
-										/>
-										<Form.Input
-											fluid
-											name="passwordConfirmation"
-											icon="repeat"
-											iconPosition="left"
-											placeholder="パスワードの確認"
-											onChange={this.handleChange}
-											value={passwordConfirmation}
-											className={this.handleInputError(errors, "パスワード")}
-											type="password"
-										/>
-										<Button
-											disabled={loading}
-											className={loading ? "loading" : ""}
-											color="orange"
-											size="large"
-											fluid>
-											会員登録
-										</Button>
+			<Grid className="Auth" textAlign="center" verticalAlign="middle">
+				<Grid.Column style={{ maxWidth: 367 }}>
+					<Header as="h2" icon color="purple" textAlign="center">
+						<Icon name="new pied piper" color="purple" /> Manehabi 会員登録
+					</Header>
+					{onOpen ? null : (
+						<Mutation
+							mutation={CREATE_USER}
+							variables={{ username, email, password, passwordConfirmation }}
+							onCompleted={() => this.setState({ onOpen: true })}>
+							{(createUser, { data, loading, error }) => {
+								if (errors.length === 0) {
+									if (error) {
+										console.log(error);
+										this.setState({ errors: error.graphQLErrors[0].data });
+									}
+								}
 
-										<Button
-											disabled={loading}
-											className={loading ? "loading" : ""}
-											color="twitter"
-											size="large"
-											style={{ margin: "1em 0 0 0" }}
-											fluid
-											as="a"
-											href={`${API_URL}/auth/twitter`}>
-											<Icon name="twitter" /> Twitterで会員登録する
-										</Button>
-									</Segment>
-								</Form>
-								{errors.length > 0 && (
-									<Message error>
-										<h3>エラー</h3>
-										{console.log(errors)}
-										{this.displayErrors(errors)}
-									</Message>
-								)}
-								<Message>
-									既に会員登録済みの方は
-									<Link to="signin"> こちらからログイン</Link>
-								</Message>
-							</Grid.Column>
-						</Grid>
-					);
-				}}
-			</Mutation>
+								return (
+									<Form
+										size="large"
+										onSubmit={event => this.handleSubmit(event, createUser)}>
+										<Segment stacked>
+											<Form.Input
+												fluid
+												name="username"
+												icon="user"
+												iconPosition="left"
+												placeholder="ユーザ名"
+												onChange={this.handleChange}
+												value={username}
+												className={this.handleInputError(errors, "ユーザー")}
+												type="text"
+											/>
+											<Form.Input
+												fluid
+												name="email"
+												icon="mail"
+												iconPosition="left"
+												placeholder="Eメールアドレス"
+												onChange={this.handleChange}
+												value={email}
+												className={this.handleInputError(errors, "Eメール")}
+												type="email"
+											/>
+											<Form.Input
+												fluid
+												name="password"
+												icon="lock"
+												iconPosition="left"
+												placeholder="パスワード"
+												onChange={this.handleChange}
+												value={password}
+												className={this.handleInputError(errors, "パスワード")}
+												type="password"
+											/>
+											<Form.Input
+												fluid
+												name="passwordConfirmation"
+												icon="repeat"
+												iconPosition="left"
+												placeholder="パスワードの確認"
+												onChange={this.handleChange}
+												value={passwordConfirmation}
+												className={this.handleInputError(errors, "パスワード")}
+												type="password"
+											/>
+											<Button
+												disabled={loading}
+												className={loading ? "loading" : ""}
+												color="orange"
+												size="large"
+												fluid>
+												会員登録
+											</Button>
+
+											<Button
+												disabled={loading}
+												className={loading ? "loading" : ""}
+												color="twitter"
+												size="large"
+												style={{ margin: "1em 0 0 0" }}
+												fluid
+												as="a"
+												href={`${API_URL}/auth/twitter`}>
+												<Icon name="twitter" /> Twitterで会員登録する
+											</Button>
+										</Segment>
+									</Form>
+								);
+							}}
+						</Mutation>
+					)}
+
+					{errors.length > 0 && (
+						<Message error>
+							<h3>エラー</h3>
+							{console.log(errors)}
+							{this.displayErrors(errors)}
+						</Message>
+					)}
+
+					{onOpen ? null : (
+						<Message>
+							既に会員登録済みの方は
+							<Link to="signin"> こちらからログイン</Link>
+						</Message>
+					)}
+
+					{/* success message */}
+					<Transition
+						animation="fade"
+						visible={onOpen}
+						duration="2000"
+						onComplete={() => this.props.history.push("/habits")}>
+						<Message icon success size="massive">
+							<Message.Content>
+								<Icon name="check" />
+								<Message.Header>会員登録完了</Message.Header>
+								ようこそ.Manehabiへ
+							</Message.Content>
+						</Message>
+					</Transition>
+				</Grid.Column>
+			</Grid>
 		);
 	}
 }

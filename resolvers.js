@@ -13,7 +13,12 @@ const {
 	validatePasswordLength,
 	validateIsWrongPassword
 } = require("./validation/passwordValidation");
-const { isFindUser, isCurrentUser } = require("./validation/userValidation");
+const {
+	isFindUser,
+	isCurrentUser,
+	validateNewUser,
+	isAlreadyUser
+} = require("./validation/userValidation");
 const {
 	validateTitle,
 	validateDescription,
@@ -409,7 +414,20 @@ exports.resolvers = {
 
 			return habit;
 		},
-		createUser: async (root, { username, email, password }, ctx) => {
+		createUser: async (
+			root,
+			{ username, email, password, passwordConfirmation },
+			ctx
+		) => {
+			let errors = [];
+			validateNewUser(username, email, password, passwordConfirmation, errors);
+			checkErrors(errors);
+
+			const user = await User.findOne({ email });
+
+			isAlreadyUser(user, errors);
+			checkErrors(errors);
+
 			const hashedPw = await bcrypt.hash(password, 12);
 			const newUser = new User({
 				username,

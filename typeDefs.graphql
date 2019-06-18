@@ -98,7 +98,7 @@ type Mutation{
   createHabit(title:String!,description:String!,units:[String!]):Habit
   deleteHabit(_id:ID!):Habit
   resetCount(_id:ID!):Habit
-  createUser(username:String!,email:String!,password:String!):Token
+  createUser(username:String!,email:String!,password:String!,passwordConfirmation:String!):Token
   starHabit(_id:ID!):Habit
   unStarHabit(_id:ID!):Habit
   updateHabit(_id:ID!,todayRecords:[todayRecord]):Boolean
