@@ -23,13 +23,9 @@ type Habit{
   startDate:String,
   limitDate:String,
   updateDate:String,
-  record:[HabitRecord]
   countDate:Int,
   numberOfFailure:Int,
   creator:User
-  unit:String
-	isTimeRecord:Boolean
-  timeRecord:[HabitRecord]
   habitRecords:[habitRecords]
   starUser:[User]
   comments:[Comment]

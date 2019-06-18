@@ -162,9 +162,6 @@ export const GET_HABIT = gql`
 			limitDate
 			createdAt
 			numberOfFailure
-			unit
-			isTimeRecord
-			updateDate
 			starUser {
 				_id
 			}

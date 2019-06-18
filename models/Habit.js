@@ -43,22 +43,6 @@ const HabitSchema = new Schema({
 		type: Number,
 		default: 0
 	},
-	unit: {
-		type: String
-	},
-	isTimeRecord: {
-		type: Boolean
-	},
-	timeRecord: {
-		type: [Schema.Types.ObjectId],
-		ref: "HabitRecord",
-		default: []
-	},
-	record: {
-		type: [Schema.Types.ObjectId],
-		ref: "HabitRecord",
-		default: []
-	},
 	habitRecords: [
 		{
 			recordNumber: {

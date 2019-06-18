@@ -58,6 +58,9 @@ const HabitDescription = ({ match }) => {
 		<Query query={GET_HABIT} variables={{ _id }}>
 			{({ data, loading, error }) => {
 				if (loading) return <Loader />;
+				if (error) {
+					console.log(error);
+				}
 				const { getHabit } = data;
 				return (
 					<Grid textAlign="center" centered stackable container>
