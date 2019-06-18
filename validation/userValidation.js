@@ -1,7 +1,8 @@
 exports.isCurrentUser = (currentUser, errors) => {
 	if (!currentUser) {
 		errors.push({
-			message: "セッションが切れていますログインし直してください"
+			message:
+				"セッションが切れているか、ログインされていません。ログインしてください"
 		});
 	}
 };

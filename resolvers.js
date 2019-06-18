@@ -334,33 +334,13 @@ exports.resolvers = {
 
 			await habit.save();
 
-			// for (let index = 0; index < 100; index++) {
-			// 	const record = new HabitRecord({
-			// 		date: moment()
-			// 			.add(-index, "days")
-			// 			.toDate(),
-			// 		total: beforeTotal + today + index,
-			// 		today: today + index,
-			// 		before: beforeId,
-			// 		habitId: _id
-			// 	});
-
-			// 	await record.save();
-
-			// 	if (!habit.record) {
-			// 		habit.record = [record._id];
-			// 	} else {
-			// 		habit.record.push(record._id);
-			// 	}
-			// 	await habit.save();
-			// }
-
 			return true;
 		},
 		starHabit: async (root, { _id }, { currentUser }) => {
-			if (!currentUser) {
-				return new Error("Not Authenticated");
-			}
+			const errors = [];
+			isCurrentUser(currentUser, errors);
+			checkErrors(errors);
+
 			const user = await User.findOne({ email: currentUser.email });
 			await Habit.findByIdAndUpdate(_id, {
 				$addToSet: {
@@ -375,9 +355,10 @@ exports.resolvers = {
 			return await Habit.findById(_id);
 		},
 		unStarHabit: async (root, { _id }, { currentUser }) => {
-			if (!currentUser) {
-				return new Error("Not Authenticated");
-			}
+			const errors = [];
+			isCurrentUser(currentUser, errors);
+			checkErrors(errors);
+
 			const user = await User.findOne({ email: currentUser.email });
 			await Habit.findByIdAndUpdate(_id, {
 				$pull: {
@@ -392,9 +373,9 @@ exports.resolvers = {
 			return await Habit.findById(_id);
 		},
 		resetCount: async (root, { _id }, { currentUser }) => {
-			if (!currentUser) {
-				return new Error("Not Authenticated");
-			}
+			const errors = [];
+			isCurrentUser(currentUser, errors);
+
 			const user = await User.findOne({ email: currentUser.email });
 
 			const habit = await Habit.findById(_id).populate({
