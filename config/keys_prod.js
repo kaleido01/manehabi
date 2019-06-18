@@ -4,5 +4,5 @@ module.exports = {
 	consumerKey: process.env.CONSUMER_KEY,
 	consumerSecret: process.env.CONSUMER_SECRET,
 	cookieKeys: process.env.COOKIE_KEYS,
-	baseClientURL: procecc.env.BASE_CLIENT_URL
+	baseClientURL: process.env.BASE_CLIENT_URL
 };
