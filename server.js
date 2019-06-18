@@ -55,7 +55,7 @@ app.use(
 app.use(cookieParser());
 app.use(passport.session());
 console.log("aaaa");
-app.use("/auth/twitter", passport.authenticate("twitter"));
+app.use(`${baseURL}/auth/twitter`, passport.authenticate("twitter"));
 console.log("bbbb");
 app.use(
 	"/auth/twitter/callback",
