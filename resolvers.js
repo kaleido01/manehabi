@@ -14,6 +14,11 @@ const {
 	validateIsWrongPassword
 } = require("./validation/passwordValidation");
 const { isFindUser, isCurrentUser } = require("./validation/userValidation");
+const {
+	validateTitle,
+	validateDescription,
+	validateUnits
+} = require("./validation/habitValidation");
 
 exports.resolvers = {
 	Query: {
@@ -231,37 +236,15 @@ exports.resolvers = {
 			{ currentUser }
 		) => {
 			let errors = [];
-			if (!currentUser) {
-				errors.push({
-					message: "セッションが切れていますログインし直してください"
-				});
-			}
 
-			const { isEmpty } = validator;
+			isCurrentUser(currentUser, errors);
+			checkErrors(errors);
 
-			if (isEmpty(title)) {
-				errors.push({
-					message: "タイトルは必須です"
-				});
-			}
-			if (isEmpty(description)) {
-				errors.push({
-					message: "説明は必須です"
-				});
-			}
-			units.forEach(unit => {
-				if (isEmpty(unit)) {
-					errors.push({
-						message: "単位は全て埋めてください"
-					});
-				}
-			});
-			if (errors.length > 0) {
-				const error = new Error(errors);
-				error.data = errors;
-				error.code = 422;
-				throw error;
-			}
+			validateTitle(title, errors);
+			validateDescription(description, errors);
+			validateUnits(units, errors);
+
+			checkErrors(errors);
 
 			const user = await User.findOne({ email: currentUser.email });
 

@@ -21,14 +21,13 @@ const CreateHabit = ({ history }) => {
 	const [units, setUnits] = useState([""]);
 	const [errors, setErrors] = useState([]);
 
-	console.log(errors);
-
 	const isFormValid = () => {
 		return true;
 	};
 	const handleSubmit = (event, createHabit) => {
 		event.preventDefault();
 		if (isFormValid()) {
+			setErrors([]);
 			createHabit()
 				.then(async ({ data }) => {})
 				.catch(({ errors }) => {

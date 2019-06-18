@@ -1,4 +1,10 @@
-exports.isCurrentUser = (currentUser, errors) => {};
+exports.isCurrentUser = (currentUser, errors) => {
+	if (!currentUser) {
+		errors.push({
+			message: "セッションが切れていますログインし直してください"
+		});
+	}
+};
 
 exports.isFindUser = (user, errors) => {
 	if (!user) {
