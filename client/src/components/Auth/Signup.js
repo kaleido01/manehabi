@@ -180,7 +180,7 @@ class Signup extends React.Component {
 												style={{ margin: "1em 0 0 0" }}
 												fluid
 												as="a"
-												href={`${API_URL}/auth/twitter`}>
+												href="/auth/twitter">
 												<Icon name="twitter" /> Twitterで会員登録する
 											</Button>
 										</Segment>
