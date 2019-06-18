@@ -20,7 +20,8 @@
     "react-spinners": "^0.5.4",
     "react-twitter-auth": "^0.0.13",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.1"
+    "semantic-ui-react": "^0.87.1",
+    "validator": "^11.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

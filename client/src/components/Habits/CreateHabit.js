@@ -38,8 +38,8 @@ const CreateHabit = ({ history }) => {
 	};
 
 	const displayErrors = errors => {
-		return errors.map(error => {
-			return <div>{error.message}</div>;
+		return errors.map((error, i) => {
+			return <div key={i}>{error.message}</div>;
 		});
 	};
 
@@ -77,6 +77,7 @@ const CreateHabit = ({ history }) => {
 					iconPosition="left"
 					placeholder="習慣の単位 (例: 文字)"
 					onChange={e => handleUnitsChange(e, index)}
+					className={handleInputError(errors, "単位")}
 					value={unit}
 					type="text"
 				/>
@@ -101,8 +102,6 @@ const CreateHabit = ({ history }) => {
 						onCompleted={() => setOnOpen(true)}>
 						{(createHabit, { data, loading, error }) => {
 							if (error) {
-								console.log(error.graphQLErrors[0].data);
-
 								setErrors(error.graphQLErrors[0].data);
 							}
 							return (
