@@ -39,7 +39,7 @@ const corsOption = {
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	credentials: true
 };
-app.use(cors(corsOption));
+app.use(cors("*"));
 
 app.use(passport.initialize());
 
@@ -55,7 +55,7 @@ app.use(
 app.use(cookieParser());
 app.use(passport.session());
 console.log("aaaa");
-app.get("/auth/twitter", passport.authenticate("twitter"));
+app.get(`/auth/twitter`, passport.authenticate("twitter"));
 console.log("bbbb");
 app.get(
 	"/auth/twitter/callback",

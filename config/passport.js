@@ -6,8 +6,8 @@ const User = require("../models/User");
 
 const url =
 	process.env.NODE_ENV === "production"
-		? "https://manehabi.herokuapp.com"
-		: "http://127.0.0.1:4000";
+		? "https://manehabi.herokuapp.com/"
+		: "http://localhost:4000";
 
 // serialize the user.id to save in the cookie session
 // so the browser will remember the user when login
