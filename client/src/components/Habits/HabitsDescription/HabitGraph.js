@@ -61,9 +61,7 @@ const createGraphData = (habitRecords, maxDays, unit) => {
 			.add(-maxDays + j + 1, "days")
 			.format("YYYY-MM-DD");
 		categories.push(day);
-		console.log(recordDay, day);
 		if (String(recordDay) === String(day)) {
-			console.log(firstData);
 			firstData.push(today);
 			secondData.push(total - today);
 			count++;
@@ -76,12 +74,10 @@ const createGraphData = (habitRecords, maxDays, unit) => {
 	data.categories = categories;
 	data.firstData = firstData;
 	data.secondData = secondData;
-	console.log(data);
 	return data;
 };
 
 const HabitGraph = ({ days, setDays, records, habit, unit }) => {
-	console.log(days, records, habit);
 	const optionData = createGraphData(records, days, unit);
 	if (optionData) {
 		optionData.title = habit.title;

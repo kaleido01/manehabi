@@ -19,9 +19,7 @@ const DeleteHabitModal = ({
 
 				closeModal();
 			})
-			.catch(err => {
-				console.log(err);
-			});
+			.catch(err => {});
 	};
 
 	const handleUpdateCache = (cache, { data: { deleteHabit } }) => {
@@ -53,7 +51,6 @@ const DeleteHabitModal = ({
 			update={handleUpdateCache}>
 			{(deleteHabit, { data, loading, error }) => {
 				if (loading) return <Loader />;
-				console.log(error);
 				if (error) {
 					setErrors(error.graphQLErrors[0].data);
 				}

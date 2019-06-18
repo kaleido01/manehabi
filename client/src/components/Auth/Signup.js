@@ -110,7 +110,6 @@ class Signup extends React.Component {
 							{(createUser, { data, loading, error }) => {
 								if (errors.length === 0) {
 									if (error) {
-										console.log(error);
 										this.setState({ errors: error.graphQLErrors[0].data });
 									}
 								}
@@ -194,7 +193,6 @@ class Signup extends React.Component {
 					{errors.length > 0 && (
 						<Message error>
 							<h3>エラー</h3>
-							{console.log(errors)}
 							{this.displayErrors(errors)}
 						</Message>
 					)}

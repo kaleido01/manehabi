@@ -30,9 +30,7 @@ const CreateHabit = ({ history }) => {
 			setErrors([]);
 			createHabit()
 				.then(async ({ data }) => {})
-				.catch(({ errors }) => {
-					console.log(errors);
-				});
+				.catch(({ errors }) => {});
 		}
 	};
 
@@ -161,7 +159,6 @@ const CreateHabit = ({ history }) => {
 						}}
 					</Mutation>
 				)}
-				{console.log(errors)}
 				{errors.length > 0 && (
 					<Message error>
 						<h3>エラー</h3>

@@ -18,9 +18,7 @@ const CommentContainer = ({ creatorId, habit, commentOptions }) => {
 
 	const handleSubmit = (event, createComment) => {
 		event.preventDefault();
-		createComment().then(res => {
-			console.log(res);
-		});
+		createComment().then(res => {});
 	};
 
 	return (

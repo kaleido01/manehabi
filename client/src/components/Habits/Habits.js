@@ -28,7 +28,6 @@ const Habits = ({ location, refetch }) => {
 			setAuthLoading(true);
 			refetch().then(res => {
 				setAuthLoading(false);
-				console.log(res);
 			});
 		}
 	}, []);

@@ -38,9 +38,7 @@ const UpdateHabitModal = ({
 			.then(data => {
 				setOnSuccessMessage(true);
 			})
-			.catch(err => {
-				console.log(err);
-			});
+			.catch(err => {});
 	};
 
 	const handleChange = (e, index) => {

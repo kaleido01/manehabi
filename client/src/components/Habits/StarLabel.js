@@ -20,7 +20,6 @@ const StarLabel = ({ habit, history }) => {
 			});
 		}
 	}, []);
-	console.log(onOpen, errors);
 
 	const handleClick = (starHabit, unStarHabit) => {
 		// if (!currentUser) {

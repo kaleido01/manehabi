@@ -26,7 +26,6 @@ const HabitDescription = ({ match }) => {
 	};
 
 	const renderGraph = habit => {
-		console.log(days);
 		return habit.habitRecords.map(habitRecord => {
 			return (
 				<Query

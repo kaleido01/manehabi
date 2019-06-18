@@ -15,7 +15,6 @@ const SearchComment = ({
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSearchChange = (e, { value }) => {
-		console.log("count");
 		setIsLoading(true);
 
 		setSearchTerm(value);

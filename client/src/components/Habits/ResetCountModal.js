@@ -18,9 +18,7 @@ const ResetCountModal = ({
 				setOnSuccessMessage(true);
 				closeModal();
 			})
-			.catch(err => {
-				console.log(err);
-			});
+			.catch(err => {});
 	};
 
 	// const handleUpdateCache = (cache, { data: { deleteHabit } }) => {

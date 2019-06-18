@@ -8,7 +8,6 @@ import Loader from "../../../shered/Loader";
 
 const MessageList = ({ habit, commentOptions }) => {
 	const onLoadMore = (messages, fetchMore) => {
-		console.log(messages);
 		fetchMore({
 			variables: {
 				offset: messages.length
@@ -48,7 +47,6 @@ const MessageList = ({ habit, commentOptions }) => {
 			{({ data, loading, fetchMore }) => {
 				if (loading) return <Loader />;
 				const { messages, pageInfo } = data.getMessages;
-				console.log(messages.length);
 				return messages.length === 0 ? (
 					<Message info>まだコメントがありません</Message>
 				) : (
