@@ -34,12 +34,12 @@ mongoose
 	.then(() => console.log("MongoDB Connected"))
 	.catch(err => console.log(err));
 
-// const corsOption = {
-// 	origin: ["http://127:0:0:1:3000", baseURL],
-// 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-// 	credentials: true
-// };
-app.use(cors("*"));
+const corsOption = {
+	origin: ["https://manehabi.herokuapp.com"],
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	credentials: true
+};
+app.use(cors(corsOption));
 
 app.use(passport.initialize());
 
