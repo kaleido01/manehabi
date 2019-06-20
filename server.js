@@ -56,19 +56,19 @@ app.use(cookieParser());
 app.use(passport.session());
 
 app.get("/return-json", (req, res, next) => {
-	res.redirect(`${baseURL}/signup`);
+	res.redirect("/signup");
 });
 app.get(`/auth/twitter`, passport.authenticate("twitter"));
 app.get(
 	"/auth/twitter/callback",
 	passport.authenticate("twitter", {
-		failureRedirect: `${baseURL}/signin`
+		failureRedirect: "/signin"
 	}),
 	(req, res) => {
 		console.log(req.user);
 
 		const token = createToken(req.user, secret, "1hr");
-		res.redirect(`${baseURL}/habits?token=${token}`);
+		res.redirect("/habits?token=${token}");
 	}
 );
 
