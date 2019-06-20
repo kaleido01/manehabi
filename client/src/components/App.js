@@ -48,8 +48,7 @@ export const App = ({ refetch }) => {
 									</Fragment>
 								)}
 
-								{/* <Redirect to="/habits" />
-								 */}
+								<Redirect to="/habits" />
 							</Switch>
 						</Layout>
 					</div>
