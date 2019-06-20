@@ -47,7 +47,7 @@ export const App = ({ refetch }) => {
 										<Route path="/profile" component={Profile} />
 									</Fragment>
 								)}
-
+								{console.log("habits")}
 								<Redirect to="/habits" />
 							</Switch>
 						</Layout>

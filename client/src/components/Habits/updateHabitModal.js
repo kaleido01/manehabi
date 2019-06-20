@@ -7,7 +7,7 @@ import {
 	GET_USER_HABITS,
 	GET_HABIT
 } from "../../queries";
-import Loader from "./../shered/Loader";
+import Loader from "../shered/Loader";
 
 const UpdateHabitModal = ({
 	closeModal,
