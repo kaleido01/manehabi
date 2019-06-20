@@ -87,6 +87,8 @@ class Signin extends React.Component {
 
 	render() {
 		const { email, password, errors, onOpen } = this.state;
+		console.log("test");
+
 		return (
 			<Grid className="Auth" textAlign="center" verticalAlign="middle">
 				<Grid.Column style={{ maxWidth: 367 }}>

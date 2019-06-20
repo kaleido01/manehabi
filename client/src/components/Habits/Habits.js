@@ -52,6 +52,7 @@ const Habits = ({ location, refetch }) => {
 			}
 		});
 	};
+	console.log("habit");
 	return (
 		<Fragment>
 			{authLoading ? (
