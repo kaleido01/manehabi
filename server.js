@@ -54,9 +54,11 @@ app.use(
 
 app.use(cookieParser());
 app.use(passport.session());
-console.log("aaaa");
+
+app.get("/return-json", (req, res, next) => {
+	res.redirect(`${baseURL}/signup`);
+});
 app.get(`/auth/twitter`, passport.authenticate("twitter"));
-console.log("bbbb");
 app.get(
 	"/auth/twitter/callback",
 	passport.authenticate("twitter", {
