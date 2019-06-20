@@ -30,7 +30,7 @@ passport.use(
 		{
 			consumerKey,
 			consumerSecret,
-			callbackURL: `${url}/auth/twitter/callback`,
+			callbackURL: "/auth/twitter/callback",
 			userProfileURL:
 				"https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true"
 		},
