@@ -86,7 +86,7 @@ type Query{
 
 
 input todayRecord {
-    today:Int,
+    today:String,
     recordNumber:ID
 }
 

@@ -43,7 +43,8 @@ const UpdateHabitModal = ({
 
 	const handleChange = (e, index) => {
 		const newTodayRecords = [...todayRecords];
-		newTodayRecords[index].today = +e.target.value;
+
+		newTodayRecords[index].today = e.target.value;
 		setTodayRecords(newTodayRecords);
 	};
 
@@ -54,6 +55,7 @@ const UpdateHabitModal = ({
 				const { unit, recordNumber } = habitRecord;
 				return (
 					<Input
+						key={recordNumber}
 						fluid
 						name={recordNumber}
 						iconPosition="left"

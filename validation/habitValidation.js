@@ -1,6 +1,6 @@
 const validator = require("validator");
 
-const { isEmpty, isNumeric } = validator;
+const { isEmpty, isNumeric, isInt } = validator;
 
 exports.validateTitle = (title, errors) => {
 	if (isEmpty(title)) {
@@ -32,9 +32,9 @@ exports.validateToday = (todayRecords, errors) => {
 	console.log(errors);
 	todayRecords.map(todayRecord => {
 		const { today } = todayRecord;
-		if (!isNumeric("" + today)) {
+		if (!isNumeric("" + today, { min: 0 })) {
 			errors.push({
-				message: "数字を入力してください"
+				message: "0以上の値を入力してください"
 			});
 		}
 	});
