@@ -4,10 +4,7 @@ const consumerKey = require("./keys").consumerKey;
 const consumerSecret = require("./keys").consumerSecret;
 const User = require("../models/User");
 
-const url =
-	process.env.NODE_ENV === "production"
-		? "https://manehabi.herokuapp.com"
-		: "http://localhost:4000";
+const url = require("./keys").baseClientURL;
 
 // serialize the user.id to save in the cookie session
 // so the browser will remember the user when login
@@ -30,7 +27,7 @@ passport.use(
 		{
 			consumerKey,
 			consumerSecret,
-			callbackURL: "/auth/twitter/callback",
+			callbackURL: `${url}/auth/twitter/callback`,
 			userProfileURL:
 				"https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true"
 		},

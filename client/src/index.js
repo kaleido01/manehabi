@@ -8,12 +8,11 @@ import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import "semantic-ui-css/semantic.min.css";
 import withSession from "./components/withSession";
-import { API_URL } from "./config";
 
 export const UserContext = createContext(null);
 
 const client = new ApolloClient({
-	uri: `${API_URL}/graphql`,
+	uri: "http://localhost:4000/graphql",
 	fetchOptions: {
 		credentials: "includes"
 	},

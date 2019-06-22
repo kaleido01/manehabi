@@ -13,7 +13,6 @@ import {
 	Transition
 } from "semantic-ui-react";
 import "./Auth.css";
-import { API_URL } from "../../config";
 import { isEmail, isEmpty, isLength } from "validator";
 
 class Signin extends React.Component {

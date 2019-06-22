@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-const path = require("path");
 const passport = require("passport");
 const cookieParser = require("cookie-parser"); // parse cookie header
 const cookieSession = require("cookie-session");
@@ -68,23 +67,9 @@ app.get(
 		console.log(req.user);
 
 		const token = createToken(req.user, secret, "1hr");
-		res.redirect("/habits?token=${token}");
+		res.redirect(`${baseURL}/habits?token=${token}`);
 	}
 );
-
-app.use(async (req, res, next) => {
-	let token = null;
-	let currentUser = null;
-
-	try {
-		token = req.headers["authorization"];
-		if (token) {
-			currentUser = await jwt.verify(token, secret);
-			req.currentUser = currentUser;
-		}
-	} catch (err) {}
-	next();
-});
 
 const server = new ApolloServer({
 	typeDefs,
@@ -121,11 +106,10 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 
-// Server static assets if in production
 if (process.env.NODE_ENV === "production") {
-	// Set static folder
 	app.use(express.static("client/build"));
 
+	const path = require("path");
 	app.get("*", (req, res) => {
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
