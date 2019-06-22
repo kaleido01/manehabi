@@ -13,7 +13,7 @@ import { API_URL } from "./config";
 export const UserContext = createContext(null);
 
 const client = new ApolloClient({
-	uri: `${API_URL}/graphql`,
+	uri: `/graphql`,
 	fetchOptions: {
 		credentials: "includes"
 	},

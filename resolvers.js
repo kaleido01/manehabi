@@ -336,8 +336,8 @@ exports.resolvers = {
 				}
 				const record = new HabitRecord({
 					date: Date.now(),
-					total: beforeTotal + today,
-					today,
+					total: beforeTotal + +today,
+					today: +today,
 					before: beforeId,
 					habitId: _id,
 					habitRecordNumber: recordNumber
