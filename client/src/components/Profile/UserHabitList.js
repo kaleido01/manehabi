@@ -31,19 +31,19 @@ const UserHabitList = ({ habits }) => {
 							</div>
 							<div>継続日数: {countDate}</div>
 						</Comment.Metadata>
+						<Button
+							style={{ margin: "0.5em" }}
+							as={Link}
+							color="green"
+							to={`/habit/${_id}`}>
+							習慣の詳細
+						</Button>
 					</Comment.Content>
 				</Comment>
 			</Segment>
 		);
 	});
-	return (
-		<Grid textAlign="center" style={{ marginTop: "1em" }}>
-			<Grid.Column width={12} style={{ minWidth: "350px" }}>
-				<Header>作成した習慣一覧</Header>
-				<Segment>{renderHabitList}</Segment>
-			</Grid.Column>
-		</Grid>
-	);
+	return <Segment>{renderHabitList}</Segment>;
 };
 
 export default UserHabitList;
