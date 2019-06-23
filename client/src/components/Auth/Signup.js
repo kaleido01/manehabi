@@ -13,7 +13,6 @@ import {
 	Transition
 } from "semantic-ui-react";
 import "./Auth.css";
-import { API_URL } from "../../config";
 
 class Signup extends React.Component {
 	state = {

@@ -12,7 +12,7 @@ type User{
   oneWord:String
   description:String
 	favorites:[Habit]
-	Habits: [Habit]
+	habits: [Habit]
 }
 
 type Habit{
@@ -81,6 +81,7 @@ type Query{
   getHabitRecords(habitId:ID!,habitRecordNumber:ID!,limit:Int!):[HabitRecord]
   getHabitTimeRecords(_id:ID!,limit:Int!):[HabitRecord]
   getMessages(_id:ID!,offset:Int,limit:Int,user:String,descending:String,searchTerm:String):MessageAndPageInfo
+  getUserInfo(userId:ID):User
 }
 
 

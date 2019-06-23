@@ -232,6 +232,14 @@ exports.resolvers = {
 				hasNextPage: offset !== count
 			};
 			return { messages, pageInfo };
+		},
+		getUserInfo: async (root, { userId }, ctx) => {
+			const user = await User.findById(userId).populate({
+				path: "habits",
+				model: "Habit"
+			});
+			console.log(user);
+			return user;
 		}
 	},
 

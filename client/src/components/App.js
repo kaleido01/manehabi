@@ -10,6 +10,7 @@ import Layout from "./Layout/Layout";
 import CreateHabit from "./Habits/CreateHabit";
 import MyHabits from "./Habits/MyHabits";
 import FavoriteHabits from "./Habits/FavoriteHabits";
+import UserDescription from "./Profile/UserDescription";
 import { UserContext } from "./../index";
 
 export const App = ({ refetch }) => {
@@ -39,6 +40,7 @@ export const App = ({ refetch }) => {
 									render={() => <Habits refetch={refetch} />}
 								/>
 								<Route path="/habit/:_id" component={HabitDescription} />
+								<Route path="/user/:_id" component={UserDescription} />
 								{currentUser && (
 									<Fragment>
 										<Route path="/newhabit" component={CreateHabit} />

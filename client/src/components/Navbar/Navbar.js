@@ -5,6 +5,7 @@ import logo from "../../image/logo.png";
 
 import Signout from "../Auth/Signout";
 import { UserContext } from "./../../index";
+import "./Navbar.css";
 
 const Navbar = ({ onSide }) => {
 	const currentUser = useContext(UserContext);
@@ -18,7 +19,7 @@ const Navbar = ({ onSide }) => {
 
 const AuthNav = ({ onSide }) => {
 	return (
-		<Menu color="orange" inverted>
+		<Menu color="orange" inverted className="Navbar">
 			<Menu.Item>
 				<Image src={logo} size="mini" />
 			</Menu.Item>
