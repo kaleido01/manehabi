@@ -161,6 +161,7 @@ export const GET_HABIT = gql`
 			startDate
 			limitDate
 			createdAt
+			updateDate
 			numberOfFailure
 			starUser {
 				_id

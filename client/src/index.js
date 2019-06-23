@@ -12,7 +12,7 @@ import withSession from "./components/withSession";
 export const UserContext = createContext(null);
 
 const client = new ApolloClient({
-	uri: "http://localhost:4000/graphql",
+	uri: `/graphql`,
 	fetchOptions: {
 		credentials: "includes"
 	},
@@ -58,4 +58,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register();
+serviceWorker.unregister();
