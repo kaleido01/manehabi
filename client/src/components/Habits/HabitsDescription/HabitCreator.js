@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card, Image, Button } from "semantic-ui-react";
 
 const HabitCreator = ({ habit }) => {
@@ -12,6 +13,8 @@ const HabitCreator = ({ habit }) => {
 			</Card.Content>
 			<Card.Content extra>
 				<Button
+					as={Link}
+					to={`/user/${habit.creator._id}`}
 					color="green"
 					icon="right arrow"
 					content="もっと詳しく"

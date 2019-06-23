@@ -35,25 +35,41 @@ passport.use(
 			//認証通過後の処理はここに書く
 
 			const { displayName, emails, photos, id, provider } = profile;
-			const existedUser = await User.findOne({ email: emails[0].value });
-			//callbackの呼び出し
-			if (!existedUser) {
-				const newUser = new User({
-					username: displayName,
-					email: emails[0].value,
-					imageUrl: photos[0].value,
-					provider: {
-						authId: id,
-						authType: provider,
-						token,
-						tokenSecret
-					}
-				});
-				await newUser.save();
-				done(null, newUser);
+			//twitterに登録済みか確認
+			const twitterUser = await User.findOne({
+				email: emails[0].value,
+				provider: { authId: id }
+			});
+			//もし見つかれば終了
+			if (twitterUser) {
+				done(null, twitterUser);
+			}
+			//登録済みのアドレスだがまだtwitter登録されていないユーザーの場合
+			let existedUser = await User.findOne({ email: emails[0].value });
+			if (existedUser) {
+				existedUser.provider = {
+					authId: id,
+					authType: provider,
+					token,
+					tokenSecret
+				};
+				await existedUser.save();
+				done(null, existedUser);
 			}
 
-			done(null, existedUser);
+			const newUser = new User({
+				username: displayName,
+				email: emails[0].value,
+				imageUrl: photos[0].value,
+				provider: {
+					authId: id,
+					authType: provider,
+					token,
+					tokenSecret
+				}
+			});
+			await newUser.save();
+			done(null, newUser);
 		}
 	)
 );

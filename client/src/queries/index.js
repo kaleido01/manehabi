@@ -181,6 +181,28 @@ export const GET_HABIT = gql`
 	}
 `;
 
+export const GET_USER_INFO = gql`
+	query getUserInfo($userId: ID) {
+		getUserInfo(userId: $userId) {
+			_id
+			username
+			imageUrl
+			oneWord
+			description
+			joinDate
+			habits {
+				_id
+				title
+				description
+				countDate
+				startDate
+				updateDate
+				createdAt
+			}
+		}
+	}
+`;
+
 export const GET_HABIT_RECORDS = gql`
 	query getHabitRecords($habitId: ID!, $habitRecordNumber: ID!, $limit: Int!) {
 		getHabitRecords(
