@@ -7,17 +7,13 @@ import Signout from "../Auth/Signout";
 import { UserContext } from "./../../index";
 import "./Navbar.css";
 
-const Navbar = ({ onSide }) => {
+const Navbar = () => {
 	const currentUser = useContext(UserContext);
 
-	return currentUser ? (
-		<AuthNav onSide={onSide} />
-	) : (
-		<UnAuthNav onSide={onSide} />
-	);
+	return currentUser ? <AuthNav /> : <UnAuthNav />;
 };
 
-const AuthNav = ({ onSide }) => {
+const AuthNav = () => {
 	return (
 		<Menu color="orange" inverted className="Navbar">
 			<Menu.Item>
@@ -36,13 +32,6 @@ const AuthNav = ({ onSide }) => {
 					<Signout />
 				</Menu.Item>
 			</Responsive>
-			<Responsive
-				as={Menu.Item}
-				position="right"
-				icon="bars"
-				onClick={() => onSide(true)}
-				{...Responsive.onlyMobile}
-			/>
 		</Menu>
 	);
 };
@@ -69,13 +58,6 @@ const UnAuthNav = ({ onSide }) => {
 					</Button>
 				</Menu.Item>
 			</Responsive>
-			<Responsive
-				as={Menu.Item}
-				position="right"
-				icon="bars"
-				onClick={() => onSide(true)}
-				{...Responsive.onlyMobile}
-			/>
 		</Menu>
 	);
 };

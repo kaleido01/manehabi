@@ -5,12 +5,11 @@ import Navbar from "./../Navbar/Navbar";
 import "./Layout.css";
 
 const Layout = ({ children }) => {
-	const [onSide, setOnSide] = useState(false);
 	return (
 		<Fragment>
-			<Navbar onSide={setOnSide} />
+			<Navbar />
 			<div className="Layout">{children}</div>
-			<SideDrawer onSide={onSide} onHide={setOnSide} />
+			<SideDrawer />
 		</Fragment>
 	);
 };
