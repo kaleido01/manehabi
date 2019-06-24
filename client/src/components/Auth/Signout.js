@@ -28,7 +28,7 @@ const Signout = ({ history, color, inverted }) => {
 							maxWidth={767}
 							inverted={inverted}
 							onClick={() => handleLogout(client, history)}>
-							<Icon name="external alternate" />
+							<Icon name="sign-out" />
 							Logout
 						</Responsive>
 					</Fragment>
