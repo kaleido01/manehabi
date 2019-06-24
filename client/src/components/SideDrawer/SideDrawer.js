@@ -45,11 +45,11 @@ const SideDrawer = () => {
 					</Fragment>
 				) : (
 					<Fragment>
-						<Menu.Item>
+						<Menu.Item as={NavLink} to="/signin">
 							<Icon name="sign-in" />
 							Signin
 						</Menu.Item>
-						<Menu.Item>
+						<Menu.Item as={NavLink} to="/signup">
 							<Icon name="signup" />
 							Signup
 						</Menu.Item>
