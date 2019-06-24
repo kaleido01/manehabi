@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { withRouter } from "react-router-dom";
-import { Button } from "semantic-ui-react";
+import { Button, Responsive, Icon, Menu } from "semantic-ui-react";
 import { ApolloConsumer } from "react-apollo";
 
 const handleLogout = (client, history) => {
@@ -9,17 +9,29 @@ const handleLogout = (client, history) => {
 	history.push("/signin");
 };
 
-const Signout = ({ history, color, inverted, hide }) => {
+const Signout = ({ history, color, inverted }) => {
 	return (
 		<ApolloConsumer>
 			{client => {
 				return (
-					<Button
-						color={color ? color : "purple"}
-						inverted={inverted}
-						onClick={() => handleLogout(client, history)}>
-						Logout
-					</Button>
+					<Fragment>
+						<Responsive as={Menu.Item} minWidth={768}>
+							<Button
+								color={color ? color : "purple"}
+								inverted={inverted}
+								onClick={() => handleLogout(client, history)}>
+								Logout
+							</Button>
+						</Responsive>
+						<Responsive
+							as={Menu.Item}
+							maxWidth={767}
+							inverted={inverted}
+							onClick={() => handleLogout(client, history)}>
+							<Icon name="external alternate" />
+							Logout
+						</Responsive>
+					</Fragment>
 				);
 			}}
 		</ApolloConsumer>
