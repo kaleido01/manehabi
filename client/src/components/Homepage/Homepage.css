@@ -380,7 +380,7 @@ body {
 }
 
 /* 1024  ipad pro */
-@media only screen and (max-width: 64em) {
+@media only screen and (max-width: 1024px) {
 
   .feature-section {
     padding: 5rem 1.5rem 12rem 1.5rem;
@@ -404,7 +404,7 @@ body {
 }
 
 /* 768px  ipad */
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 768px) {
 
   .hero__text-box {
     top: 45%;
@@ -456,7 +456,9 @@ body {
 
 }
 
-@media only screen and (max-width: 24rem) {
+
+
+@media only screen and (max-width: 450px) {
 
 
   .hero__text-box {
@@ -572,6 +574,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
     height: 20rem
   }
 
