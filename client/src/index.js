@@ -12,47 +12,47 @@ import withSession from "./components/withSession";
 export const UserContext = createContext(null);
 
 const client = new ApolloClient({
-	uri: `/graphql`,
-	fetchOptions: {
-		credentials: "includes"
-	},
-	request: operation => {
-		const token = localStorage.getItem("token");
-		operation.setContext({
-			headers: {
-				authorization: token
-			}
-		});
-	},
-	onError: ({ networkError, graphQLErrors }) => {
-		if (networkError) {
-			console.log("network Error", networkError);
-		}
-		// if (graphQLErrors) {
-		// 	errors = graphQLErrors.map(({ message, data, path }) => {
-		// 		console.log(data);
-		// 		return data;
-		// 	});
-		// }
-	}
+  uri: `/graphql`,
+  fetchOptions: {
+    credentials: "includes"
+  },
+  request: operation => {
+    const token = localStorage.getItem("token");
+    operation.setContext({
+      headers: {
+        authorization: token
+      }
+    });
+  },
+  onError: ({ networkError, graphQLErrors }) => {
+    if (networkError) {
+      console.log("network Error", networkError);
+    }
+    // if (graphQLErrors) {
+    // 	errors = graphQLErrors.map(({ message, data, path }) => {
+    // 		console.log(data);
+    // 		return data;
+    // 	});
+    // }
+  }
 });
 
 const Root = ({ refetch, currentUser }) => (
-	<Router>
-		<UserContext.Provider value={currentUser}>
-			<App refetch={refetch} />
-		</UserContext.Provider>
-	</Router>
+  <Router>
+    <UserContext.Provider value={currentUser}>
+      <App refetch={refetch} />
+    </UserContext.Provider>
+  </Router>
 );
 
 const RootWithSession = withSession(Root);
 
 ReactDOM.render(
-	<ApolloProvider client={client}>
-		<RootWithSession />
-	</ApolloProvider>,
+  <ApolloProvider client={client}>
+    <RootWithSession />
+  </ApolloProvider>,
 
-	document.getElementById("root")
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
