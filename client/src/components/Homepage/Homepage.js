@@ -7,7 +7,7 @@ import "./Homepage.css";
 
 const Homepage = ({ history }) => {
   return (
-    <footer className="container">
+    <div className="container">
       <section className="hero">
         <div className="hero__text-box">
           <h1 className="hero-title">Manehabi</h1>
@@ -25,7 +25,7 @@ const Homepage = ({ history }) => {
               onClick={() => history.push("/signup")}
               className="btn-primary"
             >
-              会員登録
+              会員登録はこちらから
               <i className="right arrow icon" />
             </button>
           </div>
@@ -167,7 +167,7 @@ const Homepage = ({ history }) => {
             </p>
           </div>
           <div className="demo-box">
-            <h3 className="demo-title">積み上げグラフとコメント欄</h3>
+            <h3 className="demo-title">グラフとコメント欄</h3>
             <img src={demo4} alt="aaa" className="demo-image" />
             <p className="demo-para">
               お待ちかねの積み上げグラフ。現在は過去3ヶ月分まで遡って見ることができるよ！必要に応じて調整してみてね！
@@ -209,7 +209,7 @@ const Homepage = ({ history }) => {
         </ul>
         <div className="hope">
           <p className="hope__text">
-            このサイトはよりよく習慣を管理するために作られました。
+            このサイトは習慣をよりよく管理するために作られました。
           </p>
           <p className="hope__text">
             みなさんがこのアプリを使って少しでも長く習慣が続くことを祈っています。
@@ -220,7 +220,7 @@ const Homepage = ({ history }) => {
           </p>
         </div>
       </footer>
-    </footer>
+    </div>
   );
 };
 
