@@ -16,7 +16,7 @@
   "author": "kaleido <kaleido@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "apollo-server": "^2.5.0",
+    "apollo-server": "^2.25.3",
     "apollo-server-express": "^2.6.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
